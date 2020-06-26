@@ -1,0 +1,41 @@
+package com.theoffice.moneysaver.data.model;
+
+import java.util.ArrayList;
+
+public class User {
+
+    private int userId;
+    private String userName;
+    private ArrayList<Goal> goalList;
+
+    public User(int userId, String userName, ArrayList<Goal> goalList) {
+        this.userId = userId;
+        this.userName = userName;
+        this.goalList = goalList;
+    }
+
+    public void addGoal(Goal goal){
+        goalList.add(goal);
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public ArrayList<Goal> getGoalList() {
+        return goalList;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", userName='" + userName + '\'' +
+                ", goalList=" + goalList +
+                '}';
+    }
+}

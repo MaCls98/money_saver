@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Money Saver</string>
+    <string name="menu">Menú</string>
+    <string name="my_profile">Mi perfil</string>
+    <string name="my_goals">Mis metas</string>
+    <string name="about">Acerca de</string>
+    <string name="add_photo">Agregar foto</string>
+    <string name="goal_name">Nombre de tu meta</string>
+    <string name="goal_start_date">Fecha de inicio de tu meta</string>
+    <string name="goal_value">Valor de tu meta</string>
+    <string name="add_your_goal">Agrega tu meta</string>
+    <string name="save_goal">Guardar meta</string>
+    <string name="necesary_permission">Permiso necesario</string>
+    <string name="permission_request_message">Este permiso es importante para el funcionamiento de la aplicacion y la ejecucion de la accion que querias realizar, te garantizamos que en ningun momento usaremos tu informacion para algo fuera de la aplicacion y que tu mismo puedes ver.</string>
+    <string name="acept">Aceptar</string>
+    <string name="please_complete_empty_input">Por favor completa este campo</string>
+    <string name="please_choose_photo_goal">Por favor selecciona una foto para tu meta</string>
+</resources>

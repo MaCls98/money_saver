@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="6dp"
+    app:cardElevation="6dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <TextView
+            android:id="@+id/tv_goal_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:text="Nombre Aqui"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_goal_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Valor aqui"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_goal_name"
+            app:layout_constraintEnd_toEndOf="@+id/iv_goal_photo"
+            app:layout_constraintTop_toTopOf="@+id/tv_goal_name" />
+
+        <TextView
+            android:id="@+id/tv_goal_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Fecha Aqui"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@+id/iv_goal_photo"
+            app:layout_constraintTop_toBottomOf="@+id/iv_goal_photo" />
+
+        <ImageView
+            android:id="@+id/iv_goal_photo"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="32dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintDimensionRatio="16:9"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_goal_name"
+            app:srcCompat="@drawable/test_image" />
+
+        <ImageButton
+            android:id="@+id/ib_like_goal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:tint="@android:color/darker_gray"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_goal_likes"
+            app:layout_constraintEnd_toEndOf="@+id/iv_goal_photo"
+            app:layout_constraintTop_toTopOf="@+id/tv_goal_likes"
+            app:srcCompat="@drawable/like_icon" />
+
+        <TextView
+            android:id="@+id/tv_goal_likes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:drawableTint="@android:color/darker_gray"
+            android:text="Total likes"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_goal_contribution"
+            app:layout_constraintEnd_toStartOf="@+id/ib_like_goal"
+            app:layout_constraintTop_toTopOf="@+id/tv_goal_contribution" />
+
+        <TextView
+            android:id="@+id/tv_goal_contribution"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:text="Cantidad de contribuciones"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/tv_goal_date"
+            app:layout_constraintTop_toBottomOf="@+id/tv_goal_date" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
