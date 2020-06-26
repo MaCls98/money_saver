@@ -1,0 +1,12 @@
+{
+	"client":{
+		"cp_id":"2640057000001603712",
+		"product_id":"736430079244523340",
+		"client_id":"388804035479602176",
+		"client_secret":"05371E1B95A704CFF25A64A569A63D635152862EB473B20F7333A8E41A679632",
+		"app_id":"102435219",
+		"package_name":"com.theoffice.moneysaver",
+		"api_key":"CV8VCTb2SGaHXMkAN7YJTkCVOgIJPDi7E+tyszgsfwzIiW7ETxiur0+2f+9kaRcWgpBltJidiAxcVswjTkNfgkCxieCb"
+	},
+	"configuration_version":"1.0"
+}
