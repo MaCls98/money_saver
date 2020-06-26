@@ -5,7 +5,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
@@ -20,10 +19,10 @@ import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.theoffice.moneysaver.R;
 import com.theoffice.moneysaver.utils.AppConstants;
-import com.theoffice.moneysaver.utils.MyToast;
 import com.theoffice.moneysaver.views.dialogs.DialogAddGoal;
 import com.theoffice.moneysaver.views.fragments.BottomNavigationFragment;
-import com.theoffice.moneysaver.views.fragments.FragmentMyGoals;
+import com.theoffice.moneysaver.views.fragments.FragmentGlobalGoals;
+import com.theoffice.moneysaver.views.fragments.FragmentMyHome;
 import com.theoffice.moneysaver.views.fragments.FragmentMyProfile;
 
 public class MainActivity extends AppCompatActivity{
@@ -47,12 +46,15 @@ public class MainActivity extends AppCompatActivity{
 
     public void changeFragment(int fragmentConstant){
         switch (fragmentConstant){
+            case AppConstants.MY_HOME:
+                showFragment(new FragmentMyHome());
+                break;
             case AppConstants
                     .MY_PROFILE:
                 showFragment(new FragmentMyProfile());
                 break;
             case AppConstants.MY_GOALS:
-                showFragment(new FragmentMyGoals());
+                showFragment(new FragmentGlobalGoals());
                 break;
         }
     }

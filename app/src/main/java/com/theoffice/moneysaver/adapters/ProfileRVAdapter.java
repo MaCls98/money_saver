@@ -92,7 +92,7 @@ public class ProfileRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             goalViewHolder.tvGoalName.setText(goal.getGoalName());
             goalViewHolder.tvGoalValue.setText("Meta: " + goal.getGoalValue());
             goalViewHolder.tvGoalDate.setText(goal.getGoalDate());
-            goalViewHolder.tvGoalContribution.setText("Contribuciones: " + goal.getContributionList().size());
+            goalViewHolder.tvGoalContribution.setText("Contribuciones: " + goal.getContributionCount());
             goalViewHolder.ivGoalPhoto.setImageURI(Uri.fromFile(new File(goal.getGoalPhotoPath())));
             goalViewHolder.tvGoalLikes.setText("Likes: " + goal.getGoalLikes());
         }

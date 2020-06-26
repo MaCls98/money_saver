@@ -3,17 +3,17 @@ package com.theoffice.moneysaver.data.model;
 import java.util.ArrayList;
 
 public class Goal {
-    private int goalId;
+    private String goalId;
     private String goalName;
-    private String goalValue;
+    private int goalValue;
     private String goalDate;
     private String goalPhotoPath;
     private String goalStatus;
     private int goalLikes;
-    private ArrayList<Contribution> contributionList;
+    private int contributionCount;
 
-    public Goal(int goalId, String goalName, String goalValue, String goalDate, String goalPhotoPath,
-                String goalStatus, int goalLikes, ArrayList<Contribution> contributionList) {
+    public Goal(String goalId, String goalName, int goalValue, String goalDate, String goalPhotoPath,
+                String goalStatus, int goalLikes, int contributionCount) {
         this.goalId = goalId;
         this.goalName = goalName;
         this.goalValue = goalValue;
@@ -21,15 +21,15 @@ public class Goal {
         this.goalPhotoPath = goalPhotoPath;
         this.goalStatus = goalStatus;
         this.goalLikes = goalLikes;
-        this.contributionList = contributionList;
+        this.contributionCount = contributionCount;
     }
-
+    /*
     public void addContribution(Contribution contribution){
         contributionList.add(contribution);
-    }
+    }*/
 
-    public ArrayList<Contribution> getContributionList() {
-        return contributionList;
+    public int getContributionCount() {
+        return contributionCount;
     }
 
     public int getGoalLikes() {
@@ -40,7 +40,7 @@ public class Goal {
         return goalStatus;
     }
 
-    public int getGoalId() {
+    public String getGoalId() {
         return goalId;
     }
 
@@ -48,7 +48,7 @@ public class Goal {
         return goalName;
     }
 
-    public String getGoalValue() {
+    public int getGoalValue() {
         return goalValue;
     }
 
@@ -70,7 +70,7 @@ public class Goal {
                 ", goalPhotoPath='" + goalPhotoPath + '\'' +
                 ", goalStatus='" + goalStatus + '\'' +
                 ", goalLikes=" + goalLikes +
-                ", contributionList=" + contributionList.size() +
+                ", contributionList=" + contributionCount +
                 '}';
     }
 }

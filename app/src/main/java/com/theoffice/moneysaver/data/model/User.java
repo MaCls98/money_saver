@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 public class User {
 
-    private int userId;
+    private String userId;
     private String userName;
     private ArrayList<Goal> goalList;
 
-    public User(int userId, String userName, ArrayList<Goal> goalList) {
+    public User(String userId, String userName, ArrayList<Goal> goalList) {
         this.userId = userId;
         this.userName = userName;
         this.goalList = goalList;
@@ -18,7 +18,7 @@ public class User {
         goalList.add(goal);
     }
 
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 

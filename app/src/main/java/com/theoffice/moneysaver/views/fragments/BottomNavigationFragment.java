@@ -13,7 +13,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.theoffice.moneysaver.R;
 import com.theoffice.moneysaver.utils.AppConstants;
-import com.theoffice.moneysaver.utils.MyToast;
 import com.theoffice.moneysaver.views.activities.MainActivity;
 
 public class BottomNavigationFragment extends BottomSheetDialogFragment  {
@@ -35,6 +34,9 @@ public class BottomNavigationFragment extends BottomSheetDialogFragment  {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
+                    case R.id.my_home:
+                        changeActivityFragment(AppConstants.MY_HOME);
+                        break;
                     case R.id.my_profile:
                         changeActivityFragment(AppConstants.MY_PROFILE);
                         break;

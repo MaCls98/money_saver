@@ -47,7 +47,7 @@ public class DialogAddGoal extends DialogFragment implements View.OnClickListene
     private ImageView ivGoalPhoto;
 
     private String goalName;
-    private String goalValue;
+    private int goalValue;
     private String goalDate;
     private String goalPhotoPath;
 
@@ -73,7 +73,6 @@ public class DialogAddGoal extends DialogFragment implements View.OnClickListene
                 deleteGoalPhoto();
                 break;
             case R.id.ib_fullscreen_photo:
-                //fullScreenPhoto();
                 break;
         }
     }
@@ -92,15 +91,14 @@ public class DialogAddGoal extends DialogFragment implements View.OnClickListene
 
         if (isGoalComplete == 4){
             Goal newGoal = new Goal(
-                    1,
+                    "",
                     goalName,
                     goalValue,
                     goalDate,
                     goalPhotoPath,
-                    //TODO Establecer estados reales
                     "NEW",
                     0,
-                    new ArrayList<Contribution>()
+                    0
             );
             MyToast.showShortToast("Listo", getActivity());
         }
@@ -117,7 +115,7 @@ public class DialogAddGoal extends DialogFragment implements View.OnClickListene
                 break;
             case AppConstants.GOAL_VALUE:
                 if (validateEmptyTextInputLayout(tilGoalValue)){
-                    goalValue = Objects.requireNonNull(tilGoalValue.getEditText()).getText().toString();
+                    goalValue = Integer.parseInt(Objects.requireNonNull(tilGoalValue.getEditText()).getText().toString());
                     isGoalComplete++;
                 }
                 break;
