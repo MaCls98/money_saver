@@ -10,4 +10,6 @@ public final class AppConstants {
     public static final int MY_GOALS = 2;
     public static final int PERMISSION_REQUEST = 1;
     public static final int REQUEST_IMAGE_CAPTURE = 1;
+    public static final int TYPE_HEADER = 0;
+    public static final int TYPE_ITEM = 1;
 }

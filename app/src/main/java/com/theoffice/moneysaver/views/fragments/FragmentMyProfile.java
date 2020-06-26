@@ -12,7 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.theoffice.moneysaver.R;
-import com.theoffice.moneysaver.adapters.GoalsRVAdapter;
+import com.theoffice.moneysaver.adapters.ProfileRVAdapter;
+import com.theoffice.moneysaver.data.model.User;
 import com.theoffice.moneysaver.utils.MyTestHelper;
 
 public class FragmentMyProfile extends Fragment {
@@ -25,7 +26,10 @@ public class FragmentMyProfile extends Fragment {
         RecyclerView rvMyProfile = v.findViewById(R.id.rv_my_profile);
         rvMyProfile.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        GoalsRVAdapter rvAdapter = new GoalsRVAdapter(MyTestHelper.getGoalList());
+        User testUser = new User(1, "Manuel", MyTestHelper.getGoalList());
+
+        ProfileRVAdapter rvAdapter = new ProfileRVAdapter(getActivity(),
+                testUser);
         rvMyProfile.setAdapter(rvAdapter);
 
         return v;

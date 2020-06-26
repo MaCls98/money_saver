@@ -17,7 +17,7 @@ public class MyTestHelper {
                     "Nombre prueba" + i,
                     "$5.000",
                     MyDatePicker.convertDate(Calendar.getInstance(Locale.getDefault()).getTimeInMillis()),
-                    "/storage/emulated/0/Android/data/com.theoffice.moneysaver/files/Pictures/JPEG_20200624_101005_1857556070649237886.jpg",
+                    "/storage/emulated/0/Android/data/com.theoffice.moneysaver/files/Pictures/JPEG_20200625_225120_8722133692996310947.jpg",
                     "NEW",
                     10,
                     new ArrayList<Contribution>()
