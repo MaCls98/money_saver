@@ -1,8 +1,8 @@
 package com.theoffice.moneysaver.data.model;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 
-public class Goal {
+public class Goal implements Serializable {
     private String goalId;
     private String goalName;
     private int goalValue;

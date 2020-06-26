@@ -26,7 +26,9 @@ import com.huawei.hms.support.hwid.request.HuaweiIdAuthParamsHelper;
 import com.huawei.hms.support.hwid.result.AuthHuaweiId;
 import com.huawei.hms.support.hwid.service.HuaweiIdAuthService;
 import com.theoffice.moneysaver.R;
+import com.theoffice.moneysaver.data.model.User;
 import com.theoffice.moneysaver.utils.AppConstants;
+import com.theoffice.moneysaver.utils.MyTestHelper;
 import com.theoffice.moneysaver.utils.MyToast;
 import com.theoffice.moneysaver.views.dialogs.DialogAddGoal;
 import com.theoffice.moneysaver.views.fragments.BottomNavigationFragment;
@@ -41,15 +43,17 @@ public class MainActivity extends AppCompatActivity{
 
     private BottomAppBar mainAppBar;
     private FloatingActionButton btnAddGoal;
-    private AuthHuaweiId huaweiAccount;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestHuaweiAuth();
         setContentView(R.layout.activity_main);
+        user = (User) getIntent().getExtras().getSerializable("user");
         mainAppBar = findViewById(R.id.bottom_app_bar);
         btnAddGoal = findViewById(R.id.btn_add_goal);
+
+        MyToast.showShortToast("Bienvenido " + user.getUserName(), this);
 
         setSupportActionBar(mainAppBar);
         setListeners();
@@ -67,7 +71,7 @@ public class MainActivity extends AppCompatActivity{
                 showFragment(new FragmentMyProfile());
                 break;
             case AppConstants.MY_GOALS:
-                showFragment(new FragmentMyGoals());
+                showFragment(new FragmentGlobalGoals());
                 break;
         }
     }
@@ -127,19 +131,15 @@ public class MainActivity extends AppCompatActivity{
         navigationFragment.show(getSupportFragmentManager(), navigationFragment.getTag());
     }
 
+    public User getUser() {
+        return user;
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 8888) {
-            Task<AuthHuaweiId> authHuaweiIdTask = HuaweiIdAuthManager.parseAuthResultFromIntent(data);
-            if (authHuaweiIdTask.isSuccessful()) {
-                huaweiAccount = authHuaweiIdTask.getResult();
-                for (Fragment fragment: getSupportFragmentManager().getFragments()) {
-                    fragment.onActivityResult(requestCode, resultCode, data);
-                }
-            } else {
-                Log.e(AppConstants.MONEY_SAVER_ERROR, "sign in failed : " +((ApiException)authHuaweiIdTask.getException()).getStatusCode());
-            }
+        for (Fragment fragment: getSupportFragmentManager().getFragments()) {
+            fragment.onActivityResult(requestCode, resultCode, data);
         }
     }
 
@@ -150,16 +150,5 @@ public class MainActivity extends AppCompatActivity{
              getSupportFragmentManager().getFragments()) {
             fragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
-    }
-
-    private void requestHuaweiAuth(){
-        Log.i("My activity","Entro");
-        HuaweiIdAuthParams authParams = new HuaweiIdAuthParamsHelper(HuaweiIdAuthParams.DEFAULT_AUTH_REQUEST_PARAM).setIdToken().createParams();
-        HuaweiIdAuthService service = HuaweiIdAuthManager.getService(MainActivity.this, authParams);
-        startActivityForResult(service.getSignInIntent(), 8888);
-    }
-
-    public AuthHuaweiId getHuaweiAccount() {
-        return huaweiAccount;
     }
 }

@@ -4,6 +4,7 @@ public final class AppConstants {
     public static final String BASE_URL = "https://money-saver.vercel.app";
     public static final String GOALS_URL = "/api/goals";
     public static final String MONEY_SAVER_ERROR = "Error";
+    public static final int HUAWEI_LOGIN_CODE = 8888;
     public static final String GOAL_NAME = "NAME";
     public static final String GOAL_DATE = "DATE";
     public static final String GOAL_VALUE = "VALUE";

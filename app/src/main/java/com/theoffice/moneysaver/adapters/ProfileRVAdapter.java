@@ -1,10 +1,12 @@
 package com.theoffice.moneysaver.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,6 +18,7 @@ import com.theoffice.moneysaver.R;
 import com.theoffice.moneysaver.data.model.Goal;
 import com.theoffice.moneysaver.data.model.User;
 import com.theoffice.moneysaver.utils.AppConstants;
+import com.theoffice.moneysaver.views.activities.PlayGround;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -50,11 +53,20 @@ public class ProfileRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     static class HeaderViewHolder extends RecyclerView.ViewHolder{
         TextView tvUsername;
         TextView tvUserGoals;
+        Button btnScannProduct;
 
-        public HeaderViewHolder(@NonNull View itemView) {
+        public HeaderViewHolder(@NonNull View itemView, final Context context) {
             super(itemView);
             tvUsername = itemView.findViewById(R.id.tv_username);
             tvUserGoals = itemView.findViewById(R.id.tv_user_goals);
+            btnScannProduct = itemView.findViewById(R.id.btn_scann_product);
+            btnScannProduct.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, PlayGround.class);
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 
@@ -69,7 +81,7 @@ public class ProfileRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == AppConstants.TYPE_HEADER){
             View headerView = LayoutInflater.from(parent.getContext()).inflate(R.layout.header_goals_profile, parent, false);
-            return new HeaderViewHolder(headerView);
+            return new HeaderViewHolder(headerView, context);
         }else if (viewType == AppConstants.TYPE_ITEM){
             View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_goal, parent, false);
             return new GoalViewHolder(itemView);

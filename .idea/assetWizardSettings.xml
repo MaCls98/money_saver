@@ -18,7 +18,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/home/ma_celis/android-studio/plugins/android/lib/android.jar!/images/material/icons/materialicons/favorite/baseline_favorite_24.xml" />
+                                      <entry key="url" value="jar:file:/home/ma_celis/android-studio/plugins/android/lib/android.jar!/images/material/icons/materialicons/scanner/baseline_scanner_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -29,7 +29,7 @@
                         <option name="values">
                           <map>
                             <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="like_icon" />
+                            <entry key="outputName" value="scanner_icon" />
                           </map>
                         </option>
                       </PersistentState>
