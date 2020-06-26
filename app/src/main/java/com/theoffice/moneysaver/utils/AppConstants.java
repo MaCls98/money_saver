@@ -1,6 +1,7 @@
 package com.theoffice.moneysaver.utils;
 
 public final class AppConstants {
+    public static final String MONEY_SAVER_ERROR = "Error";
     public static final String GOAL_NAME = "NAME";
     public static final String GOAL_DATE = "DATE";
     public static final String GOAL_VALUE = "VALUE";

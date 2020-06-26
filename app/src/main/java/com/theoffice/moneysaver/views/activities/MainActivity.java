@@ -5,11 +5,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,23 +18,33 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.huawei.hmf.tasks.Task;
+import com.huawei.hms.common.ApiException;
+import com.huawei.hms.support.hwid.HuaweiIdAuthManager;
+import com.huawei.hms.support.hwid.request.HuaweiIdAuthParams;
+import com.huawei.hms.support.hwid.request.HuaweiIdAuthParamsHelper;
+import com.huawei.hms.support.hwid.result.AuthHuaweiId;
+import com.huawei.hms.support.hwid.service.HuaweiIdAuthService;
 import com.theoffice.moneysaver.R;
 import com.theoffice.moneysaver.utils.AppConstants;
-import com.theoffice.moneysaver.utils.MyToast;
 import com.theoffice.moneysaver.views.dialogs.DialogAddGoal;
 import com.theoffice.moneysaver.views.fragments.BottomNavigationFragment;
 import com.theoffice.moneysaver.views.fragments.FragmentMyGoals;
 import com.theoffice.moneysaver.views.fragments.FragmentMyProfile;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class MainActivity extends AppCompatActivity{
 
     private BottomAppBar mainAppBar;
     private FloatingActionButton btnAddGoal;
-
+    private AuthHuaweiId huaweiAccount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestHuaweiAuth();
         setContentView(R.layout.activity_main);
         mainAppBar = findViewById(R.id.bottom_app_bar);
         btnAddGoal = findViewById(R.id.btn_add_goal);
@@ -47,8 +57,7 @@ public class MainActivity extends AppCompatActivity{
 
     public void changeFragment(int fragmentConstant){
         switch (fragmentConstant){
-            case AppConstants
-                    .MY_PROFILE:
+            case AppConstants.MY_PROFILE:
                 showFragment(new FragmentMyProfile());
                 break;
             case AppConstants.MY_GOALS:
@@ -115,9 +124,16 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        for (Fragment fragment:
-             getSupportFragmentManager().getFragments()) {
-            fragment.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 8888) {
+            Task<AuthHuaweiId> authHuaweiIdTask = HuaweiIdAuthManager.parseAuthResultFromIntent(data);
+            if (authHuaweiIdTask.isSuccessful()) {
+                huaweiAccount = authHuaweiIdTask.getResult();
+                for (Fragment fragment: getSupportFragmentManager().getFragments()) {
+                    fragment.onActivityResult(requestCode, resultCode, data);
+                }
+            } else {
+                Log.e(AppConstants.MONEY_SAVER_ERROR, "sign in failed : " +((ApiException)authHuaweiIdTask.getException()).getStatusCode());
+            }
         }
     }
 
@@ -128,5 +144,16 @@ public class MainActivity extends AppCompatActivity{
              getSupportFragmentManager().getFragments()) {
             fragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
+    }
+
+    private void requestHuaweiAuth(){
+        Log.i("My activity","Entro");
+        HuaweiIdAuthParams authParams = new HuaweiIdAuthParamsHelper(HuaweiIdAuthParams.DEFAULT_AUTH_REQUEST_PARAM).setIdToken().createParams();
+        HuaweiIdAuthService service = HuaweiIdAuthManager.getService(MainActivity.this, authParams);
+        startActivityForResult(service.getSignInIntent(), 8888);
+    }
+
+    public AuthHuaweiId getHuaweiAccount() {
+        return huaweiAccount;
     }
 }

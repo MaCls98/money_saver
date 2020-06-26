@@ -15,6 +15,7 @@ import com.theoffice.moneysaver.R;
 import com.theoffice.moneysaver.adapters.ProfileRVAdapter;
 import com.theoffice.moneysaver.data.model.User;
 import com.theoffice.moneysaver.utils.MyTestHelper;
+import com.theoffice.moneysaver.views.activities.MainActivity;
 
 public class FragmentMyProfile extends Fragment {
 
@@ -22,16 +23,15 @@ public class FragmentMyProfile extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_my_profile, container, false);
-
+        MainActivity activity = (MainActivity) getActivity();
         RecyclerView rvMyProfile = v.findViewById(R.id.rv_my_profile);
         rvMyProfile.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        User testUser = new User(1, "Manuel", MyTestHelper.getGoalList());
-
-        ProfileRVAdapter rvAdapter = new ProfileRVAdapter(getActivity(),
-                testUser);
-        rvMyProfile.setAdapter(rvAdapter);
-
+        if(activity.getHuaweiAccount() != null){
+            User testUser = new User(1, activity.getHuaweiAccount().getDisplayName(), MyTestHelper.getGoalList());
+            ProfileRVAdapter rvAdapter = new ProfileRVAdapter(getActivity(),
+                    testUser);
+            rvMyProfile.setAdapter(rvAdapter);
+        }
         return v;
     }
 }
