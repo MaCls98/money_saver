@@ -25,6 +25,7 @@ import com.huawei.hms.support.hwid.request.HuaweiIdAuthParams;
 import com.huawei.hms.support.hwid.request.HuaweiIdAuthParamsHelper;
 import com.huawei.hms.support.hwid.result.AuthHuaweiId;
 import com.huawei.hms.support.hwid.service.HuaweiIdAuthService;
+import com.theoffice.moneysaver.MoneySaverApplication;
 import com.theoffice.moneysaver.R;
 import com.theoffice.moneysaver.data.model.User;
 import com.theoffice.moneysaver.utils.AppConstants;
@@ -43,17 +44,15 @@ public class MainActivity extends AppCompatActivity{
 
     private BottomAppBar mainAppBar;
     private FloatingActionButton btnAddGoal;
-    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        user = (User) getIntent().getExtras().getSerializable("user");
         mainAppBar = findViewById(R.id.bottom_app_bar);
         btnAddGoal = findViewById(R.id.btn_add_goal);
 
-        MyToast.showShortToast("Bienvenido " + user.getUserName(), this);
+        MyToast.showShortToast("Bienvenido " + MoneySaverApplication.getMainUser().getUserName(), this);
 
         setSupportActionBar(mainAppBar);
         setListeners();
@@ -129,10 +128,6 @@ public class MainActivity extends AppCompatActivity{
     private void showBottomMenu() {
         BottomNavigationFragment navigationFragment = new BottomNavigationFragment();
         navigationFragment.show(getSupportFragmentManager(), navigationFragment.getTag());
-    }
-
-    public User getUser() {
-        return user;
     }
 
     @Override

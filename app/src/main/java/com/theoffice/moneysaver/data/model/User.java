@@ -9,14 +9,19 @@ public class User implements Serializable {
     private String userName;
     private ArrayList<Goal> goalList;
 
-    public User(String userId, String userName, ArrayList<Goal> goalList) {
+    public User(String userId, String userName) {
         this.userId = userId;
         this.userName = userName;
-        this.goalList = goalList;
+        this.goalList = new ArrayList<>();
     }
 
-    public void addGoal(Goal goal){
-        goalList.add(goal);
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public void setGoalList(ArrayList<Goal> goalList) {
+        this.goalList.clear();
+        this.goalList.addAll(goalList);
     }
 
     public String getUserId() {

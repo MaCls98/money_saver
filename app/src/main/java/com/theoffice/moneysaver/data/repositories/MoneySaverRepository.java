@@ -36,6 +36,7 @@ public class MoneySaverRepository {
 
     public MutableLiveData<ArrayList<Goal>> getGoals(String stringUrl ,String userId){
         final MutableLiveData<ArrayList<Goal>> goalsData = new MutableLiveData<>();
+        goalsData.setValue(new ArrayList<Goal>());
         OkHttpClient client = new OkHttpClient();
 
         HttpUrl url = HttpUrl.parse(stringUrl).newBuilder()
@@ -55,7 +56,8 @@ public class MoneySaverRepository {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 try {
-                    JSONObject jsonResponse = new JSONObject(response.body().string());
+                    String strResponse = response.body().string();
+                    JSONObject jsonResponse = new JSONObject(strResponse);
                     JSONArray goals = jsonResponse.getJSONArray("goals");
                     ArrayList<Goal> tmpGoals = new ArrayList<>();
                     for (int i = 0; i < goals.length(); i++){
@@ -71,6 +73,9 @@ public class MoneySaverRepository {
                                 jsonGoal.getInt("cost")
                         );
                         tmpGoals.add(goal);
+                        tmpGoals.add(goal);
+                        tmpGoals.add(goal);
+                        tmpGoals.add(goal);
                     }
                     goalsData.postValue(tmpGoals);
                 } catch (JSONException e) {
@@ -78,8 +83,6 @@ public class MoneySaverRepository {
                 }
             }
         });
-
         return goalsData;
     }
-
 }

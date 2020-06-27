@@ -14,31 +14,35 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.theoffice.moneysaver.MoneySaverApplication;
 import com.theoffice.moneysaver.R;
 import com.theoffice.moneysaver.adapters.ProfileRVAdapter;
 import com.theoffice.moneysaver.data.model.Goal;
 import com.theoffice.moneysaver.data.model.User;
-import com.theoffice.moneysaver.utils.MyTestHelper;
 import com.theoffice.moneysaver.viewmodels.ProfileViewModel;
-import com.theoffice.moneysaver.views.activities.MainActivity;
 
 import java.util.ArrayList;
 
 public class FragmentMyProfile extends Fragment {
 
     private ProfileViewModel viewModel;
+    private RecyclerView rvMyProfile;
+    private ProfileRVAdapter rvAdapter;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_my_profile, container, false);
 
-        RecyclerView rvMyProfile = v.findViewById(R.id.rv_my_profile);
+        rvMyProfile = v.findViewById(R.id.rv_my_profile);
         rvMyProfile.setLayoutManager(new LinearLayoutManager(getActivity()));
-        User testUser = ((MainActivity) getActivity()).getUser();
 
-        ProfileRVAdapter rvAdapter = new ProfileRVAdapter(getActivity(),
-                testUser);
+
+        User user = MoneySaverApplication.getMainUser();
+
+        rvAdapter = new ProfileRVAdapter(getActivity(),
+                user);
+
         rvMyProfile.setAdapter(rvAdapter);
 
         return v;
@@ -52,7 +56,8 @@ public class FragmentMyProfile extends Fragment {
         viewModel.getGoalMutableLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<Goal>>() {
             @Override
             public void onChanged(ArrayList<Goal> goals) {
-                Log.d("Lista fragmento", String.valueOf(goals.size()));
+                MoneySaverApplication.getMainUser().setGoalList(goals);
+                rvAdapter.notifyDataSetChanged();
             }
         });
     }

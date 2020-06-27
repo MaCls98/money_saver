@@ -3,6 +3,7 @@ package com.theoffice.moneysaver.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,13 +15,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.theoffice.moneysaver.R;
 import com.theoffice.moneysaver.data.model.Goal;
 import com.theoffice.moneysaver.data.model.User;
 import com.theoffice.moneysaver.utils.AppConstants;
 import com.theoffice.moneysaver.views.activities.PlayGround;
 
-import java.io.File;
 import java.util.ArrayList;
 
 public class ProfileRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -86,9 +87,7 @@ public class ProfileRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_goal, parent, false);
             return new GoalViewHolder(itemView);
         }
-        else {
-            return null;
-        }
+        throw new RuntimeException("There is no type that matches");
     }
 
     @Override
@@ -100,16 +99,23 @@ public class ProfileRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         }else if (holder instanceof GoalViewHolder){
             GoalViewHolder goalViewHolder = (GoalViewHolder) holder;
-            Goal goal = goalList.get(position);
+            Goal goal = goalList.get(position - 1);
             goalViewHolder.tvGoalName.setText(goal.getGoalName());
             goalViewHolder.tvGoalValue.setText("Meta: " + goal.getGoalValue());
             goalViewHolder.tvGoalDate.setText(goal.getGoalDate());
             goalViewHolder.tvGoalContribution.setText("Contribuciones: " + goal.getContributionCount());
-            goalViewHolder.ivGoalPhoto.setImageURI(Uri.fromFile(new File(goal.getGoalPhotoPath())));
+
+            Glide.with(context)
+                    .load(goal.getGoalPhotoPath())
+                    .placeholder(R.drawable.money_icon)
+                    .error(R.drawable.error_icon)
+                    .into(goalViewHolder.ivGoalPhoto);
+
             goalViewHolder.tvGoalLikes.setText("Likes: " + goal.getGoalLikes());
         }
     }
 
+    @Override
     public int getItemViewType(int position){
         if (position == 0){
             return AppConstants.TYPE_HEADER;
@@ -119,6 +125,6 @@ public class ProfileRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public int getItemCount() {
-        return goalList.size();
+        return goalList.size() + 1;
     }
 }

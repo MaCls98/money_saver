@@ -11,7 +11,7 @@ import java.util.Locale;
 public class MyTestHelper {
 
     public static User getDefaultUser(){
-        return new User("5ef00cbb4de149bdd14c0c5d", "Alexander", MyTestHelper.getGoalList());
+        return new User("5ef00cbb4de149bdd14c0c5d", "Alexander");
     }
 
     public static ArrayList<Goal> getGoalList(){
