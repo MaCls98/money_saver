@@ -18,24 +18,39 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputLayout;
+import com.theoffice.moneysaver.ApplicationMoneySaver;
 import com.theoffice.moneysaver.R;
-import com.theoffice.moneysaver.data.model.Contribution;
 import com.theoffice.moneysaver.data.model.Goal;
+import com.theoffice.moneysaver.data.model.User;
 import com.theoffice.moneysaver.utils.AppConstants;
 import com.theoffice.moneysaver.utils.MyFileUtils;
-import com.theoffice.moneysaver.utils.MoneyTextWatcher;
 import com.theoffice.moneysaver.utils.MyDatePicker;
 import com.theoffice.moneysaver.utils.MyPermissionManager;
 import com.theoffice.moneysaver.utils.MyToast;
+import com.theoffice.moneysaver.viewmodels.ProfileViewModel;
+import com.theoffice.moneysaver.views.activities.MainActivity;
+
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Objects;
 
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
 public class DialogAddGoal extends DialogFragment implements View.OnClickListener {
+
+    private ProfileViewModel viewModel;
 
     private TextInputLayout tilGoalName;
     private TextInputLayout tilGoalValue;
@@ -56,6 +71,7 @@ public class DialogAddGoal extends DialogFragment implements View.OnClickListene
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        viewModel = new ViewModelProvider(requireActivity()).get(ProfileViewModel.class);
         initComponents(view);
         initToolbar(view);
     }
@@ -64,7 +80,7 @@ public class DialogAddGoal extends DialogFragment implements View.OnClickListene
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.et_goal_date:
-                MyDatePicker.showDatePicker(getFragmentManager(), etGoalDate);
+                MyDatePicker.showDatePicker(getChildFragmentManager(), etGoalDate);
                 break;
             case R.id.btn_take_photo:
                 takePhoto();
@@ -100,9 +116,49 @@ public class DialogAddGoal extends DialogFragment implements View.OnClickListene
                     0,
                     0
             );
-            MyToast.showShortToast("Listo", getActivity());
+            try {
+                uploadNewGoal(newGoal);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
         isGoalComplete = 0;
+    }
+
+    private void uploadNewGoal(Goal newGoal) throws JSONException {
+        User user = ApplicationMoneySaver.getMainUser();
+        JSONObject goalObject = new JSONObject();
+        goalObject.put("userId", user.getUserId());
+        goalObject.put("goal", new JSONObject()
+            .put("description", newGoal.getGoalName())
+            .put("start_date", newGoal.getGoalDate())
+            .put("cost", newGoal.getGoalValue())
+            .put("image", getUploadPhotoUrl()));
+
+        RequestBody body = RequestBody.create(String.valueOf(goalObject), AppConstants.JSON);
+        Request request = new Request.Builder()
+                .url(AppConstants.BASE_URL + AppConstants.ADD_GOAL_URL)
+                .post(body)
+                .build();
+        ApplicationMoneySaver.getOkHttpClient().newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                Log.d("RESPONSE", response.body().string());
+                viewModel.updateGoalsList();
+                ((MainActivity)getActivity()).changeFragment(AppConstants.MY_PROFILE);
+                dismiss();
+            }
+        });
+    }
+
+    private String getUploadPhotoUrl() {
+        //TODO Cargar imagen a cloudinary y obtener URL
+        return "https://docs.mongodb.com/images/mongodb-logo.png";
     }
 
     private void setGoalValues(String goalConst){
@@ -133,7 +189,6 @@ public class DialogAddGoal extends DialogFragment implements View.OnClickListene
                 }
                 break;
         }
-        Log.d("GOAL", String.valueOf(isGoalComplete));
     }
 
     private boolean validateEmptyTextInputLayout(TextInputLayout inputLayout){
@@ -151,7 +206,7 @@ public class DialogAddGoal extends DialogFragment implements View.OnClickListene
         tilGoalName = view.findViewById(R.id.til_goal_name);
         tilGoalValue = view.findViewById(R.id.til_goal_value);
         tilGoalDate = view.findViewById(R.id.til_goal_date);
-        Objects.requireNonNull(tilGoalValue.getEditText()).addTextChangedListener(new MoneyTextWatcher(tilGoalValue.getEditText()));
+        //Objects.requireNonNull(tilGoalValue.getEditText()).addTextChangedListener(new MoneyTextWatcher(tilGoalValue.getEditText()));
         etGoalDate = view.findViewById(R.id.et_goal_date);
         etGoalDate.setText(MyDatePicker.convertDate(Calendar.getInstance().getTimeInMillis()));
         etGoalDate.setOnClickListener(this);

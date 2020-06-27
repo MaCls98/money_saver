@@ -9,7 +9,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,27 +17,15 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.huawei.hmf.tasks.Task;
-import com.huawei.hms.common.ApiException;
-import com.huawei.hms.support.hwid.HuaweiIdAuthManager;
-import com.huawei.hms.support.hwid.request.HuaweiIdAuthParams;
-import com.huawei.hms.support.hwid.request.HuaweiIdAuthParamsHelper;
-import com.huawei.hms.support.hwid.result.AuthHuaweiId;
-import com.huawei.hms.support.hwid.service.HuaweiIdAuthService;
-import com.theoffice.moneysaver.MoneySaverApplication;
+import com.theoffice.moneysaver.ApplicationMoneySaver;
 import com.theoffice.moneysaver.R;
-import com.theoffice.moneysaver.data.model.User;
 import com.theoffice.moneysaver.utils.AppConstants;
-import com.theoffice.moneysaver.utils.MyTestHelper;
 import com.theoffice.moneysaver.utils.MyToast;
 import com.theoffice.moneysaver.views.dialogs.DialogAddGoal;
 import com.theoffice.moneysaver.views.fragments.BottomNavigationFragment;
 import com.theoffice.moneysaver.views.fragments.FragmentGlobalGoals;
 import com.theoffice.moneysaver.views.fragments.FragmentMyHome;
 import com.theoffice.moneysaver.views.fragments.FragmentMyProfile;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class MainActivity extends AppCompatActivity{
 
@@ -52,7 +39,7 @@ public class MainActivity extends AppCompatActivity{
         mainAppBar = findViewById(R.id.bottom_app_bar);
         btnAddGoal = findViewById(R.id.btn_add_goal);
 
-        MyToast.showShortToast("Bienvenido " + MoneySaverApplication.getMainUser().getUserName(), this);
+        MyToast.showShortToast("Bienvenido " + ApplicationMoneySaver.getMainUser().getUserName(), this);
 
         setSupportActionBar(mainAppBar);
         setListeners();

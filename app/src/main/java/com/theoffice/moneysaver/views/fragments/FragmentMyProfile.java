@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,7 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.theoffice.moneysaver.MoneySaverApplication;
+import com.theoffice.moneysaver.ApplicationMoneySaver;
 import com.theoffice.moneysaver.R;
 import com.theoffice.moneysaver.adapters.ProfileRVAdapter;
 import com.theoffice.moneysaver.data.model.Goal;
@@ -28,6 +29,7 @@ public class FragmentMyProfile extends Fragment {
     private ProfileViewModel viewModel;
     private RecyclerView rvMyProfile;
     private ProfileRVAdapter rvAdapter;
+    private ProgressBar pbGoals;
 
     @Nullable
     @Override
@@ -35,10 +37,11 @@ public class FragmentMyProfile extends Fragment {
         View v = inflater.inflate(R.layout.fragment_my_profile, container, false);
 
         rvMyProfile = v.findViewById(R.id.rv_my_profile);
+        pbGoals = v.findViewById(R.id.pb_loading_goals);
         rvMyProfile.setLayoutManager(new LinearLayoutManager(getActivity()));
 
 
-        User user = MoneySaverApplication.getMainUser();
+        User user = ApplicationMoneySaver.getMainUser();
 
         rvAdapter = new ProfileRVAdapter(getActivity(),
                 user);
@@ -56,7 +59,11 @@ public class FragmentMyProfile extends Fragment {
         viewModel.getGoalMutableLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<Goal>>() {
             @Override
             public void onChanged(ArrayList<Goal> goals) {
-                MoneySaverApplication.getMainUser().setGoalList(goals);
+                Log.d("FRAGMENT", String.valueOf(goals.size()));
+                if (goals.size() > 0){
+                    pbGoals.setVisibility(View.GONE);
+                }
+                ApplicationMoneySaver.getMainUser().setGoalList(goals);
                 rvAdapter.notifyDataSetChanged();
             }
         });

@@ -6,39 +6,40 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="VIEW" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c43655ac-8eb3-49d0-88af-a8738d9e0e9b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_github_bumptech_glide_glide_3_7_0_jar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/error_icon.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_recyclerview_recyclerview_1_2_0_alpha04_aar.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/classAnalysis.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/jarAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/jarAnalysis.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/javaCompile.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/taskHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/checksums/md5-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/md5-checksums.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/assetWizardSettings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/assetWizardSettings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_core_core_1_1_0_aar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_recyclerview_recyclerview_1_1_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_core_core_1_3_0_alpha02_aar.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/app/app.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/theoffice/moneysaver/MoneySaverApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/theoffice/moneysaver/MoneySaverApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/theoffice/moneysaver/adapters/ProfileRVAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/theoffice/moneysaver/adapters/ProfileRVAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/theoffice/moneysaver/data/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/theoffice/moneysaver/data/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/theoffice/moneysaver/MoneySaverApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/theoffice/moneysaver/ApplicationMoneySaver.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/theoffice/moneysaver/data/repositories/MoneySaverRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/theoffice/moneysaver/data/repositories/MoneySaverRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/theoffice/moneysaver/utils/MyTestHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/theoffice/moneysaver/utils/MyTestHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/theoffice/moneysaver/utils/AppConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/theoffice/moneysaver/utils/AppConstants.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/theoffice/moneysaver/viewmodels/ProfileViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/theoffice/moneysaver/viewmodels/ProfileViewModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/theoffice/moneysaver/views/activities/LoginActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/theoffice/moneysaver/views/activities/LoginActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/theoffice/moneysaver/views/activities/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/theoffice/moneysaver/views/activities/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/theoffice/moneysaver/views/dialogs/DialogAddGoal.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/theoffice/moneysaver/views/dialogs/DialogAddGoal.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/theoffice/moneysaver/views/fragments/FragmentMyProfile.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/theoffice/moneysaver/views/fragments/FragmentMyProfile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/card_view_goal.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/card_view_goal.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_my_profile.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_my_profile.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -200,7 +201,14 @@
       <option name="project" value="LOCAL" />
       <updated>1593204480751</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Se obtienen las metas reales del usuario que haya iniciado sesion con carga de imagenes integrada">
+      <created>1593284943257</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1593284943257</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -211,7 +219,8 @@
     <MESSAGE value="Se agrego un header al recyclerview encargado de mostrar los perfiles de usuarios" />
     <MESSAGE value="Se establecio la conexion con el servicio para obtener metas" />
     <MESSAGE value="Se agrego el inicio de sesion con Huawei Account y se creo una zona segura &quot;PlayGround&quot;" />
-    <option name="LAST_COMMIT_MESSAGE" value="Se agrego el inicio de sesion con Huawei Account y se creo una zona segura &quot;PlayGround&quot;" />
+    <MESSAGE value="Se obtienen las metas reales del usuario que haya iniciado sesion con carga de imagenes integrada" />
+    <option name="LAST_COMMIT_MESSAGE" value="Se obtienen las metas reales del usuario que haya iniciado sesion con carga de imagenes integrada" />
   </component>
   <component name="WindowStateProjectService">
     <state x="1544" y="107" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1593200103179">
@@ -253,10 +262,10 @@
     </state>
     <state x="1943" y="265" width="276" height="363" key="AndroidCreateXmlResourceDialog/0.0.1366.768/1366.0.1440.900@1366.0.1440.900" timestamp="1592918455207" />
     <state x="1943" y="265" key="AndroidCreateXmlResourceDialog/0.132.1366.768/1366.0.1440.900@1366.0.1440.900" timestamp="1593190056378" />
-    <state x="1710" y="50" width="741" height="793" key="CommitChangelistDialog2" timestamp="1593284942170">
+    <state x="1710" y="50" width="741" height="793" key="CommitChangelistDialog2" timestamp="1593288800716">
       <screen x="1366" y="0" width="1440" height="900" />
     </state>
-    <state x="1710" y="50" width="741" height="793" key="CommitChangelistDialog2/0.132.1366.768/1366.0.1440.900@1366.0.1440.900" timestamp="1593284942170" />
+    <state x="1710" y="50" width="741" height="793" key="CommitChangelistDialog2/0.132.1366.768/1366.0.1440.900@1366.0.1440.900" timestamp="1593288800716" />
     <state x="1868" y="179" width="424" height="479" key="FileChooserDialogImpl" timestamp="1593284145786">
       <screen x="1366" y="0" width="1440" height="900" />
     </state>
@@ -270,26 +279,26 @@
       <screen x="1366" y="0" width="1440" height="900" />
     </state>
     <state x="1832" y="159" width="498" height="575" key="Github.UntrackedFilesDialog/0.132.1366.768/1366.0.1440.900@1366.0.1440.900" timestamp="1593138793169" />
-    <state width="1398" height="245" key="GridCell.Tab.0.bottom" timestamp="1593284697059">
+    <state width="1398" height="245" key="GridCell.Tab.0.bottom" timestamp="1593288034604">
       <screen x="1366" y="0" width="1440" height="900" />
     </state>
     <state width="1398" height="287" key="GridCell.Tab.0.bottom/0.0.1366.768/1366.0.1440.900@1366.0.1440.900" timestamp="1592977198990" />
-    <state width="1398" height="245" key="GridCell.Tab.0.bottom/0.132.1366.768/1366.0.1440.900@1366.0.1440.900" timestamp="1593284697059" />
-    <state width="1398" height="245" key="GridCell.Tab.0.center" timestamp="1593284697059">
+    <state width="1398" height="245" key="GridCell.Tab.0.bottom/0.132.1366.768/1366.0.1440.900@1366.0.1440.900" timestamp="1593288034604" />
+    <state width="1398" height="245" key="GridCell.Tab.0.center" timestamp="1593288034603">
       <screen x="1366" y="0" width="1440" height="900" />
     </state>
     <state width="1398" height="287" key="GridCell.Tab.0.center/0.0.1366.768/1366.0.1440.900@1366.0.1440.900" timestamp="1592977198989" />
-    <state width="1398" height="245" key="GridCell.Tab.0.center/0.132.1366.768/1366.0.1440.900@1366.0.1440.900" timestamp="1593284697059" />
-    <state width="1398" height="245" key="GridCell.Tab.0.left" timestamp="1593284697058">
+    <state width="1398" height="245" key="GridCell.Tab.0.center/0.132.1366.768/1366.0.1440.900@1366.0.1440.900" timestamp="1593288034603" />
+    <state width="1398" height="245" key="GridCell.Tab.0.left" timestamp="1593288034603">
       <screen x="1366" y="0" width="1440" height="900" />
     </state>
     <state width="1398" height="287" key="GridCell.Tab.0.left/0.0.1366.768/1366.0.1440.900@1366.0.1440.900" timestamp="1592977198989" />
-    <state width="1398" height="245" key="GridCell.Tab.0.left/0.132.1366.768/1366.0.1440.900@1366.0.1440.900" timestamp="1593284697058" />
-    <state width="1398" height="245" key="GridCell.Tab.0.right" timestamp="1593284697059">
+    <state width="1398" height="245" key="GridCell.Tab.0.left/0.132.1366.768/1366.0.1440.900@1366.0.1440.900" timestamp="1593288034603" />
+    <state width="1398" height="245" key="GridCell.Tab.0.right" timestamp="1593288034603">
       <screen x="1366" y="0" width="1440" height="900" />
     </state>
     <state width="1398" height="287" key="GridCell.Tab.0.right/0.0.1366.768/1366.0.1440.900@1366.0.1440.900" timestamp="1592977198990" />
-    <state width="1398" height="245" key="GridCell.Tab.0.right/0.132.1366.768/1366.0.1440.900@1366.0.1440.900" timestamp="1593284697059" />
+    <state width="1398" height="245" key="GridCell.Tab.0.right/0.132.1366.768/1366.0.1440.900@1366.0.1440.900" timestamp="1593288034603" />
     <state width="1398" height="285" key="GridCell.Tab.1.bottom" timestamp="1592916560389">
       <screen x="1366" y="0" width="1440" height="900" />
     </state>
@@ -322,10 +331,10 @@
       <screen x="1366" y="0" width="1440" height="900" />
     </state>
     <state x="1590" y="84" key="SettingsEditor/0.132.1366.768/1366.0.1440.900@1366.0.1440.900" timestamp="1593139464190" />
-    <state x="1681" y="185" width="800" height="523" key="Vcs.Push.Dialog.v2" timestamp="1593204486472">
+    <state x="1681" y="185" width="800" height="523" key="Vcs.Push.Dialog.v2" timestamp="1593284945875">
       <screen x="1366" y="0" width="1440" height="900" />
     </state>
-    <state x="1681" y="185" width="800" height="523" key="Vcs.Push.Dialog.v2/0.132.1366.768/1366.0.1440.900@1366.0.1440.900" timestamp="1593204486472" />
+    <state x="1681" y="185" width="800" height="523" key="Vcs.Push.Dialog.v2/0.132.1366.768/1366.0.1440.900@1366.0.1440.900" timestamp="1593284945875" />
     <state x="1883" y="369" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1593198168278">
       <screen x="1366" y="0" width="1440" height="900" />
     </state>
@@ -352,10 +361,10 @@
     </state>
     <state x="1750" y="203" key="run.anything.popup/0.0.1366.768/1366.0.1440.900@1366.0.1440.900" timestamp="1592976477744" />
     <state x="1750" y="203" key="run.anything.popup/0.132.1366.768/1366.0.1440.900@1366.0.1440.900" timestamp="1593010315987" />
-    <state x="1749" y="193" width="672" height="678" key="search.everywhere.popup" timestamp="1593203964562">
+    <state x="1749" y="193" width="672" height="678" key="search.everywhere.popup" timestamp="1593287523231">
       <screen x="1366" y="0" width="1440" height="900" />
     </state>
     <state x="1749" y="193" width="672" height="678" key="search.everywhere.popup/0.0.1366.768/1366.0.1440.900@1366.0.1440.900" timestamp="1592970637196" />
-    <state x="1749" y="193" width="672" height="678" key="search.everywhere.popup/0.132.1366.768/1366.0.1440.900@1366.0.1440.900" timestamp="1593203964562" />
+    <state x="1749" y="193" width="672" height="678" key="search.everywhere.popup/0.132.1366.768/1366.0.1440.900@1366.0.1440.900" timestamp="1593287523231" />
   </component>
 </project>

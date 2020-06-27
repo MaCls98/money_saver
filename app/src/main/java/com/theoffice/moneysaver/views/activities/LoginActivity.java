@@ -16,14 +16,10 @@ import com.huawei.hms.support.hwid.request.HuaweiIdAuthParams;
 import com.huawei.hms.support.hwid.request.HuaweiIdAuthParamsHelper;
 import com.huawei.hms.support.hwid.result.AuthHuaweiId;
 import com.huawei.hms.support.hwid.service.HuaweiIdAuthService;
-import com.theoffice.moneysaver.MoneySaverApplication;
+import com.theoffice.moneysaver.ApplicationMoneySaver;
 import com.theoffice.moneysaver.R;
-import com.theoffice.moneysaver.data.model.Goal;
 import com.theoffice.moneysaver.data.model.User;
 import com.theoffice.moneysaver.utils.AppConstants;
-import com.theoffice.moneysaver.utils.MyTestHelper;
-
-import java.util.ArrayList;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -51,7 +47,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void launchMainActivity(User user){
         //TODO Validar si el usuario ya existe en la base de datos, si existe otener lista de
         //metas y cargarlas, si no registrarlo e iniciar sesion
-        MoneySaverApplication.setMainUser(user);
+        ApplicationMoneySaver.setMainUser(user);
         Intent mainActIntent = new Intent(this, MainActivity.class);
         startActivity(mainActIntent);
     }

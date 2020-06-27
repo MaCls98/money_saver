@@ -1,8 +1,13 @@
 package com.theoffice.moneysaver.utils;
 
+import okhttp3.MediaType;
+
 public final class AppConstants {
+    public static final MediaType JSON
+            = MediaType.parse("application/json; charset=utf-8");
     public static final String BASE_URL = "https://money-saver.vercel.app";
     public static final String GOALS_URL = "/api/goals";
+    public static final String ADD_GOAL_URL = "/api/addGoal";
     public static final String MONEY_SAVER_ERROR = "Error";
     public static final int HUAWEI_LOGIN_CODE = 8888;
     public static final String GOAL_NAME = "NAME";

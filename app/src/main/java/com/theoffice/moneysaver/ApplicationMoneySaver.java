@@ -6,7 +6,7 @@ import com.theoffice.moneysaver.data.model.User;
 
 import okhttp3.OkHttpClient;
 
-public class MoneySaverApplication extends Application {
+public class ApplicationMoneySaver extends Application {
 
     public static OkHttpClient client;
     public static User mainUser;
@@ -18,9 +18,13 @@ public class MoneySaverApplication extends Application {
     }
 
     public static void setMainUser(User mainUser) {
-        MoneySaverApplication.mainUser = mainUser;
+        ApplicationMoneySaver.mainUser = mainUser;
         //TODO Remover seteo cuando se trabaje con usuarios reales
-        MoneySaverApplication.mainUser.setUserId("5ef00cbb4de149bdd14c0c5d");
+        ApplicationMoneySaver.mainUser.setUserId("5ef00cbb4de149bdd14c0c5d");
+    }
+
+    public static OkHttpClient getOkHttpClient(){
+        return new OkHttpClient();
     }
 
     public static User getMainUser() {

@@ -1,12 +1,9 @@
 package com.theoffice.moneysaver.data.repositories;
 
-import android.util.Log;
-
 import androidx.lifecycle.MutableLiveData;
 
-import com.theoffice.moneysaver.MoneySaverApplication;
+import com.theoffice.moneysaver.ApplicationMoneySaver;
 import com.theoffice.moneysaver.data.model.Goal;
-import com.theoffice.moneysaver.utils.AppConstants;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -34,10 +31,9 @@ public class MoneySaverRepository {
         return repository;
     }
 
-    public MutableLiveData<ArrayList<Goal>> getGoals(String stringUrl ,String userId){
+    public MutableLiveData<ArrayList<Goal>> getGoals(String stringUrl, String userId){
         final MutableLiveData<ArrayList<Goal>> goalsData = new MutableLiveData<>();
-        goalsData.setValue(new ArrayList<Goal>());
-        OkHttpClient client = new OkHttpClient();
+        goalsData.postValue(new ArrayList<Goal>());
 
         HttpUrl url = HttpUrl.parse(stringUrl).newBuilder()
                 .addQueryParameter("userId", userId)
@@ -47,7 +43,7 @@ public class MoneySaverRepository {
                 .url(url)
                 .build();
 
-        client.newCall(request).enqueue(new Callback() {
+        ApplicationMoneySaver.getOkHttpClient().newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
 
@@ -72,9 +68,6 @@ public class MoneySaverRepository {
                                 1,
                                 jsonGoal.getInt("cost")
                         );
-                        tmpGoals.add(goal);
-                        tmpGoals.add(goal);
-                        tmpGoals.add(goal);
                         tmpGoals.add(goal);
                     }
                     goalsData.postValue(tmpGoals);
