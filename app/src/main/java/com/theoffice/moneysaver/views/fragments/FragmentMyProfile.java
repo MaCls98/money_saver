@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,6 +21,7 @@ import com.theoffice.moneysaver.R;
 import com.theoffice.moneysaver.adapters.ProfileRVAdapter;
 import com.theoffice.moneysaver.data.model.Goal;
 import com.theoffice.moneysaver.data.model.User;
+import com.theoffice.moneysaver.utils.AppConstants;
 import com.theoffice.moneysaver.viewmodels.ProfileViewModel;
 
 import java.util.ArrayList;
@@ -38,14 +40,27 @@ public class FragmentMyProfile extends Fragment {
 
         rvMyProfile = v.findViewById(R.id.rv_my_profile);
         pbGoals = v.findViewById(R.id.pb_loading_goals);
-        rvMyProfile.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-
         User user = ApplicationMoneySaver.getMainUser();
-
         rvAdapter = new ProfileRVAdapter(getActivity(),
                 user);
 
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
+        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                switch (rvAdapter.getItemViewType(position)){
+                    case AppConstants
+                            .TYPE_HEADER:
+                        return 2;
+                    case AppConstants.TYPE_ITEM:
+
+                        return 1;
+                    default:
+                        return -1;
+                }
+            }
+        });
+        rvMyProfile.setLayoutManager(layoutManager);
         rvMyProfile.setAdapter(rvAdapter);
 
         return v;
@@ -59,7 +74,6 @@ public class FragmentMyProfile extends Fragment {
         viewModel.getGoalMutableLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<Goal>>() {
             @Override
             public void onChanged(ArrayList<Goal> goals) {
-                Log.d("FRAGMENT", String.valueOf(goals.size()));
                 if (goals.size() > 0){
                     pbGoals.setVisibility(View.GONE);
                 }

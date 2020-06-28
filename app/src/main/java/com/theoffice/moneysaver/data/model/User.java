@@ -7,16 +7,22 @@ public class User implements Serializable {
 
     private String userId;
     private String userName;
+    private String userPhotoUrl;
     private ArrayList<Goal> goalList;
 
-    public User(String userId, String userName) {
+    public User(String userId, String userName, String userPhotoUrl) {
         this.userId = userId;
         this.userName = userName;
         this.goalList = new ArrayList<>();
+        this.userPhotoUrl = userPhotoUrl;
     }
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getUserPhotoUrl() {
+        return userPhotoUrl;
     }
 
     public void setGoalList(ArrayList<Goal> goalList) {

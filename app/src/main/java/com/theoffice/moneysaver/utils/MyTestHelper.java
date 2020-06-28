@@ -11,7 +11,7 @@ import java.util.Locale;
 public class MyTestHelper {
 
     public static User getDefaultUser(){
-        return new User("5ef00cbb4de149bdd14c0c5d", "Alexander");
+        return new User("5ef00cbb4de149bdd14c0c5d", "Alexander", "https://docs.mongodb.com/images/mongodb-logo.png");
     }
 
     public static ArrayList<Goal> getGoalList(){

@@ -44,9 +44,25 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private void launchMainActivity(User user){
+    private void launchMainActivity(){
         //TODO Validar si el usuario ya existe en la base de datos, si existe otener lista de
         //metas y cargarlas, si no registrarlo e iniciar sesion
+
+        String photoPath;
+
+        if (!huaweiAccount.getAvatarUriString().isEmpty()){
+            photoPath = huaweiAccount.getAvatarUriString();
+        }else {
+            //TODO Placeholder real :v
+            photoPath = "https://docs.mongodb.com/images/mongodb-logo.png";
+        }
+
+        User user = new User(
+                huaweiAccount.getIdToken(),
+                huaweiAccount.getDisplayName(),
+                photoPath
+        );
+
         ApplicationMoneySaver.setMainUser(user);
         Intent mainActIntent = new Intent(this, MainActivity.class);
         startActivity(mainActIntent);
@@ -65,18 +81,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             Task<AuthHuaweiId> authHuaweiIdTask = HuaweiIdAuthManager.parseAuthResultFromIntent(data);
             if (authHuaweiIdTask.isSuccessful()) {
                 huaweiAccount = authHuaweiIdTask.getResult();
-                User user = new User(
-                        huaweiAccount.getIdToken(),
-                        huaweiAccount.getDisplayName()
-                );
-                launchMainActivity(user);
+                launchMainActivity();
             } else {
                 Log.e(AppConstants.MONEY_SAVER_ERROR, "sign in failed : " +((ApiException)authHuaweiIdTask.getException()).getStatusCode());
             }
         }
-    }
-
-    public AuthHuaweiId getHuaweiAccount() {
-        return huaweiAccount;
     }
 }
