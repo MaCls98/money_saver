@@ -20,11 +20,12 @@ public class MyTestHelper {
             Goal goal = new Goal(
                     "",
                     "Nombre prueba" + i,
+                    0,
                     5000,
                     MyDatePicker.convertDate(Calendar.getInstance(Locale.getDefault()).getTimeInMillis()),
                     "/storage/emulated/0/Android/data/com.theoffice.moneysaver/files/Pictures/JPEG_20200625_225120_8722133692996310947.jpg",
                     "NEW",
-                    10,
+                    new String[]{"1", "2", "3", "4", "5"},
                     2
             );
             goals.add(goal);

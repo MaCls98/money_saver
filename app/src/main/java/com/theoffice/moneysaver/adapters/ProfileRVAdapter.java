@@ -2,7 +2,6 @@ package com.theoffice.moneysaver.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.graphics.drawable.RoundedBitmapDrawable;
-import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.theoffice.moneysaver.R;
 import com.theoffice.moneysaver.data.model.Goal;
 import com.theoffice.moneysaver.data.model.User;
@@ -32,24 +28,83 @@ public class ProfileRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private ArrayList<Goal> goalList;
     private Context context;
 
+    private OnItemClickListener listener;
+
+    public interface OnItemClickListener{
+        void onLikeClick(int position);
+        void onImageClick(int position);
+        void onDeleteClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener){
+        this.listener = listener;
+    }
+
     static class GoalViewHolder extends RecyclerView.ViewHolder{
         TextView tvGoalName;
-        TextView tvGoalValue;
+        TextView tvGoalActualMoney;
         //TextView tvGoalDate;
         TextView tvGoalLikes;
         //TextView tvGoalContribution;
         ImageView ivGoalPhoto;
         ImageButton ibLikeGoal;
+        ImageButton ibDeleteGoal;
 
-        public GoalViewHolder(@NonNull View itemView) {
+        public GoalViewHolder(@NonNull View itemView, final OnItemClickListener listener,
+                              final Context context) {
             super(itemView);
             tvGoalName = itemView.findViewById(R.id.tv_goal_name);
-            tvGoalValue = itemView.findViewById(R.id.tv_goal_value);
+            tvGoalActualMoney = itemView.findViewById(R.id.tv_goal_actual_money);
             //tvGoalDate = itemView.findViewById(R.id.tv_goal_date);
             tvGoalLikes = itemView.findViewById(R.id.tv_goal_likes);
             //tvGoalContribution = itemView.findViewById(R.id.tv_goal_contribution);
-            ivGoalPhoto = itemView.findViewById(R.id.iv_goal_photo);
             ibLikeGoal = itemView.findViewById(R.id.ib_like_goal);
+            ibDeleteGoal = itemView.findViewById(R.id.ib_delete_goal);
+            ivGoalPhoto = itemView.findViewById(R.id.iv_goal_photo);
+            ivGoalPhoto.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (listener != null){
+                        int position = getLayoutPosition();
+                        if (position != RecyclerView.NO_POSITION){
+                            listener.onImageClick(position);
+                        }
+                    }
+                }
+            });
+            ibLikeGoal.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (listener != null){
+                        int position = getLayoutPosition();
+                        if (position != RecyclerView.NO_POSITION){
+                            listener.onLikeClick(position);
+                        }
+                    }
+                }
+            });
+            ibDeleteGoal.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (listener != null){
+                        int position = getLayoutPosition();
+                        if (position != RecyclerView.NO_POSITION){
+                            listener.onDeleteClick(position);
+                        }
+                    }
+                }
+            });
+            ivGoalPhoto.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    if (ibDeleteGoal.getVisibility() == View.GONE){
+                        //ibDeleteGoal.setVisibility(View.VISIBLE);
+                    }else {
+                        //ibDeleteGoal.setVisibility(View.GONE);
+                    }
+                    return false;
+                }
+            });
         }
     }
 
@@ -89,7 +144,7 @@ public class ProfileRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             return new HeaderViewHolder(headerView, context);
         }else if (viewType == AppConstants.TYPE_ITEM){
             View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_mini_goal, parent, false);
-            return new GoalViewHolder(itemView);
+            return new GoalViewHolder(itemView, listener, context);
         }
         throw new RuntimeException("There is no type that matches");
     }
@@ -101,37 +156,18 @@ public class ProfileRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             headerViewHolder.tvUsername.setText(user.getUserName());
             headerViewHolder.tvUserGoals.setText("Total de metas: " + user.getGoalList().size());
 
-
             Glide.with(context)
                     .load(user.getUserPhotoUrl())
                     .placeholder(R.drawable.user_icon)
                     .into(headerViewHolder.ivUserPhoto);
 
-            /*
-            Glide.with(context)
-                    .load(user.getUserPhotoUrl())
-                    .asBitmap().
-                    centerCrop().
-                    into(new BitmapImageViewTarget(headerViewHolder.ivUserPhoto){
-                        @Override
-                        protected void setResource(Bitmap resource) {
-                            RoundedBitmapDrawable circularBitmapDrawable =
-                                    RoundedBitmapDrawableFactory.create(context.getResources(), resource);
-                            circularBitmapDrawable.setCircular(true);
-                            headerViewHolder.ivUserPhoto.setImageDrawable(circularBitmapDrawable);
-                        }
-                    });
-
-             */
-
         }else if (holder instanceof GoalViewHolder){
             GoalViewHolder goalViewHolder = (GoalViewHolder) holder;
             Goal goal = goalList.get(position - 1);
             goalViewHolder.tvGoalName.setText(goal.getGoalName());
-            goalViewHolder.tvGoalValue.setText("$" + goal.getGoalValue());
-            //goalViewHolder.tvGoalLikes.setText(goal.getGoalLikes());
-            //goalViewHolder.tvGoalDate.setText(goal.getGoalDate());
-            //goalViewHolder.tvGoalContribution.setText("Contribuciones: " + goal.getContributionCount());
+            //goalViewHolder.tvGoalActualMoney.setText("$" + goal.getGoalActualMoney());
+            goalViewHolder.tvGoalActualMoney.setText(calculatePercentage(goal));
+            goalViewHolder.tvGoalLikes.setText(String.valueOf(goal.getGoalLikes().length));
 
             Glide.with(context)
                     .load(goal.getGoalPhotoPath())
@@ -139,6 +175,13 @@ public class ProfileRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     .error(R.drawable.error_icon)
                     .into(goalViewHolder.ivGoalPhoto);
         }
+    }
+
+    private String calculatePercentage(Goal goal) {
+        int cost = goal.getGoalCost();
+        int actual = goal.getGoalActualMoney();
+        int percentage = (actual * 100) / cost;
+        return percentage + "%";
     }
 
     @Override

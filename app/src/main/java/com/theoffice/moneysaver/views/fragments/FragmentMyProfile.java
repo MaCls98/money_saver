@@ -23,6 +23,7 @@ import com.theoffice.moneysaver.data.model.Goal;
 import com.theoffice.moneysaver.data.model.User;
 import com.theoffice.moneysaver.utils.AppConstants;
 import com.theoffice.moneysaver.viewmodels.ProfileViewModel;
+import com.theoffice.moneysaver.views.dialogs.DialogShowGoal;
 
 import java.util.ArrayList;
 
@@ -40,7 +41,7 @@ public class FragmentMyProfile extends Fragment {
 
         rvMyProfile = v.findViewById(R.id.rv_my_profile);
         pbGoals = v.findViewById(R.id.pb_loading_goals);
-        User user = ApplicationMoneySaver.getMainUser();
+        final User user = ApplicationMoneySaver.getMainUser();
         rvAdapter = new ProfileRVAdapter(getActivity(),
                 user);
 
@@ -60,10 +61,37 @@ public class FragmentMyProfile extends Fragment {
                 }
             }
         });
+        rvAdapter.setOnItemClickListener(new ProfileRVAdapter.OnItemClickListener() {
+            @Override
+            public void onLikeClick(int position) {
+                //TODO Dar like a la meta
+                Goal goal = user.getGoalList().get(position -1);
+            }
+
+            @Override
+            public void onImageClick(int position) {
+                Goal goal = user.getGoalList().get(position -1);
+                launchGoalDialog(goal);
+            }
+
+            @Override
+            public void onDeleteClick(int position) {
+                //TODO Eliminar meta
+                Goal goal = user.getGoalList().get(position -1);
+            }
+        });
         rvMyProfile.setLayoutManager(layoutManager);
         rvMyProfile.setAdapter(rvAdapter);
 
         return v;
+    }
+
+    private void launchGoalDialog(Goal goal) {
+        DialogShowGoal dialogShowGoal = new DialogShowGoal();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("goal", goal);
+        dialogShowGoal.setArguments(bundle);
+        dialogShowGoal.show(getParentFragmentManager(), dialogShowGoal.getTag());
     }
 
     @Override

@@ -1,22 +1,25 @@
 package com.theoffice.moneysaver.data.model;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 public class Goal implements Serializable {
     private String goalId;
     private String goalName;
-    private int goalValue;
+    private int goalCost;
+    private int goalActualMoney;
     private String goalDate;
     private String goalPhotoPath;
     private String goalStatus;
-    private int goalLikes;
+    private String[] goalLikes;
     private int contributionCount;
 
-    public Goal(String goalId, String goalName, int goalValue, String goalDate, String goalPhotoPath,
-                String goalStatus, int goalLikes, int contributionCount) {
+    public Goal(String goalId, String goalName,int goalCost, int goalActualMoney, String goalDate, String goalPhotoPath,
+                String goalStatus, String[] goalLikes, int contributionCount) {
         this.goalId = goalId;
         this.goalName = goalName;
-        this.goalValue = goalValue;
+        this.goalActualMoney = goalActualMoney;
+        this.goalCost = goalCost;
         this.goalDate = goalDate;
         this.goalPhotoPath = goalPhotoPath;
         this.goalStatus = goalStatus;
@@ -32,8 +35,12 @@ public class Goal implements Serializable {
         return contributionCount;
     }
 
-    public int getGoalLikes() {
+    public String[] getGoalLikes() {
         return goalLikes;
+    }
+
+    public int getGoalCost() {
+        return goalCost;
     }
 
     public String getGoalStatus() {
@@ -48,8 +55,8 @@ public class Goal implements Serializable {
         return goalName;
     }
 
-    public int getGoalValue() {
-        return goalValue;
+    public int getGoalActualMoney() {
+        return goalActualMoney;
     }
 
     public String getGoalDate() {
@@ -63,14 +70,13 @@ public class Goal implements Serializable {
     @Override
     public String toString() {
         return "Goal{" +
-                "goalId=" + goalId +
+                "goalId='" + goalId + '\'' +
                 ", goalName='" + goalName + '\'' +
-                ", goalValue='" + goalValue + '\'' +
-                ", goalDate='" + goalDate + '\'' +
+                ", goalCost=" + goalCost +
+                ", goalActualMoney=" + goalActualMoney +
                 ", goalPhotoPath='" + goalPhotoPath + '\'' +
-                ", goalStatus='" + goalStatus + '\'' +
-                ", goalLikes=" + goalLikes +
-                ", contributionList=" + contributionCount +
+                ", goalLikes=" + Arrays.toString(goalLikes) +
+                ", contributionCount=" + contributionCount +
                 '}';
     }
 }

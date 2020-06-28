@@ -1,5 +1,7 @@
 package com.theoffice.moneysaver.data.repositories;
 
+import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
 
 import com.theoffice.moneysaver.ApplicationMoneySaver;
@@ -62,12 +64,14 @@ public class MoneySaverRepository {
                                 jsonGoal.getString("goal_id"),
                                 jsonGoal.getString("description"),
                                 jsonGoal.getInt("cost"),
+                                jsonGoal.getInt("actualMoney"),
                                 jsonGoal.getString("start_date"),
                                 jsonGoal.getString("image"),
                                 jsonGoal.getString("status"),
-                                1,
-                                jsonGoal.getInt("cost")
+                                new String[]{"1", "2", "3"},
+                                jsonGoal.getInt("contributionsCount")
                         );
+                        Log.d("GOAL", goal.toString());
                         tmpGoals.add(goal);
                     }
                     goalsData.postValue(tmpGoals);

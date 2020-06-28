@@ -23,15 +23,17 @@
             android:layout_marginTop="16dp"
             android:text="Nombre Aqui"
             android:textSize="18sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tv_goal_value"
+            android:id="@+id/tv_goal_actual_money"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Valor aqui"
             android:textSize="14sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/tv_goal_name"
             app:layout_constraintEnd_toEndOf="@+id/iv_goal_photo"
             app:layout_constraintTop_toTopOf="@+id/tv_goal_name" />
@@ -50,11 +52,12 @@
             android:id="@+id/iv_goal_photo"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginStart="32dp"
+            android:layout_marginStart="24dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="32dp"
-            android:scaleType="centerCrop"
-            app:layout_constraintDimensionRatio="16:9"
+            android:layout_marginEnd="24dp"
+            android:background="@color/colorAccent"
+            android:scaleType="fitCenter"
+            app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_goal_name" />
@@ -88,6 +91,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="16dp"
             android:text="Cantidad de contribuciones"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/tv_goal_date"
             app:layout_constraintTop_toBottomOf="@+id/tv_goal_date" />

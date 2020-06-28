@@ -110,10 +110,11 @@ public class DialogAddGoal extends DialogFragment implements View.OnClickListene
                     "",
                     goalName,
                     goalValue,
+                    0,
                     goalDate,
                     goalPhotoPath,
                     "NEW",
-                    0,
+                    new String[]{},
                     0
             );
             try {
@@ -132,7 +133,7 @@ public class DialogAddGoal extends DialogFragment implements View.OnClickListene
         goalObject.put("goal", new JSONObject()
             .put("description", newGoal.getGoalName())
             .put("start_date", newGoal.getGoalDate())
-            .put("cost", newGoal.getGoalValue())
+            .put("cost", newGoal.getGoalCost())
             .put("image", getUploadPhotoUrl()));
 
         RequestBody body = RequestBody.create(String.valueOf(goalObject), AppConstants.JSON);
