@@ -8,6 +8,8 @@ public final class AppConstants {
     public static final String BASE_URL = "https://money-saver.vercel.app";
     public static final String GOALS_URL = "/api/goals";
     public static final String ADD_GOAL_URL = "/api/addGoal";
+    public static final String VALIDATE_USER_URL = "/api/validateUser";
+    public static final String CREATE_USER_URL = "/api/createUser";
     public static final String MONEY_SAVER_ERROR = "Error";
     public static final int HUAWEI_LOGIN_CODE = 8888;
     public static final String GOAL_NAME = "NAME";
@@ -22,4 +24,5 @@ public final class AppConstants {
     public static final int REQUEST_IMAGE_CAPTURE = 1;
     public static final int TYPE_HEADER = 0;
     public static final int TYPE_ITEM = 1;
+    public static final String USER_PLACEHOLDER = "https://money-saver.vercel.app/img/user.png";
 }

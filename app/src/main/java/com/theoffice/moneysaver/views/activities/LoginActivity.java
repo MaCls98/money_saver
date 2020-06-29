@@ -19,11 +19,13 @@ import com.huawei.hms.support.hwid.service.HuaweiIdAuthService;
 import com.theoffice.moneysaver.ApplicationMoneySaver;
 import com.theoffice.moneysaver.R;
 import com.theoffice.moneysaver.data.model.User;
+import com.theoffice.moneysaver.data.repositories.MoneySaverRepository;
 import com.theoffice.moneysaver.utils.AppConstants;
+
+import java.io.IOException;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private AuthHuaweiId huaweiAccount;
     private Button btnHuaweiLogin;
 
     @Override
@@ -44,17 +46,23 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private void launchMainActivity(){
-        //TODO Validar si el usuario ya existe en la base de datos, si existe otener lista de
-        //metas y cargarlas, si no registrarlo e iniciar sesion
+    private void launchMainActivity(AuthHuaweiId huaweiAccount){
+        MoneySaverRepository repository = MoneySaverRepository.getInstance();
+        try {
+            if(!repository.validateUser(huaweiAccount.getUnionId())){
+                repository.createUser(huaweiAccount.getUnionId());
+            }
+        } catch (IOException e) {
+            Log.e(AppConstants.MONEY_SAVER_ERROR, "Error at validate user");
+        }
+        //TODO Load goal list
 
         String photoPath;
 
         if (!huaweiAccount.getAvatarUriString().isEmpty()){
             photoPath = huaweiAccount.getAvatarUriString();
         }else {
-            //TODO Placeholder real :v
-            photoPath = "https://docs.mongodb.com/images/mongodb-logo.png";
+            photoPath = AppConstants.USER_PLACEHOLDER;
         }
 
         User user = new User(
@@ -80,10 +88,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (requestCode == AppConstants.HUAWEI_LOGIN_CODE) {
             Task<AuthHuaweiId> authHuaweiIdTask = HuaweiIdAuthManager.parseAuthResultFromIntent(data);
             if (authHuaweiIdTask.isSuccessful()) {
-                huaweiAccount = authHuaweiIdTask.getResult();
-                launchMainActivity();
+                launchMainActivity(authHuaweiIdTask.getResult());
             } else {
-                Log.e(AppConstants.MONEY_SAVER_ERROR, "sign in failed : " +((ApiException)authHuaweiIdTask.getException()).getStatusCode());
+                Log.e(AppConstants.MONEY_SAVER_ERROR, "Sign in failed : " +((ApiException)authHuaweiIdTask.getException()).getStatusCode());
             }
         }
     }

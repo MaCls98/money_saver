@@ -52,8 +52,7 @@ public class MainActivity extends AppCompatActivity{
             case AppConstants.MY_HOME:
                 showFragment(new FragmentMyHome());
                 break;
-            case AppConstants
-                    .MY_PROFILE:
+            case AppConstants.MY_PROFILE:
                 showFragment(new FragmentMyProfile());
                 break;
             case AppConstants.MY_GOALS:
