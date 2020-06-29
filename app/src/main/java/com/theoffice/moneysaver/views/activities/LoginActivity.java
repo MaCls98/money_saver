@@ -57,7 +57,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
             String photoPath = huaweiAccount.getAvatarUriString().isEmpty()
                     ? AppConstants.USER_PLACEHOLDER : huaweiAccount.getAvatarUriString();
-            Log.i("Alex", userId);
             User user = new User(userId, huaweiAccount.getDisplayName(), photoPath);
             ApplicationMoneySaver.setMainUser(user);
             Intent mainActIntent = new Intent(this, MainActivity.class);

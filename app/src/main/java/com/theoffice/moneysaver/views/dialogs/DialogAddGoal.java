@@ -20,6 +20,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.cloudinary.android.MediaManager;
 import com.google.android.material.textfield.TextInputLayout;
 import com.theoffice.moneysaver.ApplicationMoneySaver;
 import com.theoffice.moneysaver.R;
@@ -157,7 +158,36 @@ public class DialogAddGoal extends DialogFragment implements View.OnClickListene
     }
 
     private String getUploadPhotoUrl() {
-        //TODO Cargar imagen a cloudinary y obtener URL
+        //  TODO Se require el path de la imagen y que no solo sea sacar foto sino obtener una
+        // imagen de la galeria
+        /*String requestId = MediaManager.get().upload("imageFile.jpg")
+                 .unsigned("s4hf1hid")
+                 .callback(new UploadCallback() {
+           @Override
+           public void onStart(String requestId) {
+             // your code here
+           }
+           @Override
+           public void onProgress(String requestId, long bytes, long totalBytes) {
+                     // example code starts here
+             Double progress = (double) bytes/totalBytes;
+             // post progress to app UI (e.g. progress bar, notification)
+                     // example code ends here
+           }
+           @Override
+           public void onSuccess(String requestId, Map resultData) {
+              // your code here
+           }
+           @Override
+           public void onError(String requestId, ErrorInfo error) {
+              // your code here
+           }
+           @Override
+           public void onReschedule(String requestId, ErrorInfo error) {
+             // your code here
+         }})
+          .dispatch();
+         **/
         return "https://docs.mongodb.com/images/mongodb-logo.png";
     }
 
