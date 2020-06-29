@@ -49,31 +49,23 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void launchMainActivity(AuthHuaweiId huaweiAccount){
         MoneySaverRepository repository = MoneySaverRepository.getInstance();
         try {
-            if(!repository.validateUser(huaweiAccount.getUnionId())){
-                repository.createUser(huaweiAccount.getUnionId());
+            String userId;
+            if(repository.validateUser(huaweiAccount.getUnionId())){
+                userId = repository.getUserId(huaweiAccount.getUnionId());
+            }else{
+                userId = repository.createUser(huaweiAccount.getUnionId());
             }
-        } catch (IOException e) {
+            String photoPath = huaweiAccount.getAvatarUriString().isEmpty()
+                    ? AppConstants.USER_PLACEHOLDER : huaweiAccount.getAvatarUriString();
+            Log.i("Alex", userId);
+            User user = new User(userId, huaweiAccount.getDisplayName(), photoPath);
+            ApplicationMoneySaver.setMainUser(user);
+            Intent mainActIntent = new Intent(this, MainActivity.class);
+            startActivity(mainActIntent);
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
             Log.e(AppConstants.MONEY_SAVER_ERROR, "Error at validate user");
         }
-        //TODO Load goal list
-
-        String photoPath;
-
-        if (!huaweiAccount.getAvatarUriString().isEmpty()){
-            photoPath = huaweiAccount.getAvatarUriString();
-        }else {
-            photoPath = AppConstants.USER_PLACEHOLDER;
-        }
-
-        User user = new User(
-                huaweiAccount.getIdToken(),
-                huaweiAccount.getDisplayName(),
-                photoPath
-        );
-
-        ApplicationMoneySaver.setMainUser(user);
-        Intent mainActIntent = new Intent(this, MainActivity.class);
-        startActivity(mainActIntent);
     }
 
     private void loginWithHuaweiAccount() {

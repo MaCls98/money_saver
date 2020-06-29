@@ -149,7 +149,6 @@ public class DialogAddGoal extends DialogFragment implements View.OnClickListene
 
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                Log.d("RESPONSE", response.body().string());
                 viewModel.updateGoalsList();
                 ((MainActivity)getActivity()).changeFragment(AppConstants.MY_PROFILE);
                 dismiss();

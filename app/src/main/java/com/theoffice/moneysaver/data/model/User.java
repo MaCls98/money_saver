@@ -10,6 +10,10 @@ public class User implements Serializable {
     private String userPhotoUrl;
     private ArrayList<Goal> goalList;
 
+    public User() {
+
+    }
+
     public User(String userId, String userName, String userPhotoUrl) {
         this.userId = userId;
         this.userName = userName;

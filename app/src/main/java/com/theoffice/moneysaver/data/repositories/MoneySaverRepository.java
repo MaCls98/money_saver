@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.huawei.hms.support.hwid.result.AuthHuaweiId;
 import com.theoffice.moneysaver.ApplicationMoneySaver;
 import com.theoffice.moneysaver.data.model.Goal;
+import com.theoffice.moneysaver.data.model.User;
 import com.theoffice.moneysaver.utils.AppConstants;
 
 import org.jetbrains.annotations.NotNull;
@@ -18,6 +19,8 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -38,8 +41,9 @@ public class MoneySaverRepository {
         return repository;
     }
 
-    public boolean validateUser(String huaweiId) throws IOException {
-        final MutableLiveData<Boolean> result = new MutableLiveData<>();
+    public boolean validateUser(String huaweiId) throws IOException, InterruptedException {
+        final AtomicBoolean result = new AtomicBoolean();
+        final CountDownLatch countDownLatch = new CountDownLatch(1);
         HttpUrl url = HttpUrl.parse(AppConstants.BASE_URL + AppConstants.VALIDATE_USER_URL).newBuilder()
                 .addQueryParameter("huaweiUserId", huaweiId)
                 .build();
@@ -47,22 +51,23 @@ public class MoneySaverRepository {
                 .url(url)
                 .build();
         ApplicationMoneySaver.getOkHttpClient().newCall(request).enqueue(new Callback() {
-
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response){
-                result.postValue(response.isSuccessful());
+                result.set(true);
+                countDownLatch.countDown();
             }
-
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
-
+                countDownLatch.countDown();
             }
         });
-        return Boolean.TRUE.equals(result.getValue());
+        countDownLatch.await();
+        return result.get();
     }
 
-    public String createUser(String huaweiAccountId)  {
-        final MutableLiveData<String> result = new MutableLiveData<>();
+    public String createUser(String huaweiAccountId) throws InterruptedException {
+        final User result = new User();
+        final CountDownLatch countDownLatch = new CountDownLatch(1);
         HttpUrl url = HttpUrl.parse(AppConstants.BASE_URL + AppConstants.CREATE_USER_URL).newBuilder()
                 .build();
         RequestBody formBody = new FormBody.Builder()
@@ -73,26 +78,57 @@ public class MoneySaverRepository {
                 .post(formBody)
                 .build();
         ApplicationMoneySaver.getOkHttpClient().newCall(request).enqueue(new Callback() {
-
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 String strResponse = response.body().string();
                 try {
                     JSONObject jsonResponse = new JSONObject(strResponse);
-                    result.postValue(jsonResponse.getString("mongoId"));
+                    result.setUserId(jsonResponse.getString("mongoId"));
+                    countDownLatch.countDown();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
-
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                countDownLatch.countDown();
             }
         });
-        return result.getValue();
+        countDownLatch.await();
+        return result.getUserId();
     }
 
-    public MutableLiveData<ArrayList<Goal>> getGoals(String stringUrl, String userId){
+    public String getUserId(String huaweiId) throws IOException, InterruptedException {
+        final User result = new User();
+        final CountDownLatch countDownLatch = new CountDownLatch(1);
+        HttpUrl url = HttpUrl.parse(AppConstants.BASE_URL + AppConstants.GET_USER__ID_URL).newBuilder()
+                .addQueryParameter("huaweiUserId", huaweiId)
+                .build();
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+        ApplicationMoneySaver.getOkHttpClient().newCall(request).enqueue(new Callback() {
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                String strResponse = response.body().string();
+                try {
+                    JSONObject jsonResponse = new JSONObject(strResponse);
+                    result.setUserId((String)(((JSONObject) jsonResponse.get("user")).get("_id")));
+                    countDownLatch.countDown();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                countDownLatch.countDown();
+            }
+        });
+        countDownLatch.await();
+        return result.getUserId();
+    }
+
+    public MutableLiveData<ArrayList<Goal>> getGoals(final String stringUrl, String userId){
         final MutableLiveData<ArrayList<Goal>> goalsData = new MutableLiveData<>();
         goalsData.postValue(new ArrayList<Goal>());
 
@@ -113,7 +149,9 @@ public class MoneySaverRepository {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 try {
+                    Log.i("Alex", response.body().toString());
                     String strResponse = response.body().string();
+
                     JSONObject jsonResponse = new JSONObject(strResponse);
                     JSONArray goals = jsonResponse.getJSONArray("goals");
                     ArrayList<Goal> tmpGoals = new ArrayList<>();

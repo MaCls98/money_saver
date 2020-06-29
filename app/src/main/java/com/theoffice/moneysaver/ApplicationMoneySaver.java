@@ -19,8 +19,6 @@ public class ApplicationMoneySaver extends Application {
 
     public static void setMainUser(User mainUser) {
         ApplicationMoneySaver.mainUser = mainUser;
-        //TODO Remover seteo cuando se trabaje con usuarios reales
-        ApplicationMoneySaver.mainUser.setUserId("5ef00cbb4de149bdd14c0c5d");
     }
 
     public static OkHttpClient getOkHttpClient(){
