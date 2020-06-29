@@ -52,6 +52,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             String userId;
             if(repository.validateUser(huaweiAccount.getUnionId())){
                 userId = repository.getUserId(huaweiAccount.getUnionId());
+
             }else{
                 userId = repository.createUser(huaweiAccount.getUnionId());
             }

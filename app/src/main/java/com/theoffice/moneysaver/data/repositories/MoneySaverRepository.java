@@ -53,7 +53,7 @@ public class MoneySaverRepository {
         ApplicationMoneySaver.getOkHttpClient().newCall(request).enqueue(new Callback() {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response){
-                result.set(true);
+                result.set(response.isSuccessful());
                 countDownLatch.countDown();
             }
             @Override
