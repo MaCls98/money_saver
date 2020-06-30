@@ -113,6 +113,7 @@ public class MoneySaverRepository {
                 String strResponse = response.body().string();
                 try {
                     JSONObject jsonResponse = new JSONObject(strResponse);
+                    Log.d("RESPONSE", jsonResponse.get("user").toString());
                     result.setUserId((String)(((JSONObject) jsonResponse.get("user")).get("_id")));
                     countDownLatch.countDown();
                 } catch (JSONException e) {
@@ -168,7 +169,6 @@ public class MoneySaverRepository {
                                 new String[]{"1", "2", "3"},
                                 jsonGoal.getInt("contributionsCount")
                         );
-                        Log.d("GOAL", goal.toString());
                         tmpGoals.add(goal);
                     }
                     goalsData.postValue(tmpGoals);

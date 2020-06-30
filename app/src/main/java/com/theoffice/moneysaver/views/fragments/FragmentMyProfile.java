@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,6 +34,7 @@ public class FragmentMyProfile extends Fragment {
     private RecyclerView rvMyProfile;
     private ProfileRVAdapter rvAdapter;
     private ProgressBar pbGoals;
+    private TextView tvNoGoalsMeesage;
 
     @Nullable
     @Override
@@ -41,7 +43,8 @@ public class FragmentMyProfile extends Fragment {
 
         rvMyProfile = v.findViewById(R.id.rv_my_profile);
         pbGoals = v.findViewById(R.id.pb_loading_goals);
-        final User user = ApplicationMoneySaver.getMainUser();
+        tvNoGoalsMeesage = v.findViewById(R.id.tv_no_goals) ;
+        User user = ApplicationMoneySaver.getMainUser();
         rvAdapter = new ProfileRVAdapter(getActivity(),
                 user);
 
@@ -65,19 +68,18 @@ public class FragmentMyProfile extends Fragment {
             @Override
             public void onLikeClick(int position) {
                 //TODO Dar like a la meta
-                Goal goal = user.getGoalList().get(position -1);
+
             }
 
             @Override
             public void onImageClick(int position) {
-                Goal goal = user.getGoalList().get(position -1);
-                launchGoalDialog(goal);
+                launchGoalDialog(position - 1);
             }
 
             @Override
             public void onDeleteClick(int position) {
                 //TODO Eliminar meta
-                Goal goal = user.getGoalList().get(position -1);
+
             }
         });
         rvMyProfile.setLayoutManager(layoutManager);
@@ -86,10 +88,10 @@ public class FragmentMyProfile extends Fragment {
         return v;
     }
 
-    private void launchGoalDialog(Goal goal) {
+    private void launchGoalDialog(int goal) {
         DialogShowGoal dialogShowGoal = new DialogShowGoal();
         Bundle bundle = new Bundle();
-        bundle.putSerializable("goal", goal);
+        bundle.putInt("goal", goal);
         dialogShowGoal.setArguments(bundle);
         dialogShowGoal.show(getParentFragmentManager(), dialogShowGoal.getTag());
     }
@@ -102,8 +104,13 @@ public class FragmentMyProfile extends Fragment {
         viewModel.getGoalMutableLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<Goal>>() {
             @Override
             public void onChanged(ArrayList<Goal> goals) {
+                Log.d("GOAL", "Detectado en fragment");
                 if (goals.size() > 0){
                     pbGoals.setVisibility(View.GONE);
+                    tvNoGoalsMeesage.setVisibility(View.GONE);
+                }else {
+                    goals.size();
+                    tvNoGoalsMeesage.setVisibility(View.VISIBLE);
                 }
                 ApplicationMoneySaver.getMainUser().setGoalList(goals);
                 rvAdapter.notifyDataSetChanged();

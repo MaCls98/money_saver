@@ -1,5 +1,7 @@
 package com.theoffice.moneysaver.viewmodels;
 
+import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -29,6 +31,18 @@ public class ProfileViewModel extends ViewModel {
         goalMutableLiveData =
                 repository.getGoals(AppConstants.BASE_URL + AppConstants.GOALS_URL,
                         ApplicationMoneySaver.getMainUser().getUserId());
+    }
+
+    public void updateGoal(Goal goal){
+        ArrayList<Goal> tmpGoalList = goalMutableLiveData.getValue();
+        for (int i = 0; i < tmpGoalList.size(); i++) {
+            Goal tmpGoal = tmpGoalList.get(i);
+            if (tmpGoal.getGoalId().equals(goal.getGoalId())){
+                Log.d("GOAL", "iguales");
+                tmpGoalList.get(i).setContributionCount(goal.getContributionCount());
+            }
+        }
+        goalMutableLiveData.postValue(tmpGoalList);
     }
 
     public MutableLiveData<ArrayList<Goal>> getGoalMutableLiveData() {

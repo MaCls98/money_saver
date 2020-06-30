@@ -8,6 +8,7 @@ public final class AppConstants {
     public static final String BASE_URL = "https://money-saver.vercel.app";
     public static final String GOALS_URL = "/api/goals";
     public static final String ADD_GOAL_URL = "/api/addGoal";
+    public static final String ADD_CONTRIBUTION = "/api/addContribution";
     public static final String VALIDATE_USER_URL = "/api/validateUser";
     public static final String CREATE_USER_URL = "/api/addUser";
     public static final String GET_USER__ID_URL = "/api/userId";

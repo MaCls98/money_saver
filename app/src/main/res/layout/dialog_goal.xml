@@ -1,101 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cl_add_goal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="8dp"
-    android:layout_marginTop="8dp"
-    android:layout_marginEnd="8dp"
-    app:cardCornerRadius="6dp"
-    app:cardElevation="6dp">
+    android:background="@android:color/transparent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:cardCornerRadius="6dp"
+        app:cardElevation="6dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
 
-        <TextView
-            android:id="@+id/tv_goal_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="16dp"
-            android:text="Nombre Aqui"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/tv_goal_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="8dp"
+                android:text="Nombre Aqui"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/tv_goal_actual_money"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Valor aqui"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_goal_name"
-            app:layout_constraintEnd_toEndOf="@+id/iv_goal_photo"
-            app:layout_constraintTop_toTopOf="@+id/tv_goal_name" />
+            <TextView
+                android:id="@+id/tv_goal_actual_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Valor aqui"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_goal_name"
+                app:layout_constraintEnd_toEndOf="@+id/iv_goal_photo"
+                app:layout_constraintTop_toTopOf="@+id/tv_goal_name" />
 
-        <TextView
-            android:id="@+id/tv_goal_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Fecha Aqui"
-            android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="@+id/iv_goal_photo"
-            app:layout_constraintTop_toBottomOf="@+id/iv_goal_photo" />
+            <TextView
+                android:id="@+id/tv_goal_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Fecha Aqui"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="@+id/iv_goal_photo"
+                app:layout_constraintTop_toBottomOf="@+id/iv_goal_photo" />
 
-        <ImageView
-            android:id="@+id/iv_goal_photo"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="24dp"
-            android:background="@color/colorAccent"
-            android:scaleType="fitCenter"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_goal_name" />
+            <ImageView
+                android:id="@+id/iv_goal_photo"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="24dp"
+                android:background="@color/colorAccent"
+                android:scaleType="centerCrop"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_goal_name" />
 
-        <ImageButton
-            android:id="@+id/ib_like_goal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:tint="@android:color/darker_gray"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_goal_likes"
-            app:layout_constraintEnd_toEndOf="@+id/iv_goal_photo"
-            app:layout_constraintTop_toTopOf="@+id/tv_goal_likes"
-            app:srcCompat="@drawable/like_icon" />
+            <ImageButton
+                android:id="@+id/ib_like_goal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:tint="@android:color/darker_gray"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_goal_likes"
+                app:layout_constraintEnd_toEndOf="@+id/iv_goal_photo"
+                app:layout_constraintTop_toTopOf="@+id/tv_goal_likes"
+                app:srcCompat="@drawable/like_icon" />
 
-        <TextView
-            android:id="@+id/tv_goal_likes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:drawableTint="@android:color/darker_gray"
-            android:text="Total likes"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_goal_contribution"
-            app:layout_constraintEnd_toStartOf="@+id/ib_like_goal"
-            app:layout_constraintTop_toTopOf="@+id/tv_goal_contribution" />
+            <TextView
+                android:id="@+id/tv_goal_likes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:drawableTint="@android:color/darker_gray"
+                android:text="Total likes"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_goal_contribution"
+                app:layout_constraintEnd_toStartOf="@+id/ib_like_goal"
+                app:layout_constraintTop_toTopOf="@+id/tv_goal_contribution" />
 
-        <TextView
-            android:id="@+id/tv_goal_contribution"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="16dp"
-            android:text="Cantidad de contribuciones"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/tv_goal_date"
-            app:layout_constraintTop_toBottomOf="@+id/tv_goal_date" />
+            <TextView
+                android:id="@+id/tv_goal_contribution"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="Cantidad de contribuciones"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/tv_goal_date"
+                app:layout_constraintTop_toBottomOf="@+id/tv_goal_date" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.cardview.widget.CardView>
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/btn_add_contribution"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/add_contribution"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/cardView"
+        app:layout_constraintStart_toStartOf="@+id/cardView"
+        app:layout_constraintTop_toBottomOf="@+id/cardView" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,7 @@
 package com.theoffice.moneysaver.data.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Goal implements Serializable {
@@ -26,10 +27,42 @@ public class Goal implements Serializable {
         this.goalLikes = goalLikes;
         this.contributionCount = contributionCount;
     }
-    /*
-    public void addContribution(Contribution contribution){
-        contributionList.add(contribution);
-    }*/
+
+    public void setGoalId(String goalId) {
+        this.goalId = goalId;
+    }
+
+    public void setGoalName(String goalName) {
+        this.goalName = goalName;
+    }
+
+    public void setGoalCost(int goalCost) {
+        this.goalCost = goalCost;
+    }
+
+    public void setGoalActualMoney(int goalActualMoney) {
+        this.goalActualMoney = goalActualMoney;
+    }
+
+    public void setGoalDate(String goalDate) {
+        this.goalDate = goalDate;
+    }
+
+    public void setGoalStatus(String goalStatus) {
+        this.goalStatus = goalStatus;
+    }
+
+    public void setGoalLikes(String[] goalLikes) {
+        this.goalLikes = goalLikes;
+    }
+
+    public void setContributionCount(int contributionCount) {
+        this.contributionCount = contributionCount;
+    }
+
+    public void setGoalPhotoPath(String goalPhotoPath) {
+        this.goalPhotoPath = goalPhotoPath;
+    }
 
     public int getContributionCount() {
         return contributionCount;
@@ -78,5 +111,13 @@ public class Goal implements Serializable {
                 ", goalLikes=" + Arrays.toString(goalLikes) +
                 ", contributionCount=" + contributionCount +
                 '}';
+    }
+
+    public void increaseContribution() {
+        this.contributionCount++;
+    }
+
+    public void increaseActualMoney(int money){
+        this.goalActualMoney += money;
     }
 }

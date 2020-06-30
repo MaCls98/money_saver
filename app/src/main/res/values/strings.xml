@@ -16,4 +16,6 @@
     <string name="please_complete_empty_input">Por favor completa este campo</string>
     <string name="please_choose_photo_goal">Por favor selecciona una foto para tu meta</string>
     <string name="start_menu">Inicio</string>
+    <string name="add_contribution">Agregar Aporte</string>
+    <string name="no_goals_message">Empieza a crear metas para visualizarlas aqui</string>
 </resources>

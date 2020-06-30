@@ -2,21 +2,21 @@ package com.theoffice.moneysaver.data.model;
 
 public class Contribution {
 
-    private int contributionId;
-    private String contributionValue;
+    private String contributionId;
+    private int contributionValue;
     private String contributionDate;
 
-    public Contribution(int contributionId, String contributionValue, String contributionDate) {
+    public Contribution(String contributionId, int contributionValue, String contributionDate) {
         this.contributionId = contributionId;
         this.contributionValue = contributionValue;
         this.contributionDate = contributionDate;
     }
 
-    public int getContributionId() {
+    public String getContributionId() {
         return contributionId;
     }
 
-    public String getContributionValue() {
+    public int getContributionValue() {
         return contributionValue;
     }
 

@@ -1,14 +1,20 @@
 package com.theoffice.moneysaver.views.dialogs;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -17,10 +23,13 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.cloudinary.android.MediaManager;
+import com.cloudinary.android.callback.ErrorInfo;
+import com.cloudinary.android.callback.UploadCallback;
 import com.google.android.material.textfield.TextInputLayout;
 import com.theoffice.moneysaver.ApplicationMoneySaver;
 import com.theoffice.moneysaver.R;
@@ -41,6 +50,8 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import okhttp3.Call;
@@ -118,16 +129,12 @@ public class DialogAddGoal extends DialogFragment implements View.OnClickListene
                     new String[]{},
                     0
             );
-            try {
-                uploadNewGoal(newGoal);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            uploadPhoto(newGoal);
         }
         isGoalComplete = 0;
     }
 
-    private void uploadNewGoal(Goal newGoal) throws JSONException {
+    private void uploadNewGoal(final Goal newGoal) throws JSONException {
         User user = ApplicationMoneySaver.getMainUser();
         JSONObject goalObject = new JSONObject();
         goalObject.put("userId", user.getUserId());
@@ -135,7 +142,7 @@ public class DialogAddGoal extends DialogFragment implements View.OnClickListene
             .put("description", newGoal.getGoalName())
             .put("start_date", newGoal.getGoalDate())
             .put("cost", newGoal.getGoalCost())
-            .put("image", getUploadPhotoUrl()));
+            .put("image", newGoal.getGoalPhotoPath()));
 
         RequestBody body = RequestBody.create(String.valueOf(goalObject), AppConstants.JSON);
         Request request = new Request.Builder()
@@ -151,44 +158,53 @@ public class DialogAddGoal extends DialogFragment implements View.OnClickListene
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 viewModel.updateGoalsList();
+                new File(newGoal.getGoalPhotoPath()).delete();
                 ((MainActivity)getActivity()).changeFragment(AppConstants.MY_PROFILE);
                 dismiss();
             }
         });
     }
 
-    private String getUploadPhotoUrl() {
-        //  TODO Se require el path de la imagen y que no solo sea sacar foto sino obtener una
-        // imagen de la galeria
-        /*String requestId = MediaManager.get().upload("imageFile.jpg")
-                 .unsigned("s4hf1hid")
-                 .callback(new UploadCallback() {
-           @Override
-           public void onStart(String requestId) {
-             // your code here
-           }
-           @Override
-           public void onProgress(String requestId, long bytes, long totalBytes) {
-                     // example code starts here
-             Double progress = (double) bytes/totalBytes;
-             // post progress to app UI (e.g. progress bar, notification)
-                     // example code ends here
-           }
-           @Override
-           public void onSuccess(String requestId, Map resultData) {
-              // your code here
-           }
-           @Override
-           public void onError(String requestId, ErrorInfo error) {
-              // your code here
-           }
-           @Override
-           public void onReschedule(String requestId, ErrorInfo error) {
-             // your code here
-         }})
-          .dispatch();
-         **/
-        return "https://docs.mongodb.com/images/mongodb-logo.png";
+    private void uploadPhoto(final Goal newGoal) {
+        //  TODO Que no solo sea sacar foto sino obtener una imagen de la galeria
+
+        Map config = new HashMap();
+        config.put("cloud_name", AppConstants.CLOUDINARY_NAME);
+        MediaManager.init(getActivity(), config);
+
+        String requestId = MediaManager.get().upload(goalPhotoPath)
+                .unsigned("s4hf1hid")
+                .callback(new UploadCallback() {
+                    @Override
+                    public void onStart(String requestId) {
+                        // your code here
+                    }
+                    @Override
+                    public void onProgress(String requestId, long bytes, long totalBytes) {
+                        // example code starts here
+                        Double progress = (double) bytes/totalBytes;
+                        // post progress to app UI (e.g. progress bar, notification)
+                        // example code ends here
+                    }
+                    @Override
+                    public void onSuccess(String requestId, Map resultData) {
+                        // your code here
+                        newGoal.setGoalPhotoPath(resultData.get("secure_url").toString());
+                        try {
+                            uploadNewGoal(newGoal);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    @Override
+                    public void onError(String requestId, ErrorInfo error) {
+                        MyToast.showLongToast("Ocurrio un error cargando tu meta, por favor vuelve a intentarlo", getContext());
+                    }
+                    @Override
+                    public void onReschedule(String requestId, ErrorInfo error) {
+                        // your code here
+                    }})
+                .dispatch();
     }
 
     private void setGoalValues(String goalConst){
@@ -307,17 +323,16 @@ public class DialogAddGoal extends DialogFragment implements View.OnClickListene
         toolbar.inflateMenu(R.menu.dialog_goal_menu);
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setStyle(STYLE_NORMAL, R.style.AppTheme_FullScreenDialog);
-
-    }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.dialog_add_goal, container, false);
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setStyle(STYLE_NORMAL, R.style.AppTheme_FullScreenDialog);
     }
 
     @Override
