@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mainAppBar = findViewById(R.id.bottom_app_bar);
+        mainAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_END);
         btnAddGoal = findViewById(R.id.btn_add_goal);
 
         MyToast.showShortToast("Bienvenido " + ApplicationMoneySaver.getMainUser().getUserName(), this);

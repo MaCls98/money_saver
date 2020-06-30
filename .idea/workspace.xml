@@ -10,24 +10,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c43655ac-8eb3-49d0-88af-a8738d9e0e9b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/theoffice/moneysaver/views/dialogs/DialogAddContribution.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/dialog_add_contribution.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/theoffice/moneysaver/data/model/Contribution.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/theoffice/moneysaver/data/model/Contribution.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/theoffice/moneysaver/data/model/Goal.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/theoffice/moneysaver/data/model/Goal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/theoffice/moneysaver/data/repositories/MoneySaverRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/theoffice/moneysaver/data/repositories/MoneySaverRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/theoffice/moneysaver/views/dialogs/DialogGoalContributions.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/dialog_goal_contributions.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/theoffice/moneysaver/utils/AppConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/theoffice/moneysaver/utils/AppConstants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/theoffice/moneysaver/utils/MyFileUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/theoffice/moneysaver/utils/MyFileUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/theoffice/moneysaver/viewmodels/ProfileViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/theoffice/moneysaver/viewmodels/ProfileViewModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/theoffice/moneysaver/views/activities/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/theoffice/moneysaver/views/activities/MainActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/theoffice/moneysaver/views/dialogs/DialogAddGoal.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/theoffice/moneysaver/views/dialogs/DialogAddGoal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/theoffice/moneysaver/views/dialogs/DialogAddContribution.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/theoffice/moneysaver/views/dialogs/DialogAddContribution.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/theoffice/moneysaver/views/dialogs/DialogShowGoal.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/theoffice/moneysaver/views/dialogs/DialogShowGoal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/theoffice/moneysaver/views/fragments/FragmentMyProfile.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/theoffice/moneysaver/views/fragments/FragmentMyProfile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/card_view_mini_goal.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/card_view_mini_goal.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/dialog_add_goal.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/dialog_add_goal.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/dialog_goal.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/dialog_goal.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/dialog_add_contribution.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/dialog_add_contribution.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_my_profile.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_my_profile.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,8 +48,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="resourceFile" />
-        <option value="layoutResourceFile" />
         <option value="Class" />
+        <option value="layoutResourceFile" />
       </list>
     </option>
   </component>
@@ -223,7 +215,14 @@
       <option name="project" value="LOCAL" />
       <updated>1593370357009</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Se agrego un dialogo para sumar contribuciones a las metas, se mejoraron problemas de interfaz y se corrigio la variable mutable del Viewmodel junto con sus observers">
+      <created>1593500302424</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1593500302426</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -238,7 +237,8 @@
     <MESSAGE value="Se integro el servicio para agregar metas desde el perfil" />
     <MESSAGE value="Se cambio la interfaz de las metas y se muestra la foto de perfil de la cuenta de huawei" />
     <MESSAGE value="Se agrego un dialogo para visualizar las metas de manera detallada" />
-    <option name="LAST_COMMIT_MESSAGE" value="Se agrego un dialogo para visualizar las metas de manera detallada" />
+    <MESSAGE value="Se agrego un dialogo para sumar contribuciones a las metas, se mejoraron problemas de interfaz y se corrigio la variable mutable del Viewmodel junto con sus observers" />
+    <option name="LAST_COMMIT_MESSAGE" value="Se agrego un dialogo para sumar contribuciones a las metas, se mejoraron problemas de interfaz y se corrigio la variable mutable del Viewmodel junto con sus observers" />
   </component>
   <component name="WindowStateProjectService">
     <state x="416" y="141" width="524" height="479" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog" timestamp="1593492984289">
@@ -279,11 +279,11 @@
       <screen x="1366" y="0" width="1440" height="900" />
     </state>
     <state x="1819" y="199" width="524" height="495" key="#com.intellij.refactoring.typeMigration.ui.FailedConversionsDialog/0.132.1366.768/1366.0.1440.900@1366.0.1440.900" timestamp="1593327122488" />
-    <state x="287" y="177" width="824" height="479" key="AndroidCreateResourceFileDialog" timestamp="1593490348810">
+    <state x="287" y="177" width="824" height="479" key="AndroidCreateResourceFileDialog" timestamp="1593500575555">
       <screen x="0" y="0" width="1366" height="768" />
     </state>
     <state x="1669" y="207" width="824" height="479" key="AndroidCreateResourceFileDialog/0.0.1366.768/1366.0.1440.900@1366.0.1440.900" timestamp="1592972257339" />
-    <state x="287" y="177" key="AndroidCreateResourceFileDialog/0.0.1366.768@0.0.1366.768" timestamp="1593490348810" />
+    <state x="287" y="177" width="824" height="479" key="AndroidCreateResourceFileDialog/0.0.1366.768@0.0.1366.768" timestamp="1593500575555" />
     <state x="1669" y="207" width="824" height="479" key="AndroidCreateResourceFileDialog/0.132.1366.768/1366.0.1440.900@1366.0.1440.900" timestamp="1593316997517" />
     <state x="547" y="226" width="276" height="310" key="AndroidCreateXmlResourceDialog" timestamp="1593499199965">
       <screen x="0" y="0" width="1366" height="768" />
@@ -291,9 +291,10 @@
     <state x="1943" y="265" width="276" height="363" key="AndroidCreateXmlResourceDialog/0.0.1366.768/1366.0.1440.900@1366.0.1440.900" timestamp="1592918455207" />
     <state x="547" y="226" width="276" height="310" key="AndroidCreateXmlResourceDialog/0.0.1366.768@0.0.1366.768" timestamp="1593499199965" />
     <state x="1943" y="265" key="AndroidCreateXmlResourceDialog/0.132.1366.768/1366.0.1440.900@1366.0.1440.900" timestamp="1593190056378" />
-    <state x="326" y="175" width="741" height="793" key="CommitChangelistDialog2" timestamp="1593370355604">
-      <screen x="0" y="132" width="1366" height="768" />
+    <state x="326" y="0" width="741" height="768" key="CommitChangelistDialog2" timestamp="1593500302153">
+      <screen x="0" y="0" width="1366" height="768" />
     </state>
+    <state x="326" y="0" width="741" height="768" key="CommitChangelistDialog2/0.0.1366.768@0.0.1366.768" timestamp="1593500302153" />
     <state x="326" y="175" key="CommitChangelistDialog2/0.132.1366.768/1366.0.1440.900@0.132.1366.768" timestamp="1593370355604" />
     <state x="1710" y="50" width="741" height="793" key="CommitChangelistDialog2/0.132.1366.768/1366.0.1440.900@1366.0.1440.900" timestamp="1593323558748" />
     <state x="1868" y="179" width="424" height="479" key="FileChooserDialogImpl" timestamp="1593284145786">
@@ -309,49 +310,53 @@
       <screen x="1366" y="0" width="1440" height="900" />
     </state>
     <state x="1832" y="159" width="498" height="575" key="Github.UntrackedFilesDialog/0.132.1366.768/1366.0.1440.900@1366.0.1440.900" timestamp="1593138793169" />
-    <state width="1324" height="214" key="GridCell.Tab.0.bottom" timestamp="1593499525489">
+    <state width="1324" height="214" key="GridCell.Tab.0.bottom" timestamp="1593502662552">
       <screen x="0" y="0" width="1366" height="768" />
     </state>
     <state width="1398" height="287" key="GridCell.Tab.0.bottom/0.0.1366.768/1366.0.1440.900@1366.0.1440.900" timestamp="1592977198990" />
-    <state width="1324" height="214" key="GridCell.Tab.0.bottom/0.0.1366.768@0.0.1366.768" timestamp="1593499525489" />
+    <state width="1324" height="214" key="GridCell.Tab.0.bottom/0.0.1366.768@0.0.1366.768" timestamp="1593502662552" />
     <state width="1398" height="245" key="GridCell.Tab.0.bottom/0.132.1366.768/1366.0.1440.900@1366.0.1440.900" timestamp="1593332201319" />
-    <state width="1324" height="214" key="GridCell.Tab.0.center" timestamp="1593499525489">
+    <state width="1324" height="214" key="GridCell.Tab.0.center" timestamp="1593502662551">
       <screen x="0" y="0" width="1366" height="768" />
     </state>
     <state width="1398" height="287" key="GridCell.Tab.0.center/0.0.1366.768/1366.0.1440.900@1366.0.1440.900" timestamp="1592977198989" />
-    <state width="1324" height="214" key="GridCell.Tab.0.center/0.0.1366.768@0.0.1366.768" timestamp="1593499525489" />
+    <state width="1324" height="214" key="GridCell.Tab.0.center/0.0.1366.768@0.0.1366.768" timestamp="1593502662551" />
     <state width="1398" height="245" key="GridCell.Tab.0.center/0.132.1366.768/1366.0.1440.900@1366.0.1440.900" timestamp="1593332201318" />
-    <state width="1324" height="214" key="GridCell.Tab.0.left" timestamp="1593499525488">
+    <state width="1324" height="214" key="GridCell.Tab.0.left" timestamp="1593502662550">
       <screen x="0" y="0" width="1366" height="768" />
     </state>
     <state width="1398" height="287" key="GridCell.Tab.0.left/0.0.1366.768/1366.0.1440.900@1366.0.1440.900" timestamp="1592977198989" />
-    <state width="1324" height="214" key="GridCell.Tab.0.left/0.0.1366.768@0.0.1366.768" timestamp="1593499525488" />
+    <state width="1324" height="214" key="GridCell.Tab.0.left/0.0.1366.768@0.0.1366.768" timestamp="1593502662550" />
     <state width="1398" height="245" key="GridCell.Tab.0.left/0.132.1366.768/1366.0.1440.900@1366.0.1440.900" timestamp="1593332201318" />
-    <state width="1324" height="214" key="GridCell.Tab.0.right" timestamp="1593499525489">
+    <state width="1324" height="214" key="GridCell.Tab.0.right" timestamp="1593502662552">
       <screen x="0" y="0" width="1366" height="768" />
     </state>
     <state width="1398" height="287" key="GridCell.Tab.0.right/0.0.1366.768/1366.0.1440.900@1366.0.1440.900" timestamp="1592977198990" />
-    <state width="1324" height="214" key="GridCell.Tab.0.right/0.0.1366.768@0.0.1366.768" timestamp="1593499525489" />
+    <state width="1324" height="214" key="GridCell.Tab.0.right/0.0.1366.768@0.0.1366.768" timestamp="1593502662552" />
     <state width="1398" height="245" key="GridCell.Tab.0.right/0.132.1366.768/1366.0.1440.900@1366.0.1440.900" timestamp="1593332201318" />
-    <state width="1398" height="285" key="GridCell.Tab.1.bottom" timestamp="1593321204459">
-      <screen x="1366" y="0" width="1440" height="900" />
+    <state width="1324" height="232" key="GridCell.Tab.1.bottom" timestamp="1593502016482">
+      <screen x="0" y="0" width="1366" height="768" />
     </state>
     <state width="1398" height="285" key="GridCell.Tab.1.bottom/0.0.1366.768/1366.0.1440.900@1366.0.1440.900" timestamp="1592916560389" />
+    <state width="1324" height="232" key="GridCell.Tab.1.bottom/0.0.1366.768@0.0.1366.768" timestamp="1593502016482" />
     <state width="1398" height="285" key="GridCell.Tab.1.bottom/0.132.1366.768/1366.0.1440.900@1366.0.1440.900" timestamp="1593321204459" />
-    <state width="1398" height="285" key="GridCell.Tab.1.center" timestamp="1593321204459">
-      <screen x="1366" y="0" width="1440" height="900" />
+    <state width="1324" height="232" key="GridCell.Tab.1.center" timestamp="1593502016481">
+      <screen x="0" y="0" width="1366" height="768" />
     </state>
     <state width="1398" height="285" key="GridCell.Tab.1.center/0.0.1366.768/1366.0.1440.900@1366.0.1440.900" timestamp="1592916560389" />
+    <state width="1324" height="232" key="GridCell.Tab.1.center/0.0.1366.768@0.0.1366.768" timestamp="1593502016481" />
     <state width="1398" height="285" key="GridCell.Tab.1.center/0.132.1366.768/1366.0.1440.900@1366.0.1440.900" timestamp="1593321204459" />
-    <state width="1398" height="285" key="GridCell.Tab.1.left" timestamp="1593321204458">
-      <screen x="1366" y="0" width="1440" height="900" />
+    <state width="1324" height="232" key="GridCell.Tab.1.left" timestamp="1593502016481">
+      <screen x="0" y="0" width="1366" height="768" />
     </state>
     <state width="1398" height="285" key="GridCell.Tab.1.left/0.0.1366.768/1366.0.1440.900@1366.0.1440.900" timestamp="1592916560389" />
+    <state width="1324" height="232" key="GridCell.Tab.1.left/0.0.1366.768@0.0.1366.768" timestamp="1593502016481" />
     <state width="1398" height="285" key="GridCell.Tab.1.left/0.132.1366.768/1366.0.1440.900@1366.0.1440.900" timestamp="1593321204458" />
-    <state width="1398" height="285" key="GridCell.Tab.1.right" timestamp="1593321204459">
-      <screen x="1366" y="0" width="1440" height="900" />
+    <state width="1324" height="232" key="GridCell.Tab.1.right" timestamp="1593502016481">
+      <screen x="0" y="0" width="1366" height="768" />
     </state>
     <state width="1398" height="285" key="GridCell.Tab.1.right/0.0.1366.768/1366.0.1440.900@1366.0.1440.900" timestamp="1592916560389" />
+    <state width="1324" height="232" key="GridCell.Tab.1.right/0.0.1366.768@0.0.1366.768" timestamp="1593502016481" />
     <state width="1398" height="285" key="GridCell.Tab.1.right/0.132.1366.768/1366.0.1440.900@1366.0.1440.900" timestamp="1593321204459" />
     <state x="1669" y="195" width="824" height="503" key="IDE.errors.dialog" timestamp="1592798842011">
       <screen x="1366" y="0" width="1440" height="900" />
@@ -369,9 +374,10 @@
       <screen x="1366" y="0" width="1440" height="900" />
     </state>
     <state x="1590" y="84" key="SettingsEditor/0.132.1366.768/1366.0.1440.900@1366.0.1440.900" timestamp="1593139464190" />
-    <state x="299" y="290" width="800" height="523" key="Vcs.Push.Dialog.v2" timestamp="1593370360312">
-      <screen x="0" y="132" width="1366" height="768" />
+    <state x="299" y="158" width="800" height="523" key="Vcs.Push.Dialog.v2" timestamp="1593500305868">
+      <screen x="0" y="0" width="1366" height="768" />
     </state>
+    <state x="299" y="158" key="Vcs.Push.Dialog.v2/0.0.1366.768@0.0.1366.768" timestamp="1593500305868" />
     <state x="299" y="290" key="Vcs.Push.Dialog.v2/0.132.1366.768/1366.0.1440.900@0.132.1366.768" timestamp="1593370360312" />
     <state x="1681" y="185" width="800" height="523" key="Vcs.Push.Dialog.v2/0.132.1366.768/1366.0.1440.900@1366.0.1440.900" timestamp="1593323563049" />
     <state x="490" y="315" width="395" height="155" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1593482426152">
@@ -424,16 +430,5 @@
     <state x="1749" y="193" width="672" height="678" key="search.everywhere.popup/0.0.1366.768/1366.0.1440.900@1366.0.1440.900" timestamp="1592970637196" />
     <state x="363" y="165" width="672" height="579" key="search.everywhere.popup/0.0.1366.768@0.0.1366.768" timestamp="1593485076252" />
     <state x="1749" y="193" width="672" height="678" key="search.everywhere.popup/0.132.1366.768/1366.0.1440.900@1366.0.1440.900" timestamp="1593287523231" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/theoffice/moneysaver/views/dialogs/DialogAddGoal.java</url>
-          <line>131</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

@@ -66,7 +66,10 @@ public class DialogAddContribution extends DialogFragment {
         btnAddContribution.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (tilMoney.getEditText().getText().length() > 0){
+                if (tilMoney.getEditText().getText().toString().length() > 0
+                        &&
+                        Integer.parseInt(tilMoney.getEditText().getText().toString()) > 0)
+                {
                     tilMoney.setErrorEnabled(false);
                     int value = Integer.parseInt(tilMoney.getEditText().getText().toString());
                     if ( (goal.getGoalActualMoney() + value) > goal.getGoalCost() ){
@@ -88,6 +91,7 @@ public class DialogAddContribution extends DialogFragment {
     }
 
     private void uploadNewContribution() throws JSONException {
+        btnAddContribution.setEnabled(false);
         JSONObject contributionObject = new JSONObject();
         contributionObject.put("goalId", goal.getGoalId())
                 .put("contribution", new JSONObject()
@@ -102,7 +106,12 @@ public class DialogAddContribution extends DialogFragment {
         ApplicationMoneySaver.getOkHttpClient().newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
-
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        btnAddContribution.setEnabled(true);
+                    }
+                });
             }
 
             @Override
@@ -114,13 +123,13 @@ public class DialogAddContribution extends DialogFragment {
                     JSONObject objectContribution = new JSONObject(strResponse);
                     JSONArray arrayContribution = objectContribution.getJSONArray("contributions");
                     int c = 0;
-                    for (int i = 0; i < arrayContribution.length(); i++){
+                    for (int i = 0; i < arrayContribution.length(); i++) {
                         JSONObject tmpContribution = arrayContribution.getJSONObject(i);
                         c += tmpContribution.getInt("value");
                         contributions.add(new Contribution(
-                            tmpContribution.getString("contribution_id"),
+                                tmpContribution.getString("contribution_id"),
                                 tmpContribution.getInt("value"),
-                            tmpContribution.getString("date")
+                                tmpContribution.getString("date")
                         ));
                     }
                     goal.increaseContribution();
@@ -130,6 +139,12 @@ public class DialogAddContribution extends DialogFragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        btnAddContribution.setEnabled(true);
+                    }
+                });
             }
         });
     }

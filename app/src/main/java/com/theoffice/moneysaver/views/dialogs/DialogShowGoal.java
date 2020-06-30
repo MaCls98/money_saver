@@ -1,6 +1,7 @@
 package com.theoffice.moneysaver.views.dialogs;
 
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -96,6 +97,8 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
         tvGoalDate = v.findViewById(R.id.tv_goal_date);
         tvGoalLikes = v.findViewById(R.id.tv_goal_likes);
         tvGoalContributions = v.findViewById(R.id.tv_goal_contribution);
+        tvGoalContributions.setPaintFlags(tvGoalContributions.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        tvGoalContributions.setOnClickListener(this);
         ivGoalPhoto = v.findViewById(R.id.iv_goal_photo);
         ibLikeGoal = v.findViewById(R.id.ib_like_goal);
         btnAddContribution = v.findViewById(R.id.btn_add_contribution);
@@ -105,6 +108,9 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
     @Override
     public void onClick(View view) {
         switch (view.getId()){
+            case R.id.tv_goal_contribution:
+                showContributionsHistory();
+                break;
             case R.id.ib_like_goal:
                 likeGoal();
                 break;
@@ -112,6 +118,14 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
                 addContribution();
                 break;
         }
+    }
+
+    private void showContributionsHistory() {
+        DialogGoalContributions dialogGoalContributions = new DialogGoalContributions();
+        Bundle bundle = new Bundle();
+        bundle.putInt("goal", goalPos);
+        dialogGoalContributions.setArguments(bundle);
+        dialogGoalContributions.show(getParentFragmentManager(), dialogGoalContributions.getTag());
     }
 
     private void addContribution() {

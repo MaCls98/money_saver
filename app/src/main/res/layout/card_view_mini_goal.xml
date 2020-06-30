@@ -18,8 +18,7 @@
             android:text="TextView"
             android:textSize="14sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/iv_goal_photo"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
@@ -44,7 +43,7 @@
             android:background="@android:color/transparent"
             android:tint="@android:color/darker_gray"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/iv_goal_photo"
+            app:layout_constraintStart_toEndOf="@+id/tv_goal_likes"
             app:layout_constraintTop_toBottomOf="@+id/iv_goal_photo"
             app:srcCompat="@drawable/like_icon" />
 
@@ -54,7 +53,7 @@
             android:layout_height="wrap_content"
             android:text="TextView"
             app:layout_constraintBottom_toBottomOf="@+id/ib_like_goal"
-            app:layout_constraintEnd_toStartOf="@+id/ib_like_goal"
+            app:layout_constraintStart_toStartOf="@+id/iv_goal_photo"
             app:layout_constraintTop_toTopOf="@+id/ib_like_goal" />
 
         <TextView
@@ -62,10 +61,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="TextView"
+            android:textSize="14sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_goal_likes"
-            app:layout_constraintStart_toStartOf="@+id/iv_goal_photo"
-            app:layout_constraintTop_toTopOf="@+id/tv_goal_likes" />
+            app:layout_constraintEnd_toEndOf="@+id/iv_goal_photo"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/ib_delete_goal"
