@@ -29,4 +29,5 @@ public final class AppConstants {
     public static final int TYPE_ITEM = 1;
     public static final String USER_PLACEHOLDER = "https://money-saver.vercel.app/img/user.png";
     public static final String CLOUDINARY_NAME = "alexanderc12";
+    public static final String DATE_FORMAT_TO_SHOW = "LLLL dd, yyyy";
 }

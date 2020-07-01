@@ -38,7 +38,7 @@ public class MyDatePicker {
     }
 
     public static String convertDate(Long selection) {
-        Date now= new Date();
+        Date now = new Date();
         //LocalDateTime utcDateTimeForCurrentDateTime = Instant.ofEpochMilli(now.getTime()).atZone(ZoneId.of("UTC")).toLocalDateTime();
         LocalDate localDate = Instant.ofEpochMilli(selection).atZone(ZoneId.of("UTC")).toLocalDate();
         DateTimeFormatter dTF2 = DateTimeFormatter.ofPattern(AppConstants.DATE_FORMAT);

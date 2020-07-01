@@ -58,7 +58,6 @@ public class ProfileRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             //tvGoalDate = itemView.findViewById(R.id.tv_goal_date);
             tvGoalLikes = itemView.findViewById(R.id.tv_goal_likes);
             //tvGoalContribution = itemView.findViewById(R.id.tv_goal_contribution);
-            ibLikeGoal = itemView.findViewById(R.id.ib_like_goal);
             ibDeleteGoal = itemView.findViewById(R.id.ib_delete_goal);
             ivGoalPhoto = itemView.findViewById(R.id.iv_goal_photo);
             ivGoalPhoto.setOnClickListener(new View.OnClickListener() {
@@ -156,7 +155,6 @@ public class ProfileRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             goalViewHolder.tvGoalName.setText(goal.getGoalName());
             //goalViewHolder.tvGoalActualMoney.setText("$" + goal.getGoalActualMoney());
             goalViewHolder.tvGoalActualMoney.setText(calculatePercentage(goal));
-
             goalViewHolder.tvGoalLikes.setText(context.getString(R.string.likes, goal.getGoalLikes().length));
 
             Glide.with(context)

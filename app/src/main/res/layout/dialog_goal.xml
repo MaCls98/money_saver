@@ -42,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Valor aqui"
-                android:textSize="14sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_goal_name"
                 app:layout_constraintEnd_toEndOf="@+id/iv_goal_photo"
@@ -72,27 +72,19 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_goal_name" />
 
-            <ImageButton
-                android:id="@+id/ib_like_goal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:tint="@android:color/darker_gray"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_goal_likes"
-                app:layout_constraintEnd_toEndOf="@+id/iv_goal_photo"
-                app:layout_constraintTop_toTopOf="@+id/tv_goal_likes"
-                app:srcCompat="@drawable/like_icon" />
-
             <TextView
                 android:id="@+id/tv_goal_likes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
+                android:layout_marginStart="88dp"
+                android:layout_marginTop="9dp"
                 android:drawableTint="@android:color/darker_gray"
                 android:text="Total likes"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_goal_contribution"
-                app:layout_constraintEnd_toStartOf="@+id/ib_like_goal"
-                app:layout_constraintTop_toTopOf="@+id/tv_goal_contribution" />
+                app:layout_constraintEnd_toEndOf="@+id/iv_goal_photo"
+                app:layout_constraintStart_toEndOf="@+id/tv_goal_contribution"
+                app:layout_constraintTop_toBottomOf="@+id/tv_goal_date"
+                app:layout_constraintVertical_bias="1.0" />
 
             <TextView
                 android:id="@+id/tv_goal_contribution"

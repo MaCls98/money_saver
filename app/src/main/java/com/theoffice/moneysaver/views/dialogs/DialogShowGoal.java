@@ -23,8 +23,14 @@ import com.bumptech.glide.Glide;
 import com.theoffice.moneysaver.ApplicationMoneySaver;
 import com.theoffice.moneysaver.R;
 import com.theoffice.moneysaver.data.model.Goal;
+import com.theoffice.moneysaver.utils.AppConstants;
 import com.theoffice.moneysaver.viewmodels.ProfileViewModel;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -78,10 +84,11 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
 
     private void updateView() {
         tvGoalName.setText(this.goal.getGoalName());
-        tvGoalValue.setText("$" + this.goal.getGoalActualMoney() + " / " + "$" + this.goal.getGoalCost());
-        tvGoalDate.setText(this.goal.getGoalDate());
-        tvGoalLikes.setText("Total likes: " + this.goal.getGoalLikes().length);
-        tvGoalContributions.setText("Cantidad de aportes: " + this.goal.getContributionCount());
+        tvGoalValue.setText(getString(R.string.money_progress, this.goal.getGoalActualMoney(), this.goal.getGoalCost()));
+        ZonedDateTime parse = ZonedDateTime.parse(this.goal.getGoalDate());
+        tvGoalDate.setText(parse.toLocalDateTime().format(DateTimeFormatter.ofPattern(AppConstants.DATE_FORMAT_TO_SHOW)));
+        tvGoalLikes.setText(getString(R.string.likes, goal.getGoalLikes().length));
+        tvGoalContributions.setText(getString(R.string.contributions, this.goal.getContributionCount()));
         Glide.with(getActivity())
                 .load(this.goal.getGoalPhotoPath())
                 .into(ivGoalPhoto);
@@ -100,7 +107,6 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
         tvGoalContributions.setPaintFlags(tvGoalContributions.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         tvGoalContributions.setOnClickListener(this);
         ivGoalPhoto = v.findViewById(R.id.iv_goal_photo);
-        ibLikeGoal = v.findViewById(R.id.ib_like_goal);
         btnAddContribution = v.findViewById(R.id.btn_add_contribution);
         btnAddContribution.setOnClickListener(this);
     }
@@ -110,9 +116,6 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
         switch (view.getId()){
             case R.id.tv_goal_contribution:
                 showContributionsHistory();
-                break;
-            case R.id.ib_like_goal:
-                likeGoal();
                 break;
             case R.id.btn_add_contribution:
                 addContribution();
