@@ -41,30 +41,6 @@ public class MoneySaverRepository {
         return repository;
     }
 
-    public boolean validateUser(String huaweiId) throws IOException, InterruptedException {
-        final AtomicBoolean result = new AtomicBoolean();
-        final CountDownLatch countDownLatch = new CountDownLatch(1);
-        HttpUrl url = HttpUrl.parse(AppConstants.BASE_URL + AppConstants.VALIDATE_USER_URL).newBuilder()
-                .addQueryParameter("huaweiUserId", huaweiId)
-                .build();
-        Request request = new Request.Builder()
-                .url(url)
-                .build();
-        ApplicationMoneySaver.getOkHttpClient().newCall(request).enqueue(new Callback() {
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response){
-                result.set(response.isSuccessful());
-                countDownLatch.countDown();
-            }
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                countDownLatch.countDown();
-            }
-        });
-        countDownLatch.await();
-        return result.get();
-    }
-
     public String createUser(String huaweiAccountId) throws InterruptedException {
         final User result = new User();
         final CountDownLatch countDownLatch = new CountDownLatch(1);
@@ -101,7 +77,7 @@ public class MoneySaverRepository {
     public String getUserId(String huaweiId) throws IOException, InterruptedException {
         final User result = new User();
         final CountDownLatch countDownLatch = new CountDownLatch(1);
-        HttpUrl url = HttpUrl.parse(AppConstants.BASE_URL + AppConstants.GET_USER__ID_URL).newBuilder()
+        HttpUrl url = HttpUrl.parse(AppConstants.BASE_URL + AppConstants.VALIDATE_USER_URL).newBuilder()
                 .addQueryParameter("huaweiUserId", huaweiId)
                 .build();
         Request request = new Request.Builder()
@@ -110,15 +86,15 @@ public class MoneySaverRepository {
         ApplicationMoneySaver.getOkHttpClient().newCall(request).enqueue(new Callback() {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                String strResponse = response.body().string();
-                try {
-                    JSONObject jsonResponse = new JSONObject(strResponse);
-                    Log.d("RESPONSE", jsonResponse.get("user").toString());
-                    result.setUserId((String)(((JSONObject) jsonResponse.get("user")).get("_id")));
-                    countDownLatch.countDown();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+               if(response.isSuccessful()){
+                   try {
+                       JSONObject jsonResponse = new JSONObject(response.body().string());
+                       result.setUserId((String)(((JSONObject) jsonResponse.get("user")).get("_id")));
+                   } catch (JSONException e) {
+                       e.printStackTrace();
+                   }
+               }
+               countDownLatch.countDown();
             }
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {

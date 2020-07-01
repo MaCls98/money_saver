@@ -49,11 +49,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void launchMainActivity(AuthHuaweiId huaweiAccount){
         MoneySaverRepository repository = MoneySaverRepository.getInstance();
         try {
-            String userId;
-            if(repository.validateUser(huaweiAccount.getUnionId())){
-                userId = repository.getUserId(huaweiAccount.getUnionId());
-
-            }else{
+            String userId = repository.getUserId(huaweiAccount.getUnionId());
+            if(userId == null){
                 userId = repository.createUser(huaweiAccount.getUnionId());
             }
             String photoPath = huaweiAccount.getAvatarUriString().isEmpty()

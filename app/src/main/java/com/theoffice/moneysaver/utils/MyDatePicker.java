@@ -31,14 +31,13 @@ public class MyDatePicker {
         picker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Long>() {
             @Override
             public void onPositiveButtonClick(Long selection) {
-                Log.d("VIEW", String.valueOf(selection));
+                Log.d("VIEW", convertDate(selection));
                 editText.setText(convertDate(selection));
             }
         });
     }
 
     public static String convertDate(Long selection) {
-        Date now = new Date();
         //LocalDateTime utcDateTimeForCurrentDateTime = Instant.ofEpochMilli(now.getTime()).atZone(ZoneId.of("UTC")).toLocalDateTime();
         LocalDate localDate = Instant.ofEpochMilli(selection).atZone(ZoneId.of("UTC")).toLocalDate();
         DateTimeFormatter dTF2 = DateTimeFormatter.ofPattern(AppConstants.DATE_FORMAT);
