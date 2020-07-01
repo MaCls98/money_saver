@@ -98,7 +98,7 @@ public class DialogGoalContributions extends DialogFragment {
                                     tvValue.setText("$" + objectContribution.getInt("value"));
 
                                     TextView tvDate = new TextView(getContext());
-                                    tvDate.setText(objectContribution.getString("date"));
+                                    tvDate.setText(" "+ objectContribution.getString("date"));
 
                                     ll.addView(tvValue);
                                     ll.addView(tvDate);

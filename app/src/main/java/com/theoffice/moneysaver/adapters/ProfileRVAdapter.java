@@ -2,6 +2,8 @@ package com.theoffice.moneysaver.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.theoffice.moneysaver.R;
 import com.theoffice.moneysaver.data.model.Goal;
 import com.theoffice.moneysaver.data.model.User;
@@ -21,6 +24,8 @@ import com.theoffice.moneysaver.utils.AppConstants;
 import com.theoffice.moneysaver.views.activities.PlayGround;
 
 import java.util.ArrayList;
+
+import jp.wasabeef.glide.transformations.BlurTransformation;
 
 public class ProfileRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -47,7 +52,6 @@ public class ProfileRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         TextView tvGoalLikes;
         //TextView tvGoalContribution;
         ImageView ivGoalPhoto;
-        ImageButton ibLikeGoal;
         ImageButton ibDeleteGoal;
 
         public GoalViewHolder(@NonNull View itemView, final OnItemClickListener listener,
@@ -154,22 +158,31 @@ public class ProfileRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             Goal goal = goalList.get(position - 1);
             goalViewHolder.tvGoalName.setText(goal.getGoalName());
             //goalViewHolder.tvGoalActualMoney.setText("$" + goal.getGoalActualMoney());
-            goalViewHolder.tvGoalActualMoney.setText(calculatePercentage(goal));
+            goalViewHolder.tvGoalActualMoney.setText(calculatePercentage(goal)  + "%");
             goalViewHolder.tvGoalLikes.setText(context.getString(R.string.likes, goal.getGoalLikes().length));
+            //TODO Trabajando en transformar la imagen
+            if((25 - calculatePercentage(goal) / 4) > 0){
+                Glide.with(context)
+                        .load(goal.getGoalPhotoPath()).apply(RequestOptions.bitmapTransform(new BlurTransformation(25 - (calculatePercentage(goal) / 4), 1)))
+                        .placeholder(R.drawable.money_icon)
+                        .error(R.drawable.error_icon)
+                        .into(goalViewHolder.ivGoalPhoto);
+            }else{
+                Glide.with(context)
+                        .load(goal.getGoalPhotoPath())
+                        .placeholder(R.drawable.money_icon)
+                        .error(R.drawable.error_icon)
+                        .into(goalViewHolder.ivGoalPhoto);
+            }
 
-            Glide.with(context)
-                    .load(goal.getGoalPhotoPath())
-                    .placeholder(R.drawable.money_icon)
-                    .error(R.drawable.error_icon)
-                    .into(goalViewHolder.ivGoalPhoto);
         }
     }
 
-    private String calculatePercentage(Goal goal) {
+    private int calculatePercentage(Goal goal) {
         int cost = goal.getGoalCost();
         int actual = goal.getGoalActualMoney();
         int percentage = (actual * 100) / cost;
-        return percentage + "%";
+        return percentage;
     }
 
     @Override

@@ -106,12 +106,11 @@ public class FragmentMyProfile extends Fragment {
             public void onChanged(ArrayList<Goal> goals) {
                 Log.d("GOAL", "Detectado en fragment");
                 if (goals.size() > 0){
-                    pbGoals.setVisibility(View.GONE);
                     tvNoGoalsMeesage.setVisibility(View.GONE);
                 }else {
-                    goals.size();
                     tvNoGoalsMeesage.setVisibility(View.VISIBLE);
                 }
+                pbGoals.setVisibility(View.GONE);
                 ApplicationMoneySaver.getMainUser().setGoalList(goals);
                 rvAdapter.notifyDataSetChanged();
             }
