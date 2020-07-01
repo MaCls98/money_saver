@@ -9,14 +9,14 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/tv_goal_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="TextView"
-            android:textSize="14sp"
+            android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/iv_goal_photo"
             app:layout_constraintTop_toTopOf="parent" />
@@ -36,32 +36,21 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_goal_name"
             app:srcCompat="@drawable/test_image" />
 
-        <ImageButton
-            android:id="@+id/ib_like_goal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:tint="@android:color/darker_gray"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/tv_goal_likes"
-            app:layout_constraintTop_toBottomOf="@+id/iv_goal_photo"
-            app:srcCompat="@drawable/like_icon" />
-
         <TextView
             android:id="@+id/tv_goal_likes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
             android:text="TextView"
-            app:layout_constraintBottom_toBottomOf="@+id/ib_like_goal"
             app:layout_constraintStart_toStartOf="@+id/iv_goal_photo"
-            app:layout_constraintTop_toTopOf="@+id/ib_like_goal" />
+            app:layout_constraintTop_toBottomOf="@+id/iv_goal_photo" />
 
         <TextView
             android:id="@+id/tv_goal_actual_money"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="TextView"
-            android:textSize="14sp"
+            android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@+id/iv_goal_photo"
             app:layout_constraintTop_toTopOf="parent" />

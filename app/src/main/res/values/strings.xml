@@ -18,4 +18,6 @@
     <string name="start_menu">Inicio</string>
     <string name="add_contribution">Agregar Aporte</string>
     <string name="no_goals_message">Empieza a crear metas para visualizarlas aqui</string>
+    <string name="likes">%d Me gusta</string>
+    <string name="goals">%d Metas</string>
 </resources>

@@ -72,17 +72,6 @@ public class ProfileRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     }
                 }
             });
-            ibLikeGoal.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (listener != null){
-                        int position = getLayoutPosition();
-                        if (position != RecyclerView.NO_POSITION){
-                            listener.onLikeClick(position);
-                        }
-                    }
-                }
-            });
             ibDeleteGoal.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -154,7 +143,7 @@ public class ProfileRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         if (holder instanceof HeaderViewHolder){
             final HeaderViewHolder headerViewHolder = (HeaderViewHolder) holder;
             headerViewHolder.tvUsername.setText(user.getUserName());
-            headerViewHolder.tvUserGoals.setText("Total de metas: " + user.getGoalList().size());
+            headerViewHolder.tvUserGoals.setText(context.getString(R.string.goals, user.getGoalList().size()));
 
             Glide.with(context)
                     .load(user.getUserPhotoUrl())
@@ -167,7 +156,8 @@ public class ProfileRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             goalViewHolder.tvGoalName.setText(goal.getGoalName());
             //goalViewHolder.tvGoalActualMoney.setText("$" + goal.getGoalActualMoney());
             goalViewHolder.tvGoalActualMoney.setText(calculatePercentage(goal));
-            goalViewHolder.tvGoalLikes.setText(String.valueOf(goal.getGoalLikes().length));
+
+            goalViewHolder.tvGoalLikes.setText(context.getString(R.string.likes, goal.getGoalLikes().length));
 
             Glide.with(context)
                     .load(goal.getGoalPhotoPath())
