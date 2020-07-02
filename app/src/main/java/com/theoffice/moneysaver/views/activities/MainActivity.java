@@ -18,17 +18,16 @@ import android.view.View;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.huawei.hms.ads.HwAds;
-import com.theoffice.moneysaver.ApplicationMoneySaver;
 import com.theoffice.moneysaver.R;
 import com.theoffice.moneysaver.hms.ppskit.OaidCallback;
 import com.theoffice.moneysaver.utils.AppConstants;
 import com.theoffice.moneysaver.utils.MyAdsManager;
-import com.theoffice.moneysaver.utils.MyToast;
 import com.theoffice.moneysaver.views.dialogs.DialogAddGoal;
 import com.theoffice.moneysaver.views.fragments.BottomNavigationFragment;
 import com.theoffice.moneysaver.views.fragments.FragmentGlobalGoals;
 import com.theoffice.moneysaver.views.fragments.FragmentMyHome;
 import com.theoffice.moneysaver.views.fragments.FragmentMyProfile;
+import com.theoffice.moneysaver.views.fragments.FragmentScanner;
 
 public class MainActivity extends AppCompatActivity implements OaidCallback {
 
@@ -75,14 +74,17 @@ public class MainActivity extends AppCompatActivity implements OaidCallback {
 
     public void changeFragment(int fragmentConstant){
         switch (fragmentConstant){
-            case AppConstants.MY_HOME:
+            case AppConstants.HOME:
                 showFragment(new FragmentMyHome());
                 break;
             case AppConstants.MY_PROFILE:
                 showFragment(new FragmentMyProfile());
                 break;
-            case AppConstants.MY_GOALS:
+            case AppConstants.GLOBAL_GOALS:
                 showFragment(new FragmentGlobalGoals());
+                break;
+            case AppConstants.SCAN_PRODUCT:
+                showFragment(new FragmentScanner());
                 break;
         }
     }
@@ -125,6 +127,7 @@ public class MainActivity extends AppCompatActivity implements OaidCallback {
 
     private void changeRecyclerViewLayout(int rvSquareView) {
         FragmentMyProfile myProfile = (FragmentMyProfile) getSupportFragmentManager().findFragmentById(R.id.fg_container_view);
+        assert myProfile != null;
         myProfile.changeRecyclerViewLayout(rvSquareView);
     }
 

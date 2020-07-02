@@ -19,9 +19,10 @@ public final class AppConstants {
     public static final String GOAL_VALUE = "VALUE";
     public static final String GOAL_PHOTO = "PHOTO";
     public static final String DATE_FORMAT = "dd/MM/yyyy";
-    public static final int MY_HOME = 0;
+    public static final int HOME = 0;
     public static final int MY_PROFILE = 1;
-    public static final int MY_GOALS = 2;
+    public static final int GLOBAL_GOALS = 2;
+    public static final int SCAN_PRODUCT = 3;
     public static final int RV_LIST_VIEW = 1;
     public static final int RV_GRID_VIEW = 2;
     public static final int PERMISSION_REQUEST = 1;

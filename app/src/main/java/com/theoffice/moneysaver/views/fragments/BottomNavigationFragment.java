@@ -36,13 +36,16 @@ public class BottomNavigationFragment extends BottomSheetDialogFragment  {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.reports:
-                        changeActivityFragment(AppConstants.MY_HOME);
+                        changeActivityFragment(AppConstants.HOME);
                         break;
                     case R.id.my_profile:
                         changeActivityFragment(AppConstants.MY_PROFILE);
                         break;
                     case R.id.global_goals:
-                        changeActivityFragment(AppConstants.MY_GOALS);
+                        changeActivityFragment(AppConstants.GLOBAL_GOALS);
+                        break;
+                    case R.id.scan_product:
+                        changeActivityFragment(AppConstants.SCAN_PRODUCT);
                         break;
                     case R.id.about:
                         showAboutDialog();
