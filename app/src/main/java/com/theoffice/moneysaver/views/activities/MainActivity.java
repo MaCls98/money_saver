@@ -43,8 +43,6 @@ public class MainActivity extends AppCompatActivity implements OaidCallback {
         mainAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_END);
         btnAddGoal = findViewById(R.id.btn_add_goal);
 
-        MyToast.showShortToast("Bienvenido " + ApplicationMoneySaver.getMainUser().getUserName(), this);
-
         setSupportActionBar(mainAppBar);
         setListeners();
         getSupportFragmentManager().beginTransaction()

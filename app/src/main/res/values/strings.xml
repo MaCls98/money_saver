@@ -27,4 +27,6 @@
     <string name="ad_id_native_video">testy63txaom86</string>
     <string name="reports">Reportes</string>
     <string name="another_goals">Metas globales</string>
+    <string name="auto_login_key">auto_login</string>
+    <string name="starting_login">Iniciando Sesión</string>
 </resources>

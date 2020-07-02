@@ -13,6 +13,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.theoffice.moneysaver.R;
 import com.theoffice.moneysaver.utils.AppConstants;
+import com.theoffice.moneysaver.utils.MyToast;
 import com.theoffice.moneysaver.views.activities.MainActivity;
 
 public class BottomNavigationFragment extends BottomSheetDialogFragment  {
@@ -43,10 +44,18 @@ public class BottomNavigationFragment extends BottomSheetDialogFragment  {
                     case R.id.global_goals:
                         changeActivityFragment(AppConstants.MY_GOALS);
                         break;
+                    case R.id.about:
+                        showAboutDialog();
+                        break;
                 }
                 return true;
             }
         });
+    }
+
+    private void showAboutDialog() {
+        MyToast.showShortToast("Acerca de", getContext());
+        dismiss();
     }
 
     private void changeActivityFragment(int fragmentConstant){

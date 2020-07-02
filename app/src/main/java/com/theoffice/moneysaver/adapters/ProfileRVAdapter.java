@@ -1,11 +1,9 @@
 package com.theoffice.moneysaver.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,7 +20,6 @@ import com.theoffice.moneysaver.R;
 import com.theoffice.moneysaver.data.model.Goal;
 import com.theoffice.moneysaver.data.model.User;
 import com.theoffice.moneysaver.utils.AppConstants;
-import com.theoffice.moneysaver.views.activities.PlayGround;
 
 import java.util.ArrayList;
 import java.util.Random;

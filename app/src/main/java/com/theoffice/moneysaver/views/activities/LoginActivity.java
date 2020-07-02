@@ -3,11 +3,15 @@ package com.theoffice.moneysaver.views.activities;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.ProgressBar;
 
 import com.huawei.agconnect.config.AGConnectServicesConfig;
 import com.huawei.hmf.tasks.OnFailureListener;
@@ -25,12 +29,14 @@ import com.theoffice.moneysaver.R;
 import com.theoffice.moneysaver.data.model.User;
 import com.theoffice.moneysaver.data.repositories.MoneySaverRepository;
 import com.theoffice.moneysaver.utils.AppConstants;
-
-import java.io.IOException;
+import com.theoffice.moneysaver.utils.MyToast;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button btnHuaweiLogin;
+    private CheckBox cbAutoLogin;
+    private ProgressBar pbLogin;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +45,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         btnHuaweiLogin = findViewById(R.id.btn_login_huawei);
         btnHuaweiLogin.setOnClickListener(this);
+        cbAutoLogin = findViewById(R.id.cb_auto_login);
+        pbLogin = findViewById(R.id.pb_login);
+
+        sharedPreferences = getPreferences(Context.MODE_PRIVATE);
+        boolean isAutoLogin = sharedPreferences.getBoolean(getString(R.string.auto_login_key), false);
+        if (isAutoLogin){
+            MyToast.showShortToast(getString(R.string.starting_login), getApplicationContext());
+            btnHuaweiLogin.setVisibility(View.GONE);
+            cbAutoLogin.setVisibility(View.GONE);
+            pbLogin.setVisibility(View.VISIBLE);
+            loginWithHuaweiAccount();
+        }
     }
 
     @Override
@@ -62,6 +80,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             User user = new User(userId, huaweiAccount.getDisplayName(), photoPath);
             ApplicationMoneySaver.setMainUser(user);
             savePushToken();
+            saveLoginPreference();
             Intent mainActIntent = new Intent(this, MainActivity.class);
             startActivity(mainActIntent);
         } catch (InterruptedException e) {
@@ -70,7 +89,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    private void saveLoginPreference() {
+        if (cbAutoLogin.isChecked()){
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean(getString(R.string.auto_login_key), true);
+            editor.apply();
+        }
+    }
+
     private void loginWithHuaweiAccount() {
+        btnHuaweiLogin.setVisibility(View.GONE);
+        cbAutoLogin.setVisibility(View.GONE);
+        pbLogin.setVisibility(View.VISIBLE);
         HuaweiIdAuthParams authParams = new HuaweiIdAuthParamsHelper(HuaweiIdAuthParams.DEFAULT_AUTH_REQUEST_PARAM).setIdToken().createParams();
         final HuaweiIdAuthService service = HuaweiIdAuthManager.getService(this, authParams);
         final Task<AuthHuaweiId> task = service.silentSignIn();
@@ -113,6 +143,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 launchMainActivity(authHuaweiIdTask.getResult());
             } else {
                 Log.e(AppConstants.MONEY_SAVER_ERROR, "Sign in failed : " +((ApiException)authHuaweiIdTask.getException()).getStatusCode());
+                btnHuaweiLogin.setVisibility(View.VISIBLE);
+                cbAutoLogin.setVisibility(View.VISIBLE);
+                pbLogin.setVisibility(View.GONE);
             }
         }
     }
