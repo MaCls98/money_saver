@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,10 +23,18 @@ import androidx.lifecycle.ViewModelProvider;
 import com.bumptech.glide.Glide;
 import com.theoffice.moneysaver.ApplicationMoneySaver;
 import com.theoffice.moneysaver.R;
+import com.theoffice.moneysaver.data.model.Contribution;
 import com.theoffice.moneysaver.data.model.Goal;
 import com.theoffice.moneysaver.utils.AppConstants;
+import com.theoffice.moneysaver.utils.MyToast;
 import com.theoffice.moneysaver.viewmodels.ProfileViewModel;
 
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -33,6 +42,12 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Objects;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.HttpUrl;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class DialogShowGoal extends DialogFragment implements View.OnClickListener {
 
@@ -124,11 +139,56 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
     }
 
     private void showContributionsHistory() {
-        DialogGoalContributions dialogGoalContributions = new DialogGoalContributions();
-        Bundle bundle = new Bundle();
-        bundle.putInt("goal", goalPos);
-        dialogGoalContributions.setArguments(bundle);
-        dialogGoalContributions.show(getParentFragmentManager(), dialogGoalContributions.getTag());
+        MyToast.showShortToast("Cargando contribuciones", getActivity());
+        getContributions();
+    }
+
+    private void getContributions() {
+        Log.d("GOAL", goal.getGoalId());
+        HttpUrl url = HttpUrl.parse(AppConstants.BASE_URL + AppConstants.GET_GOAL_CONTRIBUTIONS).newBuilder()
+                .addQueryParameter("goalId", goal.getGoalId())
+                .build();
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+        ApplicationMoneySaver.getOkHttpClient().newCall(request).enqueue(new Callback() {
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response){
+                try {
+                    final ArrayList<Contribution> contributions = new ArrayList<>();
+                    String strResponse = response.body().string();
+                    Log.d("RESPONSE", strResponse);
+                    JSONObject jsonObject = new JSONObject(strResponse);
+                    final JSONArray arrayContributions = jsonObject.getJSONArray("contributions");
+                    for (int i = 0; i < arrayContributions.length(); i++){
+                        JSONObject object = arrayContributions.getJSONObject(i);
+                        contributions.add(new Contribution(
+                                object.getString("contribution_id"),
+                                object.getInt("value"),
+                                object.getString("date")
+                        ));
+                    }
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            DialogGoalContributions dialogGoalContributions = new DialogGoalContributions();
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("contributions", contributions);
+                            dialogGoalContributions.setArguments(bundle);
+                            dialogGoalContributions.show(getParentFragmentManager(), dialogGoalContributions.getTag());
+                        }
+                    });
+
+                    } catch (IOException | JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                @Override
+                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+
+                }
+        });
     }
 
     private void addContribution() {

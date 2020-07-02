@@ -2,7 +2,7 @@
     <string name="app_name">Money Saver</string>
     <string name="menu">Menú</string>
     <string name="my_profile">Mi perfil</string>
-    <string name="my_goals">Mis metas</string>
+    <string name="my_goals">Otras Metas</string>
     <string name="about">Acerca de</string>
     <string name="add_photo">Agregar foto</string>
     <string name="goal_name">Nombre de tu meta</string>
@@ -25,4 +25,6 @@
     <string name="ad_id_native">testu7m3hc4gvm</string>
     <string name="ad_id_native_small">testb65czjivt9</string>
     <string name="ad_id_native_video">testy63txaom86</string>
+    <string name="reports">Reportes</string>
+    <string name="another_goals">Metas globales</string>
 </resources>

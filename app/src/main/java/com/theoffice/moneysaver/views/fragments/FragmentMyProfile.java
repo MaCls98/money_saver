@@ -77,7 +77,7 @@ public class FragmentMyProfile extends Fragment {
 
             }
         });
-        setGridLayoutRV();
+        setLinealLayoutRV();
         rvMyProfile.setAdapter(rvAdapter);
         return v;
     }

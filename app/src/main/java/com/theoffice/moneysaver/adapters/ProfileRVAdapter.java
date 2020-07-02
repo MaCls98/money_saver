@@ -225,6 +225,8 @@ public class ProfileRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     break;
                 case AppConstants.RV_GRID_VIEW:
                     set.setDimensionRatio(goalViewHolder.ivGoalPhoto.getId(), "1:1");
+                    goalViewHolder.tvGoalName.setTextSize(14f);
+                    goalViewHolder.tvGoalActualMoney.setTextSize(14f);
                     break;
             }
             set.applyTo(goalViewHolder.clMiniGoal);

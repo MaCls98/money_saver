@@ -34,13 +34,13 @@ public class BottomNavigationFragment extends BottomSheetDialogFragment  {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
-                    case R.id.my_home:
+                    case R.id.reports:
                         changeActivityFragment(AppConstants.MY_HOME);
                         break;
                     case R.id.my_profile:
                         changeActivityFragment(AppConstants.MY_PROFILE);
                         break;
-                    case R.id.my_goals:
+                    case R.id.global_goals:
                         changeActivityFragment(AppConstants.MY_GOALS);
                         break;
                 }
