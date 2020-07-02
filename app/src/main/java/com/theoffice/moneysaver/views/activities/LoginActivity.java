@@ -64,7 +64,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             savePushToken();
             Intent mainActIntent = new Intent(this, MainActivity.class);
             startActivity(mainActIntent);
-        } catch (IOException | InterruptedException e) {
+        } catch (InterruptedException e) {
             e.printStackTrace();
             Log.e(AppConstants.MONEY_SAVER_ERROR, "Error at validate user");
         }
