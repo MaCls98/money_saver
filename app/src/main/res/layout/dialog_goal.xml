@@ -118,6 +118,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:drawableLeft="@drawable/money_icon"
+        android:drawableTint="@android:color/white"
         android:text="@string/add_contribution"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/cardView"

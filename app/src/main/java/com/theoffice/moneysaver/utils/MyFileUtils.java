@@ -97,7 +97,6 @@ public class MyFileUtils {
 
     public static String compressImage(String goalPhotoPath) {
         try {
-            //TODO Arreglar la rotacion de las imagenes por la compresion
             File file = new File(goalPhotoPath);
             // BitmapFactory options to downsize the image
             BitmapFactory.Options o = new BitmapFactory.Options();
@@ -160,7 +159,6 @@ public class MyFileUtils {
             return file.getAbsolutePath();
 
         } catch (IOException e1) {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
         }
         return "";

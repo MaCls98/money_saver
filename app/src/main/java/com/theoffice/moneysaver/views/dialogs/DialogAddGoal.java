@@ -2,8 +2,12 @@ package com.theoffice.moneysaver.views.dialogs;
 
 import android.Manifest;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.DocumentsContract;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,6 +29,7 @@ import com.cloudinary.android.MediaManager;
 import com.cloudinary.android.callback.ErrorInfo;
 import com.cloudinary.android.callback.UploadCallback;
 import com.google.android.material.textfield.TextInputLayout;
+import com.huawei.hms.ads.App;
 import com.theoffice.moneysaver.ApplicationMoneySaver;
 import com.theoffice.moneysaver.R;
 import com.theoffice.moneysaver.data.model.Goal;
@@ -91,7 +96,7 @@ public class DialogAddGoal extends DialogFragment implements View.OnClickListene
                 MyDatePicker.showDatePicker(getChildFragmentManager(), etGoalDate);
                 break;
             case R.id.btn_take_photo:
-                takePhoto();
+                openChooseMediaDialog();
                 break;
             case R.id.ib_delete_photo:
                 deleteGoalPhoto();
@@ -104,7 +109,23 @@ public class DialogAddGoal extends DialogFragment implements View.OnClickListene
         }
     }
 
-    private void takePhoto() {
+    private void openChooseMediaDialog() {
+        DialogChooseMedia media = new DialogChooseMedia();
+        media.setTargetFragment(this, 1);
+        media.show(getParentFragmentManager(), media.getTag());
+    }
+
+    public void openGalery(){
+        if (MyPermissionManager.checkPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)){
+            Intent intent = new Intent();
+            intent.setType("image/*");
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            startActivityForResult(Intent.createChooser(intent, "Select Picture"),
+                    AppConstants.REQUEST_IMAGE_GALLERY);
+        }
+    }
+
+    public void takePhoto() {
         if (MyPermissionManager.checkPermission(getActivity(), Manifest.permission.CAMERA)){
             goalPhotoPath = MyFileUtils.takeGoalPhoto(getActivity());
         }
@@ -179,7 +200,7 @@ public class DialogAddGoal extends DialogFragment implements View.OnClickListene
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 viewModel.updateGoalsList();
-                MyFileUtils.deleteFile(newGoal.getGoalPhotoPath());
+                //MyFileUtils.deleteFile(newGoal.getGoalPhotoPath());
                 ((MainActivity)getActivity()).changeFragment(AppConstants.MY_PROFILE);
                 dismiss();
             }
@@ -187,11 +208,9 @@ public class DialogAddGoal extends DialogFragment implements View.OnClickListene
     }
 
     private void uploadPhoto(final Goal newGoal) {
-        //  TODO Que no solo sea sacar foto sino obtener una imagen de la galeria
-
         Map config = new HashMap();
         config.put("cloud_name", AppConstants.CLOUDINARY_NAME);
-        MediaManager.init(getActivity(), config);
+        MediaManager.init(requireContext(), config);
 
         MediaManager.get().upload(MyFileUtils.compressImage(goalPhotoPath))
                 .unsigned("s4hf1hid")
@@ -295,7 +314,34 @@ public class DialogAddGoal extends DialogFragment implements View.OnClickListene
         if (requestCode == AppConstants
                 .REQUEST_IMAGE_CAPTURE) {
             showGoalPhoto();
+        }else if(requestCode == AppConstants.REQUEST_IMAGE_GALLERY){
+            goalPhotoPath = getRealPathFromURI(data.getData());
+            showGoalPhoto();
         }
+    }
+
+    private String getRealPathFromURI(Uri contentURI) {
+        String filePath = "";
+        String wholeID = DocumentsContract.getDocumentId(contentURI);
+
+        // Split at colon, use second item in the array
+        String id = wholeID.split(":")[1];
+
+        String[] column = { MediaStore.Images.Media.DATA };
+
+        // where id is equal to
+        String sel = MediaStore.Images.Media._ID + "=?";
+
+        Cursor cursor = requireContext().getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                column, sel, new String[]{ id }, null);
+
+        int columnIndex = cursor.getColumnIndex(column[0]);
+
+        if (cursor.moveToFirst()) {
+            filePath = cursor.getString(columnIndex);
+        }
+        cursor.close();
+        return filePath;
     }
 
     private void showGoalPhoto() {

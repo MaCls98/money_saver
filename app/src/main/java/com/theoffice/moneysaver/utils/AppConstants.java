@@ -27,6 +27,7 @@ public final class AppConstants {
     public static final int RV_GRID_VIEW = 2;
     public static final int PERMISSION_REQUEST = 1;
     public static final int REQUEST_IMAGE_CAPTURE = 1;
+    public static final int REQUEST_IMAGE_GALLERY = 2;
     public static final int TYPE_HEADER = 0;
     public static final int TYPE_ITEM = 1;
     public static final String USER_PLACEHOLDER = "https://money-saver.vercel.app/img/user.png";
