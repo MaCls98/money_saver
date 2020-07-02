@@ -26,6 +26,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
 import okhttp3.HttpUrl;
+import okhttp3.MultipartBody;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
@@ -74,7 +75,7 @@ public class MoneySaverRepository {
         return result.getUserId();
     }
 
-    public String getUserId(String huaweiId) throws IOException, InterruptedException {
+    public String getUserId(String huaweiId) throws InterruptedException {
         final User result = new User();
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         HttpUrl url = HttpUrl.parse(AppConstants.BASE_URL + AppConstants.VALIDATE_USER_URL).newBuilder()
@@ -108,7 +109,6 @@ public class MoneySaverRepository {
     public MutableLiveData<ArrayList<Goal>> getGoals(final String stringUrl, String userId){
         final MutableLiveData<ArrayList<Goal>> goalsData = new MutableLiveData<>();
         goalsData.postValue(new ArrayList<Goal>());
-
         HttpUrl url = HttpUrl.parse(stringUrl).newBuilder()
                 .addQueryParameter("userId", userId)
                 .build();
@@ -116,19 +116,15 @@ public class MoneySaverRepository {
         Request request = new Request.Builder()
                 .url(url)
                 .build();
-
         ApplicationMoneySaver.getOkHttpClient().newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
-
             }
 
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 try {
-                    Log.i("Alex", response.body().toString());
                     String strResponse = response.body().string();
-
                     JSONObject jsonResponse = new JSONObject(strResponse);
                     JSONArray goals = jsonResponse.getJSONArray("goals");
                     ArrayList<Goal> tmpGoals = new ArrayList<>();
@@ -154,5 +150,26 @@ public class MoneySaverRepository {
             }
         });
         return goalsData;
+    }
+
+    public void sendTokenPushKit(String token) {
+        HttpUrl url = HttpUrl.parse(AppConstants.BASE_URL + AppConstants.ADD_USER_PUSH_TOKEN_URL).newBuilder()
+                .build();
+        RequestBody formBody = new FormBody.Builder()
+                .add("pushToken", token)
+                .add("userId", ApplicationMoneySaver.getMainUser().getUserId())
+                .build();
+        Request request = new Request.Builder()
+                .url(url)
+                .post(formBody)
+                .build();
+        ApplicationMoneySaver.getOkHttpClient().newCall(request).enqueue(new Callback() {
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response){
+            }
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+            }
+        });
     }
 }

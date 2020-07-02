@@ -31,4 +31,5 @@ public final class AppConstants {
     public static final String USER_PLACEHOLDER = "https://money-saver.vercel.app/img/user.png";
     public static final String CLOUDINARY_NAME = "alexanderc12";
     public static final String DATE_FORMAT_TO_SHOW = "LLLL dd, yyyy";
+    public static final String ADD_USER_PUSH_TOKEN_URL = "/api/addToken";
 }

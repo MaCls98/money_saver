@@ -9,7 +9,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.huawei.agconnect.config.AGConnectServicesConfig;
+import com.huawei.hmf.tasks.OnFailureListener;
+import com.huawei.hmf.tasks.OnSuccessListener;
 import com.huawei.hmf.tasks.Task;
+import com.huawei.hms.aaid.HmsInstanceId;
 import com.huawei.hms.common.ApiException;
 import com.huawei.hms.support.hwid.HuaweiIdAuthManager;
 import com.huawei.hms.support.hwid.request.HuaweiIdAuthParams;
@@ -57,6 +61,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     ? AppConstants.USER_PLACEHOLDER : huaweiAccount.getAvatarUriString();
             User user = new User(userId, huaweiAccount.getDisplayName(), photoPath);
             ApplicationMoneySaver.setMainUser(user);
+            savePushToken();
             Intent mainActIntent = new Intent(this, MainActivity.class);
             startActivity(mainActIntent);
         } catch (IOException | InterruptedException e) {
@@ -67,8 +72,35 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void loginWithHuaweiAccount() {
         HuaweiIdAuthParams authParams = new HuaweiIdAuthParamsHelper(HuaweiIdAuthParams.DEFAULT_AUTH_REQUEST_PARAM).setIdToken().createParams();
-        HuaweiIdAuthService service = HuaweiIdAuthManager.getService(this, authParams);
-        startActivityForResult(service.getSignInIntent(), AppConstants.HUAWEI_LOGIN_CODE);
+        final HuaweiIdAuthService service = HuaweiIdAuthManager.getService(this, authParams);
+        final Task<AuthHuaweiId> task = service.silentSignIn();
+        task.addOnSuccessListener(new OnSuccessListener<AuthHuaweiId>() {
+            @Override
+            public void onSuccess(AuthHuaweiId authHuaweiId) {
+                launchMainActivity(task.getResult());
+            }
+        });
+        task.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(Exception e) {
+                startActivityForResult(service.getSignInIntent(), AppConstants.HUAWEI_LOGIN_CODE);
+            }
+        });
+    }
+
+    private void savePushToken() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String appId = AGConnectServicesConfig.fromContext(LoginActivity.this).getString("client/app_id");
+                    String pushToken = HmsInstanceId.getInstance(LoginActivity.this).getToken(appId, "HCM");
+                    MoneySaverRepository.getInstance().sendTokenPushKit(pushToken);
+                } catch (ApiException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     @Override
@@ -77,6 +109,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (requestCode == AppConstants.HUAWEI_LOGIN_CODE) {
             Task<AuthHuaweiId> authHuaweiIdTask = HuaweiIdAuthManager.parseAuthResultFromIntent(data);
             if (authHuaweiIdTask.isSuccessful()) {
+                AuthHuaweiId huaweiAccount = authHuaweiIdTask.getResult();
                 launchMainActivity(authHuaweiIdTask.getResult());
             } else {
                 Log.e(AppConstants.MONEY_SAVER_ERROR, "Sign in failed : " +((ApiException)authHuaweiIdTask.getException()).getStatusCode());
