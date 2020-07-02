@@ -48,22 +48,7 @@ public class FragmentMyProfile extends Fragment {
         rvAdapter = new ProfileRVAdapter(getActivity(),
                 user);
 
-        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
-        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-            @Override
-            public int getSpanSize(int position) {
-                switch (rvAdapter.getItemViewType(position)){
-                    case AppConstants
-                            .TYPE_HEADER:
-                        return 2;
-                    case AppConstants.TYPE_ITEM:
 
-                        return 1;
-                    default:
-                        return -1;
-                }
-            }
-        });
         rvAdapter.setOnItemClickListener(new ProfileRVAdapter.OnItemClickListener() {
             @Override
             public void onLikeClick(int position) {
@@ -82,10 +67,48 @@ public class FragmentMyProfile extends Fragment {
 
             }
         });
-        rvMyProfile.setLayoutManager(layoutManager);
+        setGridLayoutRV();
         rvMyProfile.setAdapter(rvAdapter);
-
         return v;
+    }
+
+    public void changeRecyclerViewLayout(int rvLayout){
+        switch (rvLayout){
+            case AppConstants.RV_LIST_VIEW:
+                if (rvAdapter.getRvLayout() != AppConstants.RV_LIST_VIEW) setLinealLayoutRV();
+                break;
+            case AppConstants.RV_GRID_VIEW:
+                if (rvAdapter.getRvLayout() != AppConstants.RV_GRID_VIEW) setGridLayoutRV();
+                break;
+        }
+        rvMyProfile.setAdapter(rvAdapter);
+        rvAdapter.notifyDataSetChanged();
+    }
+
+    private void setLinealLayoutRV(){
+        rvMyProfile.setLayoutManager(new LinearLayoutManager(getActivity()));
+        rvAdapter.setRvLayout(AppConstants.RV_LIST_VIEW);
+    }
+
+    private void setGridLayoutRV(){
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
+        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                switch (rvAdapter.getItemViewType(position)){
+                    case AppConstants
+                            .TYPE_HEADER:
+                        return 2;
+                    case AppConstants.TYPE_ITEM:
+
+                        return 1;
+                    default:
+                        return -1;
+                }
+            }
+        });
+        rvMyProfile.setLayoutManager(layoutManager);
+        rvAdapter.setRvLayout(AppConstants.RV_GRID_VIEW);
     }
 
     private void launchGoalDialog(int goal) {

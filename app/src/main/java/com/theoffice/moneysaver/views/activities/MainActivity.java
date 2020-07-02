@@ -8,14 +8,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -66,13 +63,8 @@ public class MainActivity extends AppCompatActivity{
 
     private void showFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-
-        // Replace whatever is in the fragment_container view with this fragment,
-        // and add the transaction to the back stack so the user can navigate back
         transaction.replace(R.id.fg_container_view, fragment);
         transaction.addToBackStack(null);
-
-        // Commit the transaction
         transaction.commit();
     }
 
@@ -81,8 +73,11 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.about:
-                        Toast.makeText(MainActivity.this, "About", Toast.LENGTH_SHORT).show();
+                    case R.id.rectangle_menu_view:
+                        changeRecyclerViewLayout(AppConstants.RV_LIST_VIEW);
+                        break;
+                    case R.id.grid_menu_view:
+                        changeRecyclerViewLayout(AppConstants.RV_GRID_VIEW);
                         break;
                 }
                 return false;
@@ -100,6 +95,11 @@ public class MainActivity extends AppCompatActivity{
                 addGoal();
             }
         });
+    }
+
+    private void changeRecyclerViewLayout(int rvSquareView) {
+        FragmentMyProfile myProfile = (FragmentMyProfile) getSupportFragmentManager().findFragmentById(R.id.fg_container_view);
+        myProfile.changeRecyclerViewLayout(rvSquareView);
     }
 
     private void addGoal() {

@@ -2,8 +2,6 @@ package com.theoffice.moneysaver.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -32,6 +32,7 @@ public class ProfileRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private User user;
     private ArrayList<Goal> goalList;
     private Context context;
+    private int rvLayout;
 
     private OnItemClickListener listener;
 
@@ -45,6 +46,10 @@ public class ProfileRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         this.listener = listener;
     }
 
+    public void setRvLayout(int rvLayout) {
+        this.rvLayout = rvLayout;
+    }
+
     static class GoalViewHolder extends RecyclerView.ViewHolder{
         TextView tvGoalName;
         TextView tvGoalActualMoney;
@@ -53,6 +58,7 @@ public class ProfileRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         //TextView tvGoalContribution;
         ImageView ivGoalPhoto;
         ImageButton ibDeleteGoal;
+        ConstraintLayout clMiniGoal;
 
         public GoalViewHolder(@NonNull View itemView, final OnItemClickListener listener,
                               final Context context) {
@@ -64,6 +70,7 @@ public class ProfileRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             //tvGoalContribution = itemView.findViewById(R.id.tv_goal_contribution);
             ibDeleteGoal = itemView.findViewById(R.id.ib_delete_goal);
             ivGoalPhoto = itemView.findViewById(R.id.iv_goal_photo);
+            clMiniGoal = itemView.findViewById(R.id.cl_mini_goal);
             ivGoalPhoto.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -126,6 +133,11 @@ public class ProfileRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         this.user = user;
         this.context = context;
         this.goalList = user.getGoalList();
+        this.rvLayout = AppConstants.RV_LIST_VIEW;
+    }
+
+    public int getRvLayout() {
+        return rvLayout;
     }
 
     @NonNull
@@ -175,6 +187,18 @@ public class ProfileRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         .into(goalViewHolder.ivGoalPhoto);
             }
 
+            ConstraintSet set = new ConstraintSet();
+            set.clone(goalViewHolder.clMiniGoal);
+
+            switch (rvLayout){
+                case AppConstants.RV_LIST_VIEW:
+                    set.setDimensionRatio(goalViewHolder.ivGoalPhoto.getId(), "16:9");
+                    break;
+                case AppConstants.RV_GRID_VIEW:
+                    set.setDimensionRatio(goalViewHolder.ivGoalPhoto.getId(), "1:1");
+                    break;
+            }
+            set.applyTo(goalViewHolder.clMiniGoal);
         }
     }
 

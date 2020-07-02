@@ -3,9 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <group android:checkableBehavior="none">
         <item
-            android:id="@+id/about"
+            android:id="@+id/rectangle_menu_view"
             android:title="@string/about"
-            android:icon="@drawable/info"
+            android:icon="@drawable/list_icon"
             app:showAsAction="ifRoom" />
+        <item
+            android:id="@+id/grid_menu_view"
+            android:title="Grid"
+            android:icon="@drawable/grid_icon"
+            app:showAsAction="ifRoom"/>
     </group>
 </menu>
