@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,6 +20,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.theoffice.moneysaver.ApplicationMoneySaver;
 import com.theoffice.moneysaver.R;
 import com.theoffice.moneysaver.data.model.Contribution;
@@ -35,14 +35,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import jp.wasabeef.glide.transformations.BlurTransformation;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.HttpUrl;
@@ -62,7 +60,6 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
     private TextView tvGoalLikes;
     private TextView tvGoalContributions;
     private ImageView ivGoalPhoto;
-    private ImageButton ibLikeGoal;
     private Button btnAddContribution;
 
     @Override
@@ -70,8 +67,9 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
         super.onCreate(savedInstanceState);
         viewModel = new ViewModelProvider(requireActivity()).get(ProfileViewModel.class);
         Bundle bundle = getArguments();
+        assert bundle != null;
         goalPos = bundle.getInt("goal");
-        goal = viewModel.getGoalMutableLiveData().getValue().get(goalPos);
+        goal = Objects.requireNonNull(viewModel.getGoalMutableLiveData().getValue()).get(goalPos);
     }
 
     @Override
@@ -104,9 +102,20 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
         tvGoalDate.setText(parse.toLocalDateTime().format(DateTimeFormatter.ofPattern(AppConstants.DATE_FORMAT_TO_SHOW)));
         tvGoalLikes.setText(getString(R.string.likes, goal.getGoalLikes().length));
         tvGoalContributions.setText(getString(R.string.contributions, this.goal.getContributionCount()));
-        Glide.with(getActivity())
-                .load(this.goal.getGoalPhotoPath())
-                .into(ivGoalPhoto);
+
+        if((25 - calculatePercentage(goal) / 4) > 0){
+            Glide.with(requireActivity())
+                    .load(goal.getGoalPhotoPath()).apply(RequestOptions.bitmapTransform(new BlurTransformation(25 - (calculatePercentage(goal) / 4), 1)))
+                    .placeholder(R.drawable.money_icon)
+                    .error(R.drawable.error_icon)
+                    .into(ivGoalPhoto);
+        }else{
+            Glide.with(requireActivity())
+                    .load(goal.getGoalPhotoPath())
+                    .placeholder(R.drawable.money_icon)
+                    .error(R.drawable.error_icon)
+                    .into(ivGoalPhoto);
+        }
         if (goal.getGoalActualMoney() == goal.getGoalCost()){
             btnAddContribution.setVisibility(View.GONE);
         }
@@ -124,6 +133,8 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
         ivGoalPhoto = v.findViewById(R.id.iv_goal_photo);
         btnAddContribution = v.findViewById(R.id.btn_add_contribution);
         btnAddContribution.setOnClickListener(this);
+        ImageButton ibLikeGoal = v.findViewById(R.id.ib_like_goal);
+        ibLikeGoal.setOnClickListener(this);
     }
 
     @Override
@@ -135,7 +146,14 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
             case R.id.btn_add_contribution:
                 addContribution();
                 break;
+            case R.id.ib_like_goal:
+                likeGoal();
+                break;
         }
+    }
+
+    private void likeGoal() {
+
     }
 
     private void showContributionsHistory() {
@@ -145,7 +163,7 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
 
     private void getContributions() {
         Log.d("GOAL", goal.getGoalId());
-        HttpUrl url = HttpUrl.parse(AppConstants.BASE_URL + AppConstants.GET_GOAL_CONTRIBUTIONS).newBuilder()
+        HttpUrl url = Objects.requireNonNull(HttpUrl.parse(AppConstants.BASE_URL + AppConstants.GET_GOAL_CONTRIBUTIONS)).newBuilder()
                 .addQueryParameter("goalId", goal.getGoalId())
                 .build();
         Request request = new Request.Builder()
@@ -156,7 +174,7 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
             public void onResponse(@NotNull Call call, @NotNull Response response){
                 try {
                     final ArrayList<Contribution> contributions = new ArrayList<>();
-                    String strResponse = response.body().string();
+                    String strResponse = Objects.requireNonNull(response.body()).string();
                     Log.d("RESPONSE", strResponse);
                     JSONObject jsonObject = new JSONObject(strResponse);
                     final JSONArray arrayContributions = jsonObject.getJSONArray("contributions");
@@ -169,7 +187,7 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
                         ));
                     }
 
-                    getActivity().runOnUiThread(new Runnable() {
+                    requireActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             DialogGoalContributions dialogGoalContributions = new DialogGoalContributions();
@@ -199,15 +217,17 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
         dialogAddContribution.show(getParentFragmentManager(), dialogAddContribution.getTag());
     }
 
-    private void likeGoal() {
-
+    private int calculatePercentage(Goal goal) {
+        int cost = goal.getGoalCost();
+        int actual = goal.getGoalActualMoney();
+        return (actual * 100) / cost;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        Objects.requireNonNull(getDialog().getWindow()).setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        getDialog().getWindow().setWindowAnimations(R.style.AppTheme_Slide);
+        Objects.requireNonNull(Objects.requireNonNull(getDialog()).getWindow()).setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        Objects.requireNonNull(getDialog().getWindow()).setWindowAnimations(R.style.AppTheme_Slide);
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
 }

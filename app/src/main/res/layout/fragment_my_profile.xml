@@ -65,11 +65,13 @@
 
             <Button
                 android:id="@+id/btn_scann_product"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="24dp"
-                android:text="Escanear"
+                android:drawableLeft="@drawable/small_qr_icon"
+                android:drawableTint="@android:color/white"
+                android:text="Mi Codigo QR"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/tv_user_goals"
                 app:layout_constraintTop_toBottomOf="@+id/tv_user_goals"

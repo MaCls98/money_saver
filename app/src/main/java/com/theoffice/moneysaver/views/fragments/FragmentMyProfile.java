@@ -1,8 +1,6 @@
 package com.theoffice.moneysaver.views.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +26,6 @@ import com.theoffice.moneysaver.data.model.Goal;
 import com.theoffice.moneysaver.data.model.User;
 import com.theoffice.moneysaver.utils.AppConstants;
 import com.theoffice.moneysaver.viewmodels.ProfileViewModel;
-import com.theoffice.moneysaver.views.activities.PlayGround;
 import com.theoffice.moneysaver.views.dialogs.DialogShowGoal;
 
 import java.util.ArrayList;
@@ -41,11 +38,12 @@ public class FragmentMyProfile extends Fragment {
 
     private RecyclerView rvMyProfile;
     private ProfileRVAdapter rvAdapter;
+
     private ProgressBar pbGoals;
     private TextView tvNoGoalsMeesage;
     private TextView tvUserName;
     private TextView tvUserGoals;
-    private Button btnScann;
+    private Button btnMyQR;
     private ImageView ivUserPhoto;
 
     @Nullable
@@ -60,15 +58,10 @@ public class FragmentMyProfile extends Fragment {
 
 
         rvAdapter.setOnItemClickListener(new ProfileRVAdapter.OnItemClickListener() {
-            @Override
-            public void onLikeClick(int position) {
-                //TODO Dar like a la meta
-
-            }
 
             @Override
             public void onImageClick(int position) {
-                launchGoalDialog(position);
+                launchGoalDialog(rvAdapter.getRealPosition(position));
             }
 
             @Override
@@ -88,12 +81,11 @@ public class FragmentMyProfile extends Fragment {
         tvNoGoalsMeesage = v.findViewById(R.id.tv_no_goals);
         tvUserName = v.findViewById(R.id.tv_username);
         tvUserGoals = v.findViewById(R.id.tv_user_goals);
-        btnScann = v.findViewById(R.id.btn_scann_product);
-        btnScann.setOnClickListener(new View.OnClickListener() {
+        btnMyQR = v.findViewById(R.id.btn_scann_product);
+        btnMyQR.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getContext(), PlayGround.class);
-                getContext().startActivity(intent);
+                launchMyQRDialog();
             }
         });
         ivUserPhoto = v.findViewById(R.id.iv_user_photo);
@@ -105,6 +97,10 @@ public class FragmentMyProfile extends Fragment {
                 .load(user.getUserPhotoUrl())
                 .placeholder(R.drawable.user_icon)
                 .into(ivUserPhoto);
+    }
+
+    private void launchMyQRDialog() {
+        //TODO Lanzar dialogo con codigo QR del perfil
     }
 
     public void changeRecyclerViewLayout(int rvLayout){
@@ -127,15 +123,14 @@ public class FragmentMyProfile extends Fragment {
 
     private void setGridLayoutRV(){
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
-        /*
+
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
                 switch (rvAdapter.getItemViewType(position)){
-                    case AppConstants
-                            .TYPE_HEADER:
+                    case 1:
                         return 2;
-                    case AppConstants.TYPE_ITEM:
+                    case 0:
 
                         return 1;
                     default:
@@ -143,8 +138,6 @@ public class FragmentMyProfile extends Fragment {
                 }
             }
         });
-
-         */
         rvMyProfile.setLayoutManager(layoutManager);
         rvAdapter.setRvLayout(AppConstants.RV_GRID_VIEW);
     }
