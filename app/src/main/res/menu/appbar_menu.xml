@@ -6,11 +6,13 @@
             android:id="@+id/rectangle_menu_view"
             android:title="@string/about"
             android:icon="@drawable/list_icon"
+            android:iconTint="@android:color/white"
             app:showAsAction="ifRoom" />
         <item
             android:id="@+id/grid_menu_view"
             android:title="Grid"
             android:icon="@drawable/grid_icon"
+            android:iconTint="@android:color/white"
             app:showAsAction="ifRoom"/>
     </group>
 </menu>

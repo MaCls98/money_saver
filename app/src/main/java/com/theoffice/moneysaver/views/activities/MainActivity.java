@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,7 +19,9 @@ import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.theoffice.moneysaver.ApplicationMoneySaver;
 import com.theoffice.moneysaver.R;
+import com.theoffice.moneysaver.hms.ppskit.OaidCallback;
 import com.theoffice.moneysaver.utils.AppConstants;
+import com.theoffice.moneysaver.utils.MyAdsManager;
 import com.theoffice.moneysaver.utils.MyToast;
 import com.theoffice.moneysaver.views.dialogs.DialogAddGoal;
 import com.theoffice.moneysaver.views.fragments.BottomNavigationFragment;
@@ -26,7 +29,7 @@ import com.theoffice.moneysaver.views.fragments.FragmentGlobalGoals;
 import com.theoffice.moneysaver.views.fragments.FragmentMyHome;
 import com.theoffice.moneysaver.views.fragments.FragmentMyProfile;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity implements OaidCallback {
 
     private BottomAppBar mainAppBar;
     private FloatingActionButton btnAddGoal;
@@ -45,6 +48,29 @@ public class MainActivity extends AppCompatActivity{
         setListeners();
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.fg_container_view, new FragmentMyProfile()).commit();
+        getIdentifierThread.start();
+    }
+
+    private Thread getIdentifierThread = new Thread(){
+
+        @Override
+        public void run() {
+            getOaid();
+        }
+    };
+
+    private void getOaid() {
+        MyAdsManager.getOaid(this, this);
+    }
+
+    @Override
+    public void onSuccuss(String oaid, boolean isOaidTrackLimited) {
+        Log.d("ADS", oaid + " - " + isOaidTrackLimited);
+    }
+
+    @Override
+    public void onFail(String errMsg) {
+        Log.d("ADS", errMsg);
     }
 
     public void changeFragment(int fragmentConstant){

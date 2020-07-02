@@ -36,4 +36,5 @@ public class ApplicationMoneySaver extends Application {
     public static User getMainUser() {
         return mainUser;
     }
+
 }

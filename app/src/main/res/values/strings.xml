@@ -22,4 +22,7 @@
     <string name="goals">%d Metas</string>
     <string name="contributions">%d Aportes</string>
     <string name="money_progress">$%1$d / $%2$d</string>
+    <string name="ad_id_native">testu7m3hc4gvm</string>
+    <string name="ad_id_native_small">testb65czjivt9</string>
+    <string name="ad_id_native_video">testy63txaom86</string>
 </resources>
