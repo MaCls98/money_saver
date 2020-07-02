@@ -1,29 +1,23 @@
 package com.theoffice.moneysaver.views.dialogs;
 
 import android.Manifest;
-import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -64,11 +58,13 @@ public class DialogAddGoal extends DialogFragment implements View.OnClickListene
 
     private ProfileViewModel viewModel;
 
+    private FrameLayout flUploadProgress;
     private TextInputLayout tilGoalName;
     private TextInputLayout tilGoalValue;
     private TextInputLayout tilGoalDate;
     private EditText etGoalDate;
     private Button btnTakePhoto;
+    private Button btnUploadGoal;
     private ImageButton ibDeletePhoto;
     private ImageButton ibFullscreenPhoto;
     private ImageView ivGoalPhoto;
@@ -102,6 +98,9 @@ public class DialogAddGoal extends DialogFragment implements View.OnClickListene
                 break;
             case R.id.ib_fullscreen_photo:
                 break;
+            case R.id.btn_save_goal:
+                addNewGoal();
+                break;
         }
     }
 
@@ -129,6 +128,15 @@ public class DialogAddGoal extends DialogFragment implements View.OnClickListene
                     new String[]{},
                     0
             );
+            tilGoalName.setEnabled(false);
+            tilGoalValue.setEnabled(false);
+            tilGoalDate.setEnabled(false);
+            btnUploadGoal.setEnabled(false);
+            btnTakePhoto.setEnabled(false);
+            ibDeletePhoto.setEnabled(false);
+            ibFullscreenPhoto.setEnabled(false);
+            flUploadProgress.setVisibility(View.VISIBLE);
+            MyToast.showLongToast("¡Estamos creando tu nueva meta!", getActivity());
             uploadPhoto(newGoal);
         }
         isGoalComplete = 0;
@@ -152,13 +160,26 @@ public class DialogAddGoal extends DialogFragment implements View.OnClickListene
         ApplicationMoneySaver.getOkHttpClient().newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
-
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        MyToast.showLongToast("Ocurrio un error, por favor vuele a intentarlo", getActivity());
+                        tilGoalName.setEnabled(true);
+                        tilGoalValue.setEnabled(true);
+                        tilGoalDate.setEnabled(true);
+                        btnUploadGoal.setEnabled(true);
+                        btnTakePhoto.setEnabled(true);
+                        ibDeletePhoto.setEnabled(true);
+                        ibFullscreenPhoto.setEnabled(true);
+                        flUploadProgress.setVisibility(View.GONE);
+                    }
+                });
             }
 
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 viewModel.updateGoalsList();
-                new File(newGoal.getGoalPhotoPath()).delete();
+                MyFileUtils.deleteFile(newGoal.getGoalPhotoPath());
                 ((MainActivity)getActivity()).changeFragment(AppConstants.MY_PROFILE);
                 dismiss();
             }
@@ -172,7 +193,7 @@ public class DialogAddGoal extends DialogFragment implements View.OnClickListene
         config.put("cloud_name", AppConstants.CLOUDINARY_NAME);
         MediaManager.init(getActivity(), config);
 
-        String requestId = MediaManager.get().upload(goalPhotoPath)
+        MediaManager.get().upload(MyFileUtils.compressImage(goalPhotoPath))
                 .unsigned("s4hf1hid")
                 .callback(new UploadCallback() {
                     @Override
@@ -258,11 +279,14 @@ public class DialogAddGoal extends DialogFragment implements View.OnClickListene
         etGoalDate.setOnClickListener(this);
         btnTakePhoto = view.findViewById(R.id.btn_take_photo);
         btnTakePhoto.setOnClickListener(this);
+        btnUploadGoal = view.findViewById(R.id.btn_save_goal);
+        btnUploadGoal.setOnClickListener(this);
         ibDeletePhoto = view.findViewById(R.id.ib_delete_photo);
         ibDeletePhoto.setOnClickListener(this);
         ibFullscreenPhoto = view.findViewById(R.id.ib_fullscreen_photo);
         ibFullscreenPhoto.setOnClickListener(this);
         ivGoalPhoto = view.findViewById(R.id.iv_goal_photo);
+        flUploadProgress = view.findViewById(R.id.fl_upload_progress);
     }
 
     @Override
@@ -275,7 +299,6 @@ public class DialogAddGoal extends DialogFragment implements View.OnClickListene
     }
 
     private void showGoalPhoto() {
-        Log.d("PHOTO", goalPhotoPath);
         btnTakePhoto.setVisibility(View.GONE);
         ivGoalPhoto.setVisibility(View.VISIBLE);
         ivGoalPhoto.setImageURI(Uri.fromFile(new File(goalPhotoPath)));
@@ -320,7 +343,7 @@ public class DialogAddGoal extends DialogFragment implements View.OnClickListene
             }
         });
         toolbar.setTitle(R.string.add_your_goal);
-        toolbar.inflateMenu(R.menu.dialog_goal_menu);
+        //toolbar.inflateMenu(R.menu.dialog_goal_menu);
     }
 
     @Nullable

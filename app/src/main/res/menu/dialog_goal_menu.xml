@@ -4,5 +4,5 @@
     <item
         android:id="@+id/save_goal"
         android:title="@string/save_goal"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="withText|always"/>
 </menu>

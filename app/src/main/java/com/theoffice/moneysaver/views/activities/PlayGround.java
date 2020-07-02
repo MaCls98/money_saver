@@ -30,7 +30,6 @@ public class PlayGround extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_ground);
         adScrollView = findViewById(R.id.scroll_view_ad);
-        HwAds.init(this);
         loadAd(getAdId());
     }
 

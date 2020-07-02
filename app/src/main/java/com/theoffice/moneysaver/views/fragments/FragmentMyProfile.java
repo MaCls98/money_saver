@@ -1,10 +1,13 @@
 package com.theoffice.moneysaver.views.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -17,6 +20,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.theoffice.moneysaver.ApplicationMoneySaver;
 import com.theoffice.moneysaver.R;
 import com.theoffice.moneysaver.adapters.ProfileRVAdapter;
@@ -24,29 +28,35 @@ import com.theoffice.moneysaver.data.model.Goal;
 import com.theoffice.moneysaver.data.model.User;
 import com.theoffice.moneysaver.utils.AppConstants;
 import com.theoffice.moneysaver.viewmodels.ProfileViewModel;
+import com.theoffice.moneysaver.views.activities.PlayGround;
 import com.theoffice.moneysaver.views.dialogs.DialogShowGoal;
 
 import java.util.ArrayList;
 
 public class FragmentMyProfile extends Fragment {
 
+    private User user;
+
     private ProfileViewModel viewModel;
+
     private RecyclerView rvMyProfile;
     private ProfileRVAdapter rvAdapter;
     private ProgressBar pbGoals;
     private TextView tvNoGoalsMeesage;
+    private TextView tvUserName;
+    private TextView tvUserGoals;
+    private Button btnScann;
+    private ImageView ivUserPhoto;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_my_profile, container, false);
+        user = ApplicationMoneySaver.getMainUser();
+        initComponents(v);
 
-        rvMyProfile = v.findViewById(R.id.rv_my_profile);
-        pbGoals = v.findViewById(R.id.pb_loading_goals);
-        tvNoGoalsMeesage = v.findViewById(R.id.tv_no_goals) ;
-        User user = ApplicationMoneySaver.getMainUser();
         rvAdapter = new ProfileRVAdapter(getActivity(),
-                user);
+                user.getGoalList());
 
 
         rvAdapter.setOnItemClickListener(new ProfileRVAdapter.OnItemClickListener() {
@@ -58,7 +68,7 @@ public class FragmentMyProfile extends Fragment {
 
             @Override
             public void onImageClick(int position) {
-                launchGoalDialog(position - 1);
+                launchGoalDialog(position);
             }
 
             @Override
@@ -70,6 +80,31 @@ public class FragmentMyProfile extends Fragment {
         setGridLayoutRV();
         rvMyProfile.setAdapter(rvAdapter);
         return v;
+    }
+
+    private void initComponents(View v) {
+        rvMyProfile = v.findViewById(R.id.rv_my_profile);
+        pbGoals = v.findViewById(R.id.pb_loading_goals);
+        tvNoGoalsMeesage = v.findViewById(R.id.tv_no_goals);
+        tvUserName = v.findViewById(R.id.tv_username);
+        tvUserGoals = v.findViewById(R.id.tv_user_goals);
+        btnScann = v.findViewById(R.id.btn_scann_product);
+        btnScann.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), PlayGround.class);
+                getContext().startActivity(intent);
+            }
+        });
+        ivUserPhoto = v.findViewById(R.id.iv_user_photo);
+
+        tvUserName.setText(user.getUserName());
+        tvUserGoals.setText(getContext().getString(R.string.goals, user.getGoalList().size()));
+
+        Glide.with(getContext())
+                .load(user.getUserPhotoUrl())
+                .placeholder(R.drawable.user_icon)
+                .into(ivUserPhoto);
     }
 
     public void changeRecyclerViewLayout(int rvLayout){
@@ -92,6 +127,7 @@ public class FragmentMyProfile extends Fragment {
 
     private void setGridLayoutRV(){
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
+        /*
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
@@ -107,6 +143,8 @@ public class FragmentMyProfile extends Fragment {
                 }
             }
         });
+
+         */
         rvMyProfile.setLayoutManager(layoutManager);
         rvAdapter.setRvLayout(AppConstants.RV_GRID_VIEW);
     }
@@ -127,14 +165,15 @@ public class FragmentMyProfile extends Fragment {
         viewModel.getGoalMutableLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<Goal>>() {
             @Override
             public void onChanged(ArrayList<Goal> goals) {
-                Log.d("GOAL", "Detectado en fragment");
-                if (goals.size() > 0){
+                ApplicationMoneySaver.getMainUser().setGoalList(goals);
+                if (user.getGoalList().size() > 0){
+                    pbGoals.setVisibility(View.GONE);
                     tvNoGoalsMeesage.setVisibility(View.GONE);
                 }else {
+                    pbGoals.setVisibility(View.GONE);
                     tvNoGoalsMeesage.setVisibility(View.VISIBLE);
                 }
-                pbGoals.setVisibility(View.GONE);
-                ApplicationMoneySaver.getMainUser().setGoalList(goals);
+                tvUserGoals.setText(getContext().getString(R.string.goals, user.getGoalList().size()));
                 rvAdapter.notifyDataSetChanged();
             }
         });

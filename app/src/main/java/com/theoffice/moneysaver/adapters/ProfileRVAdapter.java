@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.huawei.hms.ads.nativead.NativeAd;
 import com.theoffice.moneysaver.R;
 import com.theoffice.moneysaver.data.model.Goal;
 import com.theoffice.moneysaver.data.model.User;
@@ -24,6 +25,7 @@ import com.theoffice.moneysaver.utils.AppConstants;
 import com.theoffice.moneysaver.views.activities.PlayGround;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
@@ -33,6 +35,8 @@ public class ProfileRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private ArrayList<Goal> goalList;
     private Context context;
     private int rvLayout;
+
+    private Random random;
 
     private OnItemClickListener listener;
 
@@ -48,6 +52,16 @@ public class ProfileRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     public void setRvLayout(int rvLayout) {
         this.rvLayout = rvLayout;
+    }
+
+    static class AdsViewHolder extends RecyclerView.ViewHolder{
+
+        private int layoutId;
+        private NativeAd globalNativeAd;
+
+        public AdsViewHolder(@NonNull View itemView) {
+            super(itemView);
+        }
     }
 
     static class GoalViewHolder extends RecyclerView.ViewHolder{
@@ -107,6 +121,7 @@ public class ProfileRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
     }
 
+    /*
     static class HeaderViewHolder extends RecyclerView.ViewHolder{
         ImageView ivUserPhoto;
         TextView tvUsername;
@@ -128,12 +143,16 @@ public class ProfileRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             });
         }
     }
+     */
 
-    public ProfileRVAdapter(Context context, User user) {
-        this.user = user;
+
+
+    public ProfileRVAdapter(Context context, ArrayList<Goal> goalList) {
+        //this.user = user;
         this.context = context;
-        this.goalList = user.getGoalList();
+        this.goalList = goalList;
         this.rvLayout = AppConstants.RV_LIST_VIEW;
+        random = new Random();
     }
 
     public int getRvLayout() {
@@ -143,18 +162,26 @@ public class ProfileRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        /*
         if (viewType == AppConstants.TYPE_HEADER){
             View headerView = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_profile, parent, false);
             return new HeaderViewHolder(headerView, context);
-        }else if (viewType == AppConstants.TYPE_ITEM){
+        }else
+
+
+        if (viewType == AppConstants.TYPE_ITEM){
             View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_mini_goal, parent, false);
             return new GoalViewHolder(itemView, listener, context);
         }
         throw new RuntimeException("There is no type that matches");
+        */
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_mini_goal, parent, false);
+        return new GoalViewHolder(itemView, listener, context);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        /*
         if (holder instanceof HeaderViewHolder){
             final HeaderViewHolder headerViewHolder = (HeaderViewHolder) holder;
             headerViewHolder.tvUsername.setText(user.getUserName());
@@ -165,9 +192,11 @@ public class ProfileRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     .placeholder(R.drawable.user_icon)
                     .into(headerViewHolder.ivUserPhoto);
 
-        }else if (holder instanceof GoalViewHolder){
+        }else
+            */
+        if (holder instanceof GoalViewHolder){
             GoalViewHolder goalViewHolder = (GoalViewHolder) holder;
-            Goal goal = goalList.get(position - 1);
+            Goal goal = goalList.get(position);
             goalViewHolder.tvGoalName.setText(goal.getGoalName());
             //goalViewHolder.tvGoalActualMoney.setText("$" + goal.getGoalActualMoney());
             goalViewHolder.tvGoalActualMoney.setText(calculatePercentage(goal)  + "%");
@@ -192,7 +221,7 @@ public class ProfileRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             switch (rvLayout){
                 case AppConstants.RV_LIST_VIEW:
-                    set.setDimensionRatio(goalViewHolder.ivGoalPhoto.getId(), "16:9");
+                    set.setDimensionRatio(goalViewHolder.ivGoalPhoto.getId(), "12:5");
                     break;
                 case AppConstants.RV_GRID_VIEW:
                     set.setDimensionRatio(goalViewHolder.ivGoalPhoto.getId(), "1:1");
@@ -209,16 +238,21 @@ public class ProfileRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         return percentage;
     }
 
+    /*
     @Override
     public int getItemViewType(int position){
         if (position == 0){
             return AppConstants.TYPE_HEADER;
+        }else if(position > 0){
+            int r = random.nextInt(2);
         }
         return AppConstants.TYPE_ITEM;
     }
 
+     */
+
     @Override
     public int getItemCount() {
-        return goalList.size() + 1;
+        return goalList.size();
     }
 }

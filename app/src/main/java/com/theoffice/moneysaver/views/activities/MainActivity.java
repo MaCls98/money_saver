@@ -17,6 +17,7 @@ import android.view.View;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.huawei.hms.ads.HwAds;
 import com.theoffice.moneysaver.ApplicationMoneySaver;
 import com.theoffice.moneysaver.R;
 import com.theoffice.moneysaver.hms.ppskit.OaidCallback;
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements OaidCallback {
         setListeners();
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.fg_container_view, new FragmentMyProfile()).commit();
+        HwAds.init(this);
         getIdentifierThread.start();
     }
 
