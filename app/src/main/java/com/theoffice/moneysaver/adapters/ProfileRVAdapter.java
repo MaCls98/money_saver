@@ -27,6 +27,7 @@ import com.huawei.hms.ads.nativead.NativeView;
 import com.theoffice.moneysaver.R;
 import com.theoffice.moneysaver.data.model.Goal;
 import com.theoffice.moneysaver.utils.AppConstants;
+import com.theoffice.moneysaver.utils.MyFileUtils;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -149,13 +150,9 @@ public class ProfileRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             //goalViewHolder.tvGoalActualMoney.setText("$" + goal.getGoalActualMoney());
             goalViewHolder.tvGoalActualMoney.setText(calculatePercentage(goal)  + "%");
             goalViewHolder.tvGoalLikes.setText(context.getString(R.string.likes, goal.getGoalLikes().length));
-            //TODO Trabajando en transformar la imagen
+
             if((25 - calculatePercentage(goal) / 4) > 0){
-                Glide.with(context)
-                        .load(goal.getGoalPhotoPath()).apply(RequestOptions.bitmapTransform(new BlurTransformation(25 - (calculatePercentage(goal) / 4), 1)))
-                        .placeholder(R.drawable.money_icon)
-                        .error(R.drawable.error_icon)
-                        .into(goalViewHolder.ivGoalPhoto);
+                MyFileUtils.blurImage(context, ((GoalViewHolder) holder).ivGoalPhoto, goal);
             }else{
                 Glide.with(context)
                         .load(goal.getGoalPhotoPath())

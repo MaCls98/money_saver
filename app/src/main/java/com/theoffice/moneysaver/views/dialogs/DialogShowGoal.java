@@ -20,12 +20,12 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.theoffice.moneysaver.ApplicationMoneySaver;
 import com.theoffice.moneysaver.R;
 import com.theoffice.moneysaver.data.model.Contribution;
 import com.theoffice.moneysaver.data.model.Goal;
 import com.theoffice.moneysaver.utils.AppConstants;
+import com.theoffice.moneysaver.utils.MyFileUtils;
 import com.theoffice.moneysaver.utils.MyToast;
 import com.theoffice.moneysaver.viewmodels.ProfileViewModel;
 
@@ -40,7 +40,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import jp.wasabeef.glide.transformations.BlurTransformation;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.HttpUrl;
@@ -104,11 +103,7 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
         tvGoalContributions.setText(getString(R.string.contributions, this.goal.getContributionCount()));
 
         if((25 - calculatePercentage(goal) / 4) > 0){
-            Glide.with(requireActivity())
-                    .load(goal.getGoalPhotoPath()).apply(RequestOptions.bitmapTransform(new BlurTransformation(25 - (calculatePercentage(goal) / 4), 1)))
-                    .placeholder(R.drawable.money_icon)
-                    .error(R.drawable.error_icon)
-                    .into(ivGoalPhoto);
+            MyFileUtils.blurImage(requireContext(), ivGoalPhoto, goal);
         }else{
             Glide.with(requireActivity())
                     .load(goal.getGoalPhotoPath())
