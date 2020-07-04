@@ -5,17 +5,19 @@
         android:icon="@drawable/profile_icon"
         android:title="@string/my_profile" />
     <item
-        android:id="@+id/scan_product"
-        android:icon="@drawable/qr_icon"
-        android:title="Mis metas Huawei"/>
-    <item
         android:id="@+id/global_goals"
         android:icon="@drawable/global_icon"
         android:title="@string/another_goals" />
     <item
+        android:id="@+id/scan_product"
+        android:icon="@drawable/qr_icon"
+        android:title="Mis metas Huawei"/>
+    <!--
+    <item
         android:id="@+id/reports"
         android:icon="@drawable/reports_icon"
         android:title="@string/reports" />
+        -->
     <item
         android:id="@+id/about"
         android:icon="@drawable/info_icon"

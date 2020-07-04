@@ -22,7 +22,7 @@ import com.theoffice.moneysaver.data.model.User;
 import com.theoffice.moneysaver.utils.AppConstants;
 import com.theoffice.moneysaver.utils.MyDatePicker;
 import com.theoffice.moneysaver.utils.MyToast;
-import com.theoffice.moneysaver.viewmodels.ProfileViewModel;
+import com.theoffice.moneysaver.viewmodels.SharedViewModel;
 import com.theoffice.moneysaver.views.activities.MainActivity;
 
 import org.jetbrains.annotations.NotNull;
@@ -42,7 +42,7 @@ import okhttp3.Response;
 public class DialogProduct extends DialogFragment {
 
     private Product product;
-    private ProfileViewModel viewModel;
+    private SharedViewModel viewModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,7 +54,7 @@ public class DialogProduct extends DialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewModel = new ViewModelProvider(requireActivity()).get(ProfileViewModel.class);
+        viewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
     }
 
     @Nullable

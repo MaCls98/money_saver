@@ -17,18 +17,15 @@ import com.theoffice.moneysaver.ApplicationMoneySaver;
 import com.theoffice.moneysaver.R;
 import com.theoffice.moneysaver.data.model.Contribution;
 import com.theoffice.moneysaver.data.model.Goal;
-import com.theoffice.moneysaver.data.model.User;
 import com.theoffice.moneysaver.utils.AppConstants;
 import com.theoffice.moneysaver.utils.MyDatePicker;
-import com.theoffice.moneysaver.viewmodels.ProfileViewModel;
-import com.theoffice.moneysaver.views.activities.MainActivity;
+import com.theoffice.moneysaver.viewmodels.SharedViewModel;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -47,7 +44,7 @@ public class DialogAddContribution extends DialogFragment {
     private TextInputLayout tilMoney;
     private Button btnAddContribution;
 
-    private ProfileViewModel viewModel;
+    private SharedViewModel viewModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,7 +54,7 @@ public class DialogAddContribution extends DialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewModel = new ViewModelProvider(requireActivity()).get(ProfileViewModel.class);
+        viewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
 
         Bundle bundle = getArguments();
         int p = bundle.getInt("goal");
@@ -134,7 +131,7 @@ public class DialogAddContribution extends DialogFragment {
                     }
                     goal.increaseContribution();
                     goal.setGoalActualMoney(c);
-                    viewModel.updateGoal(goal);
+                    viewModel.updateGoalContribution(goal);
                     dismiss();
                 } catch (JSONException e) {
                     e.printStackTrace();

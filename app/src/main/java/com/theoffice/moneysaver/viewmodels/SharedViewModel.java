@@ -12,7 +12,7 @@ import com.theoffice.moneysaver.utils.AppConstants;
 
 import java.util.ArrayList;
 
-public class ProfileViewModel extends ViewModel {
+public class SharedViewModel extends ViewModel {
 
     private MutableLiveData<ArrayList<Goal>> goalMutableLiveData;
     private MoneySaverRepository repository;
@@ -33,12 +33,11 @@ public class ProfileViewModel extends ViewModel {
                         ApplicationMoneySaver.getMainUser().getUserId());
     }
 
-    public void updateGoal(Goal goal){
+    public void updateGoalContribution(Goal goal){
         ArrayList<Goal> tmpGoalList = goalMutableLiveData.getValue();
         for (int i = 0; i < tmpGoalList.size(); i++) {
             Goal tmpGoal = tmpGoalList.get(i);
             if (tmpGoal.getGoalId().equals(goal.getGoalId())){
-                Log.d("GOAL", "iguales");
                 tmpGoalList.get(i).setContributionCount(goal.getContributionCount());
             }
         }

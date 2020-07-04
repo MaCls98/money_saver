@@ -1,6 +1,7 @@
 package com.theoffice.moneysaver.views.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,6 +27,7 @@ public class FragmentGlobalGoals extends Fragment {
 
     private ProfileRVAdapter rvAdapter;
     private RecyclerView rvMyProfile;
+    private ArrayList<Goal> goals = new ArrayList<>();
     private MutableLiveData<ArrayList<Goal>> goalMutableLiveData;
 
     @Nullable
@@ -33,9 +36,8 @@ public class FragmentGlobalGoals extends Fragment {
         View v = inflater.inflate(R.layout.fragment_global_goals, container, false);
         rvMyProfile = v.findViewById(R.id.rv_goal_list);
         goalMutableLiveData = MoneySaverRepository.getInstance().getGlobalGoals(0);
-        initComponents(v);
         rvAdapter = new ProfileRVAdapter(getActivity(),
-                goalMutableLiveData.getValue());
+                goals);
 
         rvAdapter.setOnItemClickListener(new ProfileRVAdapter.OnItemClickListener() {
 
@@ -50,11 +52,24 @@ public class FragmentGlobalGoals extends Fragment {
             }
         });
         setLinealLayoutRV();
+        rvMyProfile.setLayoutManager(new LinearLayoutManager(getContext()));
         rvMyProfile.setAdapter(rvAdapter);
         return v;
     }
 
-    private void initComponents(View v) {
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        goalMutableLiveData.observe(getViewLifecycleOwner(), new Observer<ArrayList<Goal>>() {
+            @Override
+            public void onChanged(ArrayList<Goal> newGoals) {
+                Log.d("GOAL", newGoals.toString());
+                goals.clear();
+                goals.addAll(newGoals);
+                Log.d("GOAL", goals.toString());
+                rvAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     private void setLinealLayoutRV(){

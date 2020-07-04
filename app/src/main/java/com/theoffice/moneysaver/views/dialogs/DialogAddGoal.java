@@ -17,7 +17,6 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,7 +28,6 @@ import com.cloudinary.android.MediaManager;
 import com.cloudinary.android.callback.ErrorInfo;
 import com.cloudinary.android.callback.UploadCallback;
 import com.google.android.material.textfield.TextInputLayout;
-import com.huawei.hms.ads.App;
 import com.theoffice.moneysaver.ApplicationMoneySaver;
 import com.theoffice.moneysaver.R;
 import com.theoffice.moneysaver.data.model.Goal;
@@ -39,7 +37,7 @@ import com.theoffice.moneysaver.utils.MyFileUtils;
 import com.theoffice.moneysaver.utils.MyDatePicker;
 import com.theoffice.moneysaver.utils.MyPermissionManager;
 import com.theoffice.moneysaver.utils.MyToast;
-import com.theoffice.moneysaver.viewmodels.ProfileViewModel;
+import com.theoffice.moneysaver.viewmodels.SharedViewModel;
 import com.theoffice.moneysaver.views.activities.MainActivity;
 
 import org.jetbrains.annotations.NotNull;
@@ -61,7 +59,7 @@ import okhttp3.Response;
 
 public class DialogAddGoal extends DialogFragment implements View.OnClickListener {
 
-    private ProfileViewModel viewModel;
+    private SharedViewModel viewModel;
 
     private FrameLayout flUploadProgress;
     private TextInputLayout tilGoalName;
@@ -84,7 +82,7 @@ public class DialogAddGoal extends DialogFragment implements View.OnClickListene
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewModel = new ViewModelProvider(requireActivity()).get(ProfileViewModel.class);
+        viewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
         initComponents(view);
         initToolbar(view);
     }

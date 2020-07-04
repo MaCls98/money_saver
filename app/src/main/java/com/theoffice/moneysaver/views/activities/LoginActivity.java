@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -48,7 +49,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         cbAutoLogin = findViewById(R.id.cb_auto_login);
         pbLogin = findViewById(R.id.pb_login);
 
-        sharedPreferences = getPreferences(Context.MODE_PRIVATE);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         boolean isAutoLogin = sharedPreferences.getBoolean(getString(R.string.auto_login_key), false);
         if (isAutoLogin){
             MyToast.showShortToast(getString(R.string.starting_login), getApplicationContext());

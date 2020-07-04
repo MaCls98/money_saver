@@ -1,5 +1,8 @@
 package com.theoffice.moneysaver.views.fragments;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +28,9 @@ import com.theoffice.moneysaver.adapters.ProfileRVAdapter;
 import com.theoffice.moneysaver.data.model.Goal;
 import com.theoffice.moneysaver.data.model.User;
 import com.theoffice.moneysaver.utils.AppConstants;
-import com.theoffice.moneysaver.viewmodels.ProfileViewModel;
+import com.theoffice.moneysaver.viewmodels.SharedViewModel;
+import com.theoffice.moneysaver.views.activities.LoginActivity;
+import com.theoffice.moneysaver.views.activities.MainActivity;
 import com.theoffice.moneysaver.views.dialogs.DialogShowGoal;
 
 import java.util.ArrayList;
@@ -34,7 +39,7 @@ public class FragmentMyProfile extends Fragment {
 
     private User user;
 
-    private ProfileViewModel viewModel;
+    private SharedViewModel viewModel;
 
     private RecyclerView rvMyProfile;
     private ProfileRVAdapter rvAdapter;
@@ -43,14 +48,17 @@ public class FragmentMyProfile extends Fragment {
     private TextView tvNoGoalsMeesage;
     private TextView tvUserName;
     private TextView tvUserGoals;
-    private Button btnMyQR;
+    private Button btnLogOut;
     private ImageView ivUserPhoto;
+
+    private SharedPreferences sharedPreferences;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_my_profile, container, false);
         user = ApplicationMoneySaver.getMainUser();
+        sharedPreferences = getActivity().getSharedPreferences("pref", Context.MODE_PRIVATE);
         initComponents(v);
 
         rvAdapter = new ProfileRVAdapter(getActivity(),
@@ -81,11 +89,11 @@ public class FragmentMyProfile extends Fragment {
         tvNoGoalsMeesage = v.findViewById(R.id.tv_no_goals);
         tvUserName = v.findViewById(R.id.tv_username);
         tvUserGoals = v.findViewById(R.id.tv_user_goals);
-        btnMyQR = v.findViewById(R.id.btn_scann_product);
-        btnMyQR.setOnClickListener(new View.OnClickListener() {
+        btnLogOut = v.findViewById(R.id.btn_log_out);
+        btnLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                launchMyQRDialog();
+                ((MainActivity)getActivity()).logOut();
             }
         });
         ivUserPhoto = v.findViewById(R.id.iv_user_photo);
@@ -97,10 +105,6 @@ public class FragmentMyProfile extends Fragment {
                 .load(user.getUserPhotoUrl())
                 .placeholder(R.drawable.user_icon)
                 .into(ivUserPhoto);
-    }
-
-    private void launchMyQRDialog() {
-        //TODO Lanzar dialogo con codigo QR del perfil
     }
 
     public void changeRecyclerViewLayout(int rvLayout){
@@ -153,7 +157,7 @@ public class FragmentMyProfile extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewModel = new ViewModelProvider(requireActivity()).get(ProfileViewModel.class);
+        viewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
         viewModel.init();
         viewModel.getGoalMutableLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<Goal>>() {
             @Override
@@ -170,5 +174,10 @@ public class FragmentMyProfile extends Fragment {
                 rvAdapter.notifyDataSetChanged();
             }
         });
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 }

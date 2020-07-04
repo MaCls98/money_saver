@@ -28,7 +28,7 @@ import org.jetbrains.annotations.NotNull;
 
 import static android.app.Activity.RESULT_OK;
 
-public class FragmentScanner extends Fragment implements View.OnClickListener{
+public class FragmentHuaweiGoals extends Fragment implements View.OnClickListener{
 
     private static int CAMERA_REQ_CODE;
     private Button btnScann;

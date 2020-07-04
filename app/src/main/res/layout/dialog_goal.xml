@@ -101,7 +101,7 @@
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
                 android:padding="2dp"
-                android:tint="@color/emui_color_gray_7"
+                android:tint="@android:color/darker_gray"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_goal_likes"
                 app:layout_constraintEnd_toEndOf="@+id/iv_goal_photo"
                 app:layout_constraintTop_toTopOf="@+id/tv_goal_likes"

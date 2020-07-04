@@ -9,8 +9,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -36,7 +40,7 @@ import com.theoffice.moneysaver.views.fragments.BottomNavigationFragment;
 import com.theoffice.moneysaver.views.fragments.FragmentGlobalGoals;
 import com.theoffice.moneysaver.views.fragments.FragmentMyHome;
 import com.theoffice.moneysaver.views.fragments.FragmentMyProfile;
-import com.theoffice.moneysaver.views.fragments.FragmentScanner;
+import com.theoffice.moneysaver.views.fragments.FragmentHuaweiGoals;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -50,11 +54,16 @@ public class MainActivity extends AppCompatActivity implements OaidCallback {
     private ExtendedFloatingActionButton fbAddGoal;
     private ExtendedFloatingActionButton fbScanProduct;
 
+    private SharedPreferences sharedPreferences;
+
     boolean isFABOpen = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        sharedPreferences = getPreferences(Context.MODE_PRIVATE);
+
         setContentView(R.layout.activity_main);
         mainAppBar = findViewById(R.id.bottom_app_bar);
         mainAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_END);
@@ -72,28 +81,6 @@ public class MainActivity extends AppCompatActivity implements OaidCallback {
         getIdentifierThread.start();
     }
 
-    private Thread getIdentifierThread = new Thread(){
-
-        @Override
-        public void run() {
-            getOaid();
-        }
-    };
-
-    private void getOaid() {
-        MyAdsManager.getOaid(this, this);
-    }
-
-    @Override
-    public void onSuccuss(String oaid, boolean isOaidTrackLimited) {
-        Log.d("ADS", oaid + " - " + isOaidTrackLimited);
-    }
-
-    @Override
-    public void onFail(String errMsg) {
-        Log.d("ADS", errMsg);
-    }
-
     public void changeFragment(int fragmentConstant){
         switch (fragmentConstant){
             case AppConstants.HOME:
@@ -106,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements OaidCallback {
                 showFragment(new FragmentGlobalGoals());
                 break;
             case AppConstants.SCAN_PRODUCT:
-                showFragment(new FragmentScanner());
+                showFragment(new FragmentHuaweiGoals());
                 break;
         }
     }
@@ -189,8 +176,8 @@ public class MainActivity extends AppCompatActivity implements OaidCallback {
         isFABOpen = true;
         fbScanProduct.extend();
         fbAddGoal.extend();
-        fbAddGoal.animate().translationY(-200);
-        fbScanProduct.animate().translationY(-380);
+        fbAddGoal.animate().translationY(-380);
+        fbScanProduct.animate().translationY(-200);
     }
 
     private void changeRecyclerViewLayout(int rvSquareView) {
@@ -217,6 +204,15 @@ public class MainActivity extends AppCompatActivity implements OaidCallback {
         navigationFragment.show(getSupportFragmentManager(), navigationFragment.getTag());
     }
 
+    public void logOut(){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(getString(R.string.auto_login_key), false);
+        editor.apply();
+        Intent loginAct = new Intent(this, LoginActivity.class);
+        startActivity(loginAct);
+        finish();
+    }
+
     private void launchProductDialog(HmsScan obj) {
         JSONObject productJson = null;
         try {
@@ -233,11 +229,34 @@ public class MainActivity extends AppCompatActivity implements OaidCallback {
                 dialogProduct.setArguments(bundle);
                 dialogProduct.show(getSupportFragmentManager(), dialogProduct.getTag());
             }else {
-                MyToast.showShortToast(getString(R.string.wrong_qr_code), getBaseContext());
+
             }
         } catch (JSONException e) {
+            MyToast.showShortToast(getString(R.string.wrong_qr_code), getBaseContext());
             e.printStackTrace();
         }
+    }
+
+    private Thread getIdentifierThread = new Thread(){
+
+        @Override
+        public void run() {
+            getOaid();
+        }
+    };
+
+    private void getOaid() {
+        MyAdsManager.getOaid(this, this);
+    }
+
+    @Override
+    public void onSuccuss(String oaid, boolean isOaidTrackLimited) {
+        Log.d("ADS", oaid + " - " + isOaidTrackLimited);
+    }
+
+    @Override
+    public void onFail(String errMsg) {
+        Log.d("ADS", errMsg);
     }
 
     @Override

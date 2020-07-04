@@ -1,6 +1,7 @@
 package com.theoffice.moneysaver;
 
 import android.app.Application;
+import android.content.SharedPreferences;
 
 import com.cloudinary.android.MediaManager;
 import com.theoffice.moneysaver.data.model.User;
@@ -19,7 +20,6 @@ public class ApplicationMoneySaver extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        client = new OkHttpClient();
         Map config = new HashMap();
         config.put("cloud_name", AppConstants.CLOUDINARY_NAME);
         MediaManager.init(this, config);

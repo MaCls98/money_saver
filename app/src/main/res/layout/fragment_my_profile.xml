@@ -50,7 +50,7 @@
                 android:elevation="0dp"
                 android:shape="ring"
                 app:cardCornerRadius="75dp"
-                app:layout_constraintBottom_toBottomOf="@+id/btn_scann_product"
+                app:layout_constraintBottom_toBottomOf="@+id/btn_log_out"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tv_username">
 
@@ -64,14 +64,13 @@
             </androidx.cardview.widget.CardView>
 
             <Button
-                android:id="@+id/btn_scann_product"
+                android:id="@+id/btn_log_out"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="24dp"
-                android:drawableLeft="@drawable/small_qr_icon"
                 android:drawableTint="@android:color/white"
-                android:text="Mi Codigo QR"
+                android:text="@string/log_out"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/tv_user_goals"
                 app:layout_constraintTop_toBottomOf="@+id/tv_user_goals"
