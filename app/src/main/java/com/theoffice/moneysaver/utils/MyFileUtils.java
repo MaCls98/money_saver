@@ -95,7 +95,7 @@ public class MyFileUtils {
         return image;
     }
 
-    public static String compressImage(String goalPhotoPath) {
+    public static String compressImage(String goalPhotoPath, Context context) {
         try {
             File file = new File(goalPhotoPath);
             // BitmapFactory options to downsize the image
@@ -131,13 +131,17 @@ public class MyFileUtils {
             inputStream.close();
 
             // here i override the original image file
-            file.createNewFile();
-            FileOutputStream outputStream = new FileOutputStream(file);
+            //file.createNewFile();
+            File.createTempFile(file.getName().substring(0, file.getName().lastIndexOf('.')),
+                    file.getName().substring(file.getName().lastIndexOf('.')), context.getCacheDir());
+            File newFile = new File(context.getCacheDir().getPath() + file.getName());
+            FileOutputStream outputStream = new FileOutputStream(newFile);
 
             selectedBitmap.compress(Bitmap.CompressFormat.JPEG, 100 , outputStream);
 
-            return rotateImage(file.getAbsolutePath());
+            return newFile.getAbsolutePath();
         } catch (Exception e) {
+            Log.e("Error", e.getMessage());
             return null;
         }
     }

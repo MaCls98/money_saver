@@ -209,11 +209,12 @@ public class DialogAddGoal extends DialogFragment implements View.OnClickListene
     }
 
     private void uploadPhoto(final Goal newGoal) {
+        Log.i("photo", goalPhotoPath);
         Map config = new HashMap();
         config.put("cloud_name", AppConstants.CLOUDINARY_NAME);
         MediaManager.init(requireContext(), config);
 
-        MediaManager.get().upload(MyFileUtils.compressImage(goalPhotoPath))
+        MediaManager.get().upload(MyFileUtils.compressImage(goalPhotoPath, getContext()))
                 .unsigned("s4hf1hid")
                 .callback(new UploadCallback() {
                     @Override
