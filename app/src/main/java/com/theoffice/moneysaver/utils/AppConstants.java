@@ -12,6 +12,7 @@ public final class AppConstants {
     public static final String VALIDATE_USER_URL = "/api/validateUserId";
     public static final String GET_GOAL_CONTRIBUTIONS = "/api/contributions";
     public static final String CREATE_USER_URL = "/api/addUser";
+    public static final String LIKE_GOAL = "/api/addLike";
     public static final String MONEY_SAVER_ERROR = "Error";
     public static final String GOAL_TYPE_USER = "PERSONAL";
     public static final String GOAL_TYPE_HUAWEI = "HUAWEI";

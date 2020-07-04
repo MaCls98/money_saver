@@ -128,7 +128,6 @@ public class DialogProduct extends DialogFragment {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 viewModel.updateGoalsList();
-                //MyFileUtils.deleteFile(newGoal.getGoalPhotoPath());
                 ((MainActivity)getActivity()).changeFragment(AppConstants.MY_PROFILE);
                 dismiss();
             }
