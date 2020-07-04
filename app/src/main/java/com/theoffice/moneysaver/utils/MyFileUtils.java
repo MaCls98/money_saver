@@ -139,7 +139,7 @@ public class MyFileUtils {
 
             selectedBitmap.compress(Bitmap.CompressFormat.JPEG, 100 , outputStream);
 
-            return newFile.getAbsolutePath();
+            return rotateImage(newFile.getAbsolutePath());
         } catch (Exception e) {
             Log.e("Error", e.getMessage());
             return null;
