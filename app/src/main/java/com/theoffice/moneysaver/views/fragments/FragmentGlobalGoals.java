@@ -63,10 +63,8 @@ public class FragmentGlobalGoals extends Fragment {
         goalMutableLiveData.observe(getViewLifecycleOwner(), new Observer<ArrayList<Goal>>() {
             @Override
             public void onChanged(ArrayList<Goal> newGoals) {
-                Log.d("GOAL", newGoals.toString());
                 goals.clear();
                 goals.addAll(newGoals);
-                Log.d("GOAL", goals.toString());
                 rvAdapter.notifyDataSetChanged();
             }
         });
