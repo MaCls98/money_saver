@@ -7,7 +7,7 @@
     <item
         android:id="@+id/scan_product"
         android:icon="@drawable/qr_icon"
-        android:title="@string/scan_product"/>
+        android:title="Mis metas Huawei"/>
     <item
         android:id="@+id/global_goals"
         android:icon="@drawable/global_icon"
