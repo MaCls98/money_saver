@@ -245,9 +245,13 @@ public class MainActivity extends AppCompatActivity implements OaidCallback {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == REQUEST_SCANNER) {
-            HmsScan obj = data.getParcelableExtra(ScanUtil.RESULT);
-            if (obj != null) {
-                launchProductDialog(obj);
+            try {
+                HmsScan obj = data.getParcelableExtra(ScanUtil.RESULT);
+                if (obj != null) {
+                    launchProductDialog(obj);
+                }
+            }catch (Exception e){
+
             }
         }
 
