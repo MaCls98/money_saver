@@ -141,6 +141,7 @@ public class MoneySaverRepository {
                                 new String[]{"1", "2", "3"},
                                 jsonGoal.getInt("contributionsCount")
                         );
+                        Log.d("GOAL", goal.toString());
                         tmpGoals.add(goal);
                     }
                     goalsData.postValue(tmpGoals);

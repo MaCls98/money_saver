@@ -13,6 +13,8 @@ public final class AppConstants {
     public static final String GET_GOAL_CONTRIBUTIONS = "/api/contributions";
     public static final String CREATE_USER_URL = "/api/addUser";
     public static final String MONEY_SAVER_ERROR = "Error";
+    public static final String GOAL_TYPE_USER = "PERSONAL";
+    public static final String GOAL_TYPE_HUAWEI = "HUAWEI";
     public static final int HUAWEI_LOGIN_CODE = 8888;
     public static final String GOAL_NAME = "NAME";
     public static final String GOAL_DATE = "DATE";

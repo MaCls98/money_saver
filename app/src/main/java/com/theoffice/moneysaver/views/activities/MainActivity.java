@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.huawei.hms.ads.HwAds;
 import com.theoffice.moneysaver.R;
@@ -32,7 +33,11 @@ import com.theoffice.moneysaver.views.fragments.FragmentScanner;
 public class MainActivity extends AppCompatActivity implements OaidCallback {
 
     private BottomAppBar mainAppBar;
-    private FloatingActionButton btnAddGoal;
+    private FloatingActionButton fbShowMenu;
+    private ExtendedFloatingActionButton fbAddGoal;
+    private ExtendedFloatingActionButton fbScanProduct;
+
+    boolean isFABOpen = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +45,11 @@ public class MainActivity extends AppCompatActivity implements OaidCallback {
         setContentView(R.layout.activity_main);
         mainAppBar = findViewById(R.id.bottom_app_bar);
         mainAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_END);
-        btnAddGoal = findViewById(R.id.btn_add_goal);
+        fbShowMenu = findViewById(R.id.fb_show_menu);
+        fbAddGoal = findViewById(R.id.fb_add_goal);
+        fbAddGoal.shrink();
+        fbScanProduct = findViewById(R.id.fb_scan_product);
+        fbScanProduct.shrink();
 
         setSupportActionBar(mainAppBar);
         setListeners();
@@ -90,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements OaidCallback {
     }
 
     private void showFragment(Fragment fragment) {
+        hideFABS();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fg_container_view, fragment);
         transaction.addToBackStack(null);
@@ -115,17 +125,51 @@ public class MainActivity extends AppCompatActivity implements OaidCallback {
             @Override
             public void onClick(View view) {
                 showBottomMenu();
+                hideFABS();
             }
         });
-        btnAddGoal.setOnClickListener(new View.OnClickListener() {
+        fbShowMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //addGoal();
+                openGoalsMenu();
+            }
+        });
+        fbAddGoal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 addGoal();
+                hideFABS();
             }
         });
     }
 
+    private void openGoalsMenu() {
+        if (!isFABOpen){
+            showFABS();
+        }else {
+            hideFABS();
+        }
+    }
+
+    private void hideFABS() {
+        isFABOpen = false;
+        fbScanProduct.shrink();
+        fbAddGoal.shrink();
+        fbAddGoal.animate().translationY(0);
+        fbScanProduct.animate().translationY(0);
+    }
+
+    private void showFABS() {
+        isFABOpen = true;
+        fbScanProduct.extend();
+        fbAddGoal.extend();
+        fbAddGoal.animate().translationY(-200);
+        fbScanProduct.animate().translationY(-380);
+    }
+
     private void changeRecyclerViewLayout(int rvSquareView) {
+        hideFABS();
         FragmentMyProfile myProfile = (FragmentMyProfile) getSupportFragmentManager().findFragmentById(R.id.fg_container_view);
         assert myProfile != null;
         myProfile.changeRecyclerViewLayout(rvSquareView);

@@ -34,13 +34,39 @@
             app:layout_scrollFlags="scroll|enterAlways"
             app:navigationIcon="@drawable/menu_bottom" />
 
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/fb_scan_product"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            app:icon="@drawable/qr_icon"
+            android:layout_gravity="center"
+            android:text="@string/scann_product"
+            android:textAllCaps="false"
+            app:layout_anchor="@id/fb_show_menu"
+            app:layout_anchorGravity="center"
+            app:fabSize="mini" />
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/fb_add_goal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            app:icon="@drawable/add_goal"
+            android:textAllCaps="false"
+            android:layout_gravity="center"
+            android:text="@string/add_new_goal"
+            app:layout_anchor="@id/fb_show_menu"
+            app:layout_anchorGravity="center"
+            app:fabSize="mini" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/btn_add_goal"
+            android:id="@+id/fb_show_menu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/add_goal"
-            app:layout_anchor="@id/bottom_app_bar" />
+            app:layout_anchor="@id/bottom_app_bar"/>
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

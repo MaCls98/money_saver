@@ -107,8 +107,10 @@ public class Goal implements Serializable {
                 ", goalName='" + goalName + '\'' +
                 ", goalCost=" + goalCost +
                 ", goalActualMoney=" + goalActualMoney +
+                ", goalDate='" + goalDate + '\'' +
                 ", goalPhotoPath='" + goalPhotoPath + '\'' +
-                ", goalLikes=" + Arrays.toString(goalLikes) +
+                ", goalStatus='" + goalStatus + '\'' +
+                ", goalLikes=" + goalLikes.length +
                 ", contributionCount=" + contributionCount +
                 '}';
     }
