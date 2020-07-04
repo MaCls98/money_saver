@@ -18,6 +18,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -123,34 +124,64 @@ public class MoneySaverRepository {
 
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                try {
-                    String strResponse = response.body().string();
-                    JSONObject jsonResponse = new JSONObject(strResponse);
-                    JSONArray goals = jsonResponse.getJSONArray("goals");
-                    ArrayList<Goal> tmpGoals = new ArrayList<>();
-                    for (int i = 0; i < goals.length(); i++){
-                        JSONObject jsonGoal = goals.getJSONObject(i);
-                        Goal goal = new Goal(
-                                jsonGoal.getString("goal_id"),
-                                jsonGoal.getString("description"),
-                                jsonGoal.getInt("cost"),
-                                jsonGoal.getInt("actualMoney"),
-                                jsonGoal.getString("start_date"),
-                                jsonGoal.getString("image"),
-                                jsonGoal.getString("status"),
-                                new String[]{"1", "2", "3"},
-                                jsonGoal.getInt("contributionsCount")
-                        );
-                        Log.d("GOAL", goal.toString());
-                        tmpGoals.add(goal);
-                    }
-                    goalsData.postValue(tmpGoals);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                readGoals(response, goalsData);
             }
         });
         return goalsData;
+    }
+
+    public MutableLiveData<ArrayList<Goal>> getGlobalGoals(int page){
+        final MutableLiveData<ArrayList<Goal>> goalsData = new MutableLiveData<>();
+        goalsData.postValue(new ArrayList<Goal>());
+        HttpUrl url = HttpUrl.parse(AppConstants.BASE_URL + AppConstants.GET_GLOBAL_GOALS_URL).newBuilder()
+                .addQueryParameter("page", String.valueOf(page))
+                .build();
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+        ApplicationMoneySaver.getOkHttpClient().newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                readGoals(response, goalsData);
+            }
+        });
+        return goalsData;
+    }
+
+    private void readGoals(@NotNull Response response, MutableLiveData<ArrayList<Goal>> goalsData) throws IOException {
+        try {
+            String strResponse = response.body().string();
+            JSONObject jsonResponse = new JSONObject(strResponse);
+            JSONArray goals = jsonResponse.getJSONArray("goals");
+            ArrayList<Goal> tmpGoals = new ArrayList<>();
+            for (int i = 0; i < goals.length(); i++){
+                JSONObject jsonGoal = goals.getJSONObject(i);
+                JSONArray likes = jsonGoal.getJSONArray("likes");
+                String [] likeList = new String [likes.length()];
+                for (int j = 0; j < likes.length(); j++){
+                    likeList[i] = likes.getString(i);
+                }
+                Goal goal = new Goal(
+                        jsonGoal.getString("goal_id"),
+                        jsonGoal.getString("description"),
+                        jsonGoal.getInt("cost"),
+                        jsonGoal.getInt("actualMoney"),
+                        jsonGoal.getString("start_date"),
+                        jsonGoal.getString("image"),
+                        jsonGoal.getString("status"),
+                        likeList,
+                        jsonGoal.getInt("contributionsCount")
+                );
+                tmpGoals.add(goal);
+            }
+            goalsData.postValue(tmpGoals);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public void sendTokenPushKit(String token) {

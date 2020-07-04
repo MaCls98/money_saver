@@ -16,7 +16,6 @@ import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.huawei.hms.ads.AdListener;
 import com.huawei.hms.ads.AdParam;
 import com.huawei.hms.ads.nativead.MediaView;
@@ -32,8 +31,6 @@ import com.theoffice.moneysaver.utils.MyFileUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-
-import jp.wasabeef.glide.transformations.BlurTransformation;
 
 public class ProfileRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
