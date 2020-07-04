@@ -163,7 +163,7 @@ public class MoneySaverRepository {
                 JSONArray likes = jsonGoal.getJSONArray("likes");
                 String [] likeList = new String [likes.length()];
                 for (int j = 0; j < likes.length(); j++){
-                    likeList[i] = likes.getString(i);
+                    likeList[j] = likes.getString(j);
                 }
                 Goal goal = new Goal(
                         jsonGoal.getString("goal_id"),
