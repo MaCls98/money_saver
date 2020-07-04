@@ -4,10 +4,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -19,16 +22,26 @@ import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.huawei.hms.ads.HwAds;
+import com.huawei.hms.hmsscankit.ScanUtil;
+import com.huawei.hms.ml.scan.HmsScan;
 import com.theoffice.moneysaver.R;
+import com.theoffice.moneysaver.data.model.Product;
 import com.theoffice.moneysaver.hms.ppskit.OaidCallback;
 import com.theoffice.moneysaver.utils.AppConstants;
 import com.theoffice.moneysaver.utils.MyAdsManager;
+import com.theoffice.moneysaver.utils.MyToast;
 import com.theoffice.moneysaver.views.dialogs.DialogAddGoal;
+import com.theoffice.moneysaver.views.dialogs.DialogProduct;
 import com.theoffice.moneysaver.views.fragments.BottomNavigationFragment;
 import com.theoffice.moneysaver.views.fragments.FragmentGlobalGoals;
 import com.theoffice.moneysaver.views.fragments.FragmentMyHome;
 import com.theoffice.moneysaver.views.fragments.FragmentMyProfile;
 import com.theoffice.moneysaver.views.fragments.FragmentScanner;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import static com.theoffice.moneysaver.utils.AppConstants.REQUEST_SCANNER;
 
 public class MainActivity extends AppCompatActivity implements OaidCallback {
 
@@ -138,10 +151,22 @@ public class MainActivity extends AppCompatActivity implements OaidCallback {
         fbAddGoal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addGoal();
                 hideFABS();
+                addGoal();
             }
         });
+        fbScanProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hideFABS();
+                launchScanner();
+            }
+        });
+    }
+
+    private void launchScanner() {
+        ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.CAMERA,
+                Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_SCANNER);
     }
 
     private void openGoalsMenu() {
@@ -192,9 +217,44 @@ public class MainActivity extends AppCompatActivity implements OaidCallback {
         navigationFragment.show(getSupportFragmentManager(), navigationFragment.getTag());
     }
 
+    private void launchProductDialog(HmsScan obj) {
+        JSONObject productJson = null;
+        try {
+            productJson = new JSONObject(obj.getShowResult());
+            if (productJson.has("qr_type")){
+                Product product = new Product(
+                        productJson.getString("product_name"),
+                        productJson.getInt("product_value"),
+                        productJson.getString("product_image")
+                );
+                DialogProduct dialogProduct = new DialogProduct();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("product", product);
+                dialogProduct.setArguments(bundle);
+                dialogProduct.show(getSupportFragmentManager(), dialogProduct.getTag());
+            }else {
+                MyToast.showShortToast(getString(R.string.wrong_qr_code), getBaseContext());
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_SCANNER) {
+            try {
+                HmsScan obj = data.getParcelableExtra(ScanUtil.RESULT);
+                if (obj != null) {
+                    launchProductDialog(obj);
+                }
+            }catch (Exception e){
+
+            }
+        }
+
         for (Fragment fragment: getSupportFragmentManager().getFragments()) {
             fragment.onActivityResult(requestCode, resultCode, data);
         }
@@ -203,6 +263,11 @@ public class MainActivity extends AppCompatActivity implements OaidCallback {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == REQUEST_SCANNER && grantResults.length == 2 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            ScanUtil.startScan(this, requestCode, null);
+        }
+
         for (Fragment fragment:
              getSupportFragmentManager().getFragments()) {
             fragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
