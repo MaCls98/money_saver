@@ -30,4 +30,6 @@
     <string name="auto_login_key">auto_login</string>
     <string name="starting_login">Iniciando Sesión</string>
     <string name="scan_product">Escanear producto</string>
+    <string name="add_new_goal">Crear nueva meta</string>
+    <string name="scann_product">Escanear producto</string>
 </resources>

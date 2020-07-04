@@ -171,7 +171,8 @@ public class DialogAddGoal extends DialogFragment implements View.OnClickListene
             .put("description", newGoal.getGoalName())
             .put("start_date", newGoal.getGoalDate())
             .put("cost", newGoal.getGoalCost())
-            .put("image", newGoal.getGoalPhotoPath()));
+            .put("image", newGoal.getGoalPhotoPath()))
+            .put("goal_type", AppConstants.GOAL_TYPE_USER);
 
         RequestBody body = RequestBody.create(String.valueOf(goalObject), AppConstants.JSON);
         Request request = new Request.Builder()
