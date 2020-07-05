@@ -22,6 +22,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.cloudinary.android.MediaManager;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -45,6 +46,9 @@ import com.theoffice.moneysaver.views.fragments.FragmentHuaweiGoals;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static com.theoffice.moneysaver.utils.AppConstants.REQUEST_SCANNER;
 
 public class MainActivity extends AppCompatActivity implements OaidCallback {
@@ -61,6 +65,10 @@ public class MainActivity extends AppCompatActivity implements OaidCallback {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Map config = new HashMap();
+        config.put("cloud_name", AppConstants.CLOUDINARY_NAME);
+        MediaManager.init(getBaseContext(), config);
 
         sharedPreferences = getPreferences(Context.MODE_PRIVATE);
 
