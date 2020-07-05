@@ -68,6 +68,10 @@ public class FragmentGlobalGoals extends DialogFragment {
         return v;
     }
 
+    private void requestGoals(int page) {
+        MoneySaverRepository.getInstance().getGlobalGoals(page);
+    }
+
     private void launchGoalDialog(Goal goal) {
         DialogShowGoal dialogShowGoal = new DialogShowGoal();
         Bundle bundle = new Bundle();

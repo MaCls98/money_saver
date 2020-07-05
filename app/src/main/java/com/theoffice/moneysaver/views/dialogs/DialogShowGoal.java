@@ -74,6 +74,7 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
         Bundle bundle = getArguments();
         assert bundle != null;
         goal = (Goal) bundle.getSerializable("goal");
+        goalPos = bundle.getInt("goalPos");
     }
 
     @Override

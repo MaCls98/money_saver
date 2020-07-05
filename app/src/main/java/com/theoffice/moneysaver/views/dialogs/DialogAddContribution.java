@@ -69,7 +69,7 @@ public class DialogAddContribution extends DialogFragment {
                 {
                     tilMoney.setErrorEnabled(false);
                     int value = Integer.parseInt(tilMoney.getEditText().getText().toString());
-                    if ( (goal.getGoalActualMoney() + value) > goal.getGoalCost() ){
+                    if (value > (goal.getGoalCost() - goal.getGoalActualMoney())){
                         tilMoney.setErrorEnabled(true);
                         tilMoney.setError("El aporte no puede ser mayor que el dinero faltante");
                     }else {
@@ -94,6 +94,8 @@ public class DialogAddContribution extends DialogFragment {
                 .put("contribution", new JSONObject()
                     .put("date", MyDatePicker.convertDate(Calendar.getInstance().getTimeInMillis()))
                     .put("value", Integer.parseInt(tilMoney.getEditText().getText().toString())));
+
+        Log.d("GOAL", goal.getGoalName());
 
         RequestBody body = RequestBody.create(String.valueOf(contributionObject), AppConstants.JSON);
         Request request = new Request.Builder()

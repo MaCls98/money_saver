@@ -71,7 +71,7 @@ public class FragmentMyProfile extends Fragment {
             @Override
             public void onImageClick(int position) {
                 Goal goal = user.getGoalList().get(rvAdapter.getRealPosition(position));
-                launchGoalDialog(goal);
+                launchGoalDialog(goal, rvAdapter.getRealPosition(position));
             }
 
             @Override
@@ -148,10 +148,11 @@ public class FragmentMyProfile extends Fragment {
         rvAdapter.setRvLayout(AppConstants.RV_GRID_VIEW);
     }
 
-    private void launchGoalDialog(Goal goal) {
+    private void launchGoalDialog(Goal goal, int position) {
         DialogShowGoal dialogShowGoal = new DialogShowGoal();
         Bundle bundle = new Bundle();
         bundle.putSerializable("goal", goal);
+        bundle.putInt("goalPos", position);
         dialogShowGoal.setArguments(bundle);
         dialogShowGoal.show(getParentFragmentManager(), dialogShowGoal.getTag());
     }
