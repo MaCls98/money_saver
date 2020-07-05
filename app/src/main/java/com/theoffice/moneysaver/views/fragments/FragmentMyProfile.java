@@ -22,6 +22,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.arasthel.spannedgridlayoutmanager.SpanSize;
+import com.arasthel.spannedgridlayoutmanager.SpannedGridLayoutManager;
 import com.bumptech.glide.Glide;
 import com.theoffice.moneysaver.ApplicationMoneySaver;
 import com.theoffice.moneysaver.R;
@@ -35,6 +37,8 @@ import com.theoffice.moneysaver.views.activities.MainActivity;
 import com.theoffice.moneysaver.views.dialogs.DialogShowGoal;
 
 import java.util.ArrayList;
+
+import kotlin.jvm.functions.Function1;
 
 public class FragmentMyProfile extends Fragment {
 

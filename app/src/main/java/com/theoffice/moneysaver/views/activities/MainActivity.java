@@ -94,15 +94,30 @@ public class MainActivity extends AppCompatActivity implements OaidCallback {
                 break;
             case AppConstants.MY_PROFILE:
                 showFragment(new FragmentMyProfile());
-                mainAppBar.replaceMenu(R.menu.profile_appbar_menu);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mainAppBar.replaceMenu(R.menu.profile_appbar_menu);
+                    }
+                });
                 break;
             case AppConstants.GLOBAL_GOALS:
                 showFragment(new FragmentGlobalGoals());
-                mainAppBar.replaceMenu(R.menu.global_appbar_menu);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mainAppBar.replaceMenu(R.menu.global_appbar_menu);
+                    }
+                });
                 break;
             case AppConstants.SCAN_PRODUCT:
                 showFragment(new FragmentHuaweiGoals());
-                mainAppBar.replaceMenu(R.menu.global_appbar_menu);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mainAppBar.replaceMenu(R.menu.global_appbar_menu);
+                    }
+                });
                 break;
         }
     }
