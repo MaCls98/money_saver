@@ -141,6 +141,10 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
         ibLikeGoal.setOnClickListener(this);
         ImageButton ibLikeGoal = v.findViewById(R.id.ib_like_goal);
         ibLikeGoal.setOnClickListener(this);
+
+        if (getTargetFragment() instanceof FragmentGlobalGoals){
+            btnAddContribution.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -153,10 +157,16 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
                 addContribution();
                 break;
             case R.id.ib_like_goal:
-                try {
-                    likeGoal();
-                } catch (JSONException e) {
-                    e.printStackTrace();
+
+                for (String strLike:
+                     goal.getGoalLikes()) {
+                    if (!strLike.equals(ApplicationMoneySaver.getMainUser().getUserId())){
+                        try {
+                            likeGoal();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
                 break;
         }
