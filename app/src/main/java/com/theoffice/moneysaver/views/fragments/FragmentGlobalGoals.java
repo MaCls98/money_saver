@@ -1,9 +1,11 @@
 package com.theoffice.moneysaver.views.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,26 +34,33 @@ public class FragmentGlobalGoals extends DialogFragment {
     private GlobalRVAdapter rvAdapter;
     private ArrayList<Goal> goals = new ArrayList<>();
     private MutableLiveData<ArrayList<Goal>> goalMutableLiveData;
+    private int currentPage = 0;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_global_goals, container, false);
         RecyclerView rvMyProfile = v.findViewById(R.id.rv_goal_list);
-        goalMutableLiveData = MoneySaverRepository.getInstance().getGlobalGoals(0);
+        goalMutableLiveData = MoneySaverRepository.getInstance().getGlobalGoals(currentPage);
         rvAdapter = new GlobalRVAdapter(getActivity(),
                 goals);
 
         rvAdapter.setOnItemClickListener(new GlobalRVAdapter.OnItemClickListener() {
 
             @Override
-            public void onImageClick(int position) {
-                Goal goal = goalMutableLiveData.getValue().get(position);
+            public void onImageClick(String goalId) {
+                Goal goal = null;
+                for (Goal tmpGoal:
+                     goals) {
+                    if (tmpGoal.getGoalId().equals(goalId)){
+                        goal = tmpGoal;
+                    }
+                }
                 launchGoalDialog(goal);
             }
         });
 
-        SpannedGridLayoutManager gridLayoutManager =
+        final SpannedGridLayoutManager gridLayoutManager =
                 new SpannedGridLayoutManager(SpannedGridLayoutManager.Orientation.VERTICAL, 3);
         gridLayoutManager.setItemOrderIsStable(true);
         gridLayoutManager.setSpanSizeLookup(new SpannedGridLayoutManager.SpanSizeLookup(new Function1<Integer, SpanSize>(){
@@ -65,11 +74,30 @@ public class FragmentGlobalGoals extends DialogFragment {
         }));
         rvMyProfile.setLayoutManager(gridLayoutManager);
         rvMyProfile.setAdapter(rvAdapter);
+
+        rvMyProfile.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+                if (!recyclerView.canScrollVertically(1) && newState==RecyclerView.SCROLL_STATE_IDLE) {
+                    requestGoals(++currentPage);
+                }
+            }
+        });
+        requestGoals(++currentPage);
         return v;
     }
 
     private void requestGoals(int page) {
-        MoneySaverRepository.getInstance().getGlobalGoals(page);
+        MutableLiveData<ArrayList<Goal>> tmpLiveData = MoneySaverRepository.getInstance().getGlobalGoals(page);
+        tmpLiveData.observe(getViewLifecycleOwner(), new Observer<ArrayList<Goal>>() {
+            @Override
+            public void onChanged(ArrayList<Goal> tmpGoals) {
+                goals.addAll(tmpGoals);
+                rvAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     private void launchGoalDialog(Goal goal) {
@@ -81,23 +109,12 @@ public class FragmentGlobalGoals extends DialogFragment {
         dialogShowGoal.show(getParentFragmentManager(), dialogShowGoal.getTag());
     }
 
-    public void likeGoal(Goal goal){
-        for (int i = 0; i < goals.size(); i++){
-            Goal tmpGoal = goals.get(i);
-            if (goal.getGoalId().equals(tmpGoal.getGoalId())){
-                tmpGoal.setGoalLikes(goal.getGoalLikes());
-                rvAdapter.notifyDataSetChanged();
-            }
-        }
-    }
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         goalMutableLiveData.observe(getViewLifecycleOwner(), new Observer<ArrayList<Goal>>() {
             @Override
             public void onChanged(ArrayList<Goal> newGoals) {
-                goals.clear();
                 goals.addAll(newGoals);
                 rvAdapter.notifyDataSetChanged();
             }

@@ -45,7 +45,7 @@ public class GlobalRVAdapter extends RecyclerView.Adapter<GlobalRVAdapter.GoalVi
     private OnItemClickListener listener;
 
     public interface OnItemClickListener{
-        void onImageClick(int position);
+        void onImageClick(String goalId);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener){
@@ -54,6 +54,7 @@ public class GlobalRVAdapter extends RecyclerView.Adapter<GlobalRVAdapter.GoalVi
 
     static class GoalViewHolder extends RecyclerView.ViewHolder{
         ImageView ivGoalPhoto;
+        String goalId;
 
         public GoalViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
@@ -64,7 +65,7 @@ public class GlobalRVAdapter extends RecyclerView.Adapter<GlobalRVAdapter.GoalVi
                     if (listener != null){
                         int position = getLayoutPosition();
                         if (position != RecyclerView.NO_POSITION){
-                            listener.onImageClick(position);
+                            listener.onImageClick(goalId);
                         }
                     }
                 }
@@ -83,6 +84,7 @@ public class GlobalRVAdapter extends RecyclerView.Adapter<GlobalRVAdapter.GoalVi
     @Override
     public void onBindViewHolder(@NonNull final GoalViewHolder holder, int position) {
         Goal goal = goalList.get(position);
+        holder.goalId = goal.getGoalId();
 
         if((25 - calculatePercentage(goal) / 4) > 0){
             MyFileUtils.blurImage(context, holder.ivGoalPhoto, goal);

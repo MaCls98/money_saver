@@ -206,12 +206,6 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
                         getDialog().setCancelable(true);
                         ibLikeGoal.setColorFilter(ContextCompat.getColor(getContext(), android.R.color.holo_red_light), PorterDuff.Mode.MULTIPLY);
                         viewModel.updateGoalLike(goal.getGoalId(), ApplicationMoneySaver.getMainUser().getUserId());
-
-                        FragmentGlobalGoals globalGoals = (FragmentGlobalGoals) getTargetFragment();
-                        if (globalGoals != null) {
-                            goal.getGoalLikes().add(ApplicationMoneySaver.getMainUser().getUserId());
-                            globalGoals.likeGoal(goal);
-                        }
                     }
                 });
             }
