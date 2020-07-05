@@ -46,6 +46,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -146,7 +147,7 @@ public class DialogAddGoal extends DialogFragment implements View.OnClickListene
                     goalDate,
                     goalPhotoPath,
                     "NEW",
-                    new String[]{},
+                    new ArrayList<String>(),
                     0
             );
             tilGoalName.setEnabled(false);

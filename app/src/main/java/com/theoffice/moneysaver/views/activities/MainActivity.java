@@ -13,8 +13,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -96,12 +94,15 @@ public class MainActivity extends AppCompatActivity implements OaidCallback {
                 break;
             case AppConstants.MY_PROFILE:
                 showFragment(new FragmentMyProfile());
+                mainAppBar.replaceMenu(R.menu.profile_appbar_menu);
                 break;
             case AppConstants.GLOBAL_GOALS:
                 showFragment(new FragmentGlobalGoals());
+                mainAppBar.replaceMenu(R.menu.global_appbar_menu);
                 break;
             case AppConstants.SCAN_PRODUCT:
                 showFragment(new FragmentHuaweiGoals());
+                mainAppBar.replaceMenu(R.menu.global_appbar_menu);
                 break;
         }
     }
@@ -203,7 +204,7 @@ public class MainActivity extends AppCompatActivity implements OaidCallback {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.appbar_menu, menu);
+        inflater.inflate(R.menu.profile_appbar_menu, menu);
         return true;
     }
 

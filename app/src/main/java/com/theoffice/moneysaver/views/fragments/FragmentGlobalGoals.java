@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
@@ -20,15 +21,17 @@ import com.theoffice.moneysaver.data.model.Goal;
 import com.theoffice.moneysaver.data.model.User;
 import com.theoffice.moneysaver.data.repositories.MoneySaverRepository;
 import com.theoffice.moneysaver.utils.AppConstants;
+import com.theoffice.moneysaver.views.dialogs.DialogShowGoal;
 
 import java.util.ArrayList;
 
-public class FragmentGlobalGoals extends Fragment {
+public class FragmentGlobalGoals extends DialogFragment {
 
     private ProfileRVAdapter rvAdapter;
     private RecyclerView rvMyProfile;
     private ArrayList<Goal> goals = new ArrayList<>();
     private MutableLiveData<ArrayList<Goal>> goalMutableLiveData;
+    private int actualSelectedGoal = 0;
 
     @Nullable
     @Override
@@ -43,7 +46,9 @@ public class FragmentGlobalGoals extends Fragment {
 
             @Override
             public void onImageClick(int position) {
-                //launchGoalDialog(rvAdapter.getRealPosition(position));
+                Goal goal = goalMutableLiveData.getValue().get(rvAdapter.getRealPosition(position));
+                actualSelectedGoal = rvAdapter.getRealPosition(actualSelectedGoal);
+                launchGoalDialog(goal);
             }
 
             @Override
@@ -55,6 +60,25 @@ public class FragmentGlobalGoals extends Fragment {
         rvMyProfile.setLayoutManager(new LinearLayoutManager(getContext()));
         rvMyProfile.setAdapter(rvAdapter);
         return v;
+    }
+
+    private void launchGoalDialog(Goal goal) {
+        DialogShowGoal dialogShowGoal = new DialogShowGoal();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("goal", goal);
+        dialogShowGoal.setArguments(bundle);
+        dialogShowGoal.setTargetFragment(this, 1);
+        dialogShowGoal.show(getParentFragmentManager(), dialogShowGoal.getTag());
+    }
+
+    public void likeGoal(Goal goal){
+        for (int i = 0; i < goals.size(); i++){
+            Goal tmpGoal = goals.get(i);
+            if (goal.getGoalId().equals(tmpGoal.getGoalId())){
+                tmpGoal.setGoalLikes(goal.getGoalLikes());
+                rvAdapter.notifyDataSetChanged();
+            }
+        }
     }
 
     @Override

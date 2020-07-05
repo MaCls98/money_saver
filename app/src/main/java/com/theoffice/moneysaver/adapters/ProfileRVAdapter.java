@@ -146,7 +146,7 @@ public class ProfileRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             goalViewHolder.tvGoalName.setText(goal.getGoalName());
             //goalViewHolder.tvGoalActualMoney.setText("$" + goal.getGoalActualMoney());
             goalViewHolder.tvGoalActualMoney.setText(calculatePercentage(goal)  + "%");
-            goalViewHolder.tvGoalLikes.setText(context.getString(R.string.likes, goal.getGoalLikes().length));
+            goalViewHolder.tvGoalLikes.setText(context.getString(R.string.likes, goal.getGoalLikes().size()));
 
             if((25 - calculatePercentage(goal) / 4) > 0){
                 MyFileUtils.blurImage(context, ((GoalViewHolder) holder).ivGoalPhoto, goal);

@@ -33,6 +33,8 @@ public class SharedViewModel extends ViewModel {
                         ApplicationMoneySaver.getMainUser().getUserId());
     }
 
+
+
     public void updateGoalContribution(Goal goal){
         ArrayList<Goal> tmpGoalList = goalMutableLiveData.getValue();
         for (int i = 0; i < tmpGoalList.size(); i++) {
@@ -46,5 +48,16 @@ public class SharedViewModel extends ViewModel {
 
     public MutableLiveData<ArrayList<Goal>> getGoalMutableLiveData() {
         return goalMutableLiveData;
+    }
+
+    public void updateGoalLike(String goalId, String userId) {
+        ArrayList<Goal> tmpGoalList = goalMutableLiveData.getValue();
+        for (int i = 0; i < tmpGoalList.size(); i++) {
+            Goal tmpGoal = tmpGoalList.get(i);
+            if (tmpGoal.getGoalId().equals(goalId)){
+                tmpGoalList.get(i).getGoalLikes().add(userId);
+            }
+        }
+        goalMutableLiveData.postValue(tmpGoalList);
     }
 }

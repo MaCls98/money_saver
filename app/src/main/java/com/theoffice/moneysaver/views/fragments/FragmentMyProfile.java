@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,7 +70,8 @@ public class FragmentMyProfile extends Fragment {
 
             @Override
             public void onImageClick(int position) {
-                launchGoalDialog(rvAdapter.getRealPosition(position));
+                Goal goal = user.getGoalList().get(rvAdapter.getRealPosition(position));
+                launchGoalDialog(goal);
             }
 
             @Override
@@ -146,10 +148,10 @@ public class FragmentMyProfile extends Fragment {
         rvAdapter.setRvLayout(AppConstants.RV_GRID_VIEW);
     }
 
-    private void launchGoalDialog(int goal) {
+    private void launchGoalDialog(Goal goal) {
         DialogShowGoal dialogShowGoal = new DialogShowGoal();
         Bundle bundle = new Bundle();
-        bundle.putInt("goal", goal);
+        bundle.putSerializable("goal", goal);
         dialogShowGoal.setArguments(bundle);
         dialogShowGoal.show(getParentFragmentManager(), dialogShowGoal.getTag());
     }

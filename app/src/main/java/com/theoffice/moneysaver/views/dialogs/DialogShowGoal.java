@@ -22,15 +22,16 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
+import com.huawei.hms.ads.App;
 import com.theoffice.moneysaver.ApplicationMoneySaver;
 import com.theoffice.moneysaver.R;
 import com.theoffice.moneysaver.data.model.Contribution;
 import com.theoffice.moneysaver.data.model.Goal;
 import com.theoffice.moneysaver.utils.AppConstants;
-import com.theoffice.moneysaver.utils.MyDatePicker;
 import com.theoffice.moneysaver.utils.MyFileUtils;
 import com.theoffice.moneysaver.utils.MyToast;
 import com.theoffice.moneysaver.viewmodels.SharedViewModel;
+import com.theoffice.moneysaver.views.fragments.FragmentGlobalGoals;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -41,7 +42,6 @@ import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Objects;
 
 import okhttp3.Call;
@@ -73,8 +73,7 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
         viewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
         Bundle bundle = getArguments();
         assert bundle != null;
-        goalPos = bundle.getInt("goal");
-        goal = Objects.requireNonNull(viewModel.getGoalMutableLiveData().getValue()).get(goalPos);
+        goal = (Goal) bundle.getSerializable("goal");
     }
 
     @Override
@@ -83,7 +82,6 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
         viewModel.getGoalMutableLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<Goal>>() {
             @Override
             public void onChanged(ArrayList<Goal> goals) {
-                goal = goals.get(goalPos);
                 ApplicationMoneySaver.getMainUser().setGoalList(goals);
                 updateView();
             }
@@ -104,7 +102,7 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
         tvGoalValue.setText(getString(R.string.money_progress, this.goal.getGoalActualMoney(), this.goal.getGoalCost()));
         ZonedDateTime parse = ZonedDateTime.parse(this.goal.getGoalDate());
         tvGoalDate.setText(parse.toLocalDateTime().format(DateTimeFormatter.ofPattern(AppConstants.DATE_FORMAT_TO_SHOW)));
-        tvGoalLikes.setText(getString(R.string.likes, goal.getGoalLikes().length));
+        tvGoalLikes.setText(getString(R.string.likes, goal.getGoalLikes().size()));
         tvGoalContributions.setText(getString(R.string.contributions, this.goal.getContributionCount()));
         for (String s : goal.getGoalLikes()){
             if (s.equals(ApplicationMoneySaver.getMainUser().getUserId())){
@@ -132,7 +130,7 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
         tvGoalValue = v.findViewById(R.id.tv_goal_actual_money);
         tvGoalDate = v.findViewById(R.id.tv_goal_date);
         tvGoalLikes = v.findViewById(R.id.tv_goal_likes);
-        tvGoalLikes.setText(goal.getGoalLikes().length + "Me gusta");
+        tvGoalLikes.setText(goal.getGoalLikes().size() + "Me gusta");
         tvGoalContributions = v.findViewById(R.id.tv_goal_contribution);
         tvGoalContributions.setPaintFlags(tvGoalContributions.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         tvGoalContributions.setOnClickListener(this);
@@ -165,8 +163,7 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
     }
 
     private void likeGoal() throws JSONException {
-        Log.d("GOAL", ApplicationMoneySaver.getMainUser().getUserId());
-        Log.d("GOAL", goal.getGoalId());
+        getDialog().setCancelable(false);
         JSONObject likeOject = new JSONObject();
         likeOject.put("userId", ApplicationMoneySaver.getMainUser().getUserId())
                 .put("goalId", goal.getGoalId());
@@ -182,20 +179,28 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        getDialog().setCancelable(true);
                         MyToast.showShortToast("Ocurrio un error, por favor vuelve a intentarlo", getActivity());
                         ibLikeGoal.setColorFilter(ContextCompat.getColor(getContext(), android.R.color.darker_gray), PorterDuff.Mode.MULTIPLY);
+                        goal.getGoalLikes().remove(goal.getGoalLikes().size() -1);
                     }
                 });
             }
 
             @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                Log.d("GOAL", response.body().string());
+            public void onResponse(@NotNull Call call, @NotNull Response response) {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        getDialog().setCancelable(true);
                         ibLikeGoal.setColorFilter(ContextCompat.getColor(getContext(), android.R.color.holo_red_light), PorterDuff.Mode.MULTIPLY);
-                        viewModel.updateGoalsList();
+                        viewModel.updateGoalLike(goal.getGoalId(), ApplicationMoneySaver.getMainUser().getUserId());
+
+                        FragmentGlobalGoals globalGoals = (FragmentGlobalGoals) getTargetFragment();
+                        if (globalGoals != null) {
+                            goal.getGoalLikes().add(ApplicationMoneySaver.getMainUser().getUserId());
+                            globalGoals.likeGoal(goal);
+                        }
                     }
                 });
             }

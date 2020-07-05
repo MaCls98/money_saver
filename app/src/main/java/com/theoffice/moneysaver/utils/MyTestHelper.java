@@ -25,7 +25,7 @@ public class MyTestHelper {
                     MyDatePicker.convertDate(Calendar.getInstance(Locale.getDefault()).getTimeInMillis()),
                     "/storage/emulated/0/Android/data/com.theoffice.moneysaver/files/Pictures/JPEG_20200625_225120_8722133692996310947.jpg",
                     "NEW",
-                    new String[]{"1", "2", "3", "4", "5"},
+                    new ArrayList<String>(),
                     2
             );
             goals.add(goal);

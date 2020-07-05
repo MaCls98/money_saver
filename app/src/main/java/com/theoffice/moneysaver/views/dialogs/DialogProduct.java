@@ -30,6 +30,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Objects;
 
@@ -86,7 +87,7 @@ public class DialogProduct extends DialogFragment {
                             MyDatePicker.convertDate(Calendar.getInstance().getTimeInMillis()),
                             product.getProductPhoto(),
                             "NEW",
-                            new String[]{},
+                            new ArrayList<String>(),
                             0)
                     );
                 } catch (JSONException e) {

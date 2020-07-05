@@ -165,6 +165,11 @@ public class MoneySaverRepository {
                 for (int j = 0; j < likes.length(); j++){
                     likeList[j] = likes.getString(j);
                 }
+                ArrayList<String> tmpLikes = new ArrayList<>();
+                for (String like:
+                     likeList) {
+                    tmpLikes.add(like);
+                }
                 Goal goal = new Goal(
                         jsonGoal.getString("goal_id"),
                         jsonGoal.getString("description"),
@@ -173,7 +178,7 @@ public class MoneySaverRepository {
                         jsonGoal.getString("start_date"),
                         jsonGoal.getString("image"),
                         jsonGoal.getString("status"),
-                        likeList,
+                        tmpLikes,
                         jsonGoal.getInt("contributionsCount")
                 );
                 tmpGoals.add(goal);

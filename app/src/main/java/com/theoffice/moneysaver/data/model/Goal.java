@@ -1,8 +1,9 @@
 package com.theoffice.moneysaver.data.model;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Goal implements Serializable {
     private String goalId;
@@ -12,11 +13,11 @@ public class Goal implements Serializable {
     private String goalDate;
     private String goalPhotoPath;
     private String goalStatus;
-    private String[] goalLikes;
+    private ArrayList<String> goalLikes;
     private int contributionCount;
 
-    public Goal(String goalId, String goalName,int goalCost, int goalActualMoney, String goalDate, String goalPhotoPath,
-                String goalStatus, String[] goalLikes, int contributionCount) {
+    public Goal(String goalId, String goalName, int goalCost, int goalActualMoney, String goalDate, String goalPhotoPath,
+                String goalStatus, ArrayList<String> goalLikes, int contributionCount) {
         this.goalId = goalId;
         this.goalName = goalName;
         this.goalActualMoney = goalActualMoney;
@@ -28,36 +29,16 @@ public class Goal implements Serializable {
         this.contributionCount = contributionCount;
     }
 
-    public void setGoalId(String goalId) {
-        this.goalId = goalId;
-    }
-
-    public void setGoalName(String goalName) {
-        this.goalName = goalName;
-    }
-
-    public void setGoalCost(int goalCost) {
-        this.goalCost = goalCost;
-    }
-
     public void setGoalActualMoney(int goalActualMoney) {
         this.goalActualMoney = goalActualMoney;
     }
 
-    public void setGoalDate(String goalDate) {
-        this.goalDate = goalDate;
-    }
-
-    public void setGoalStatus(String goalStatus) {
-        this.goalStatus = goalStatus;
-    }
-
-    public void setGoalLikes(String[] goalLikes) {
-        this.goalLikes = goalLikes;
-    }
-
     public void setContributionCount(int contributionCount) {
         this.contributionCount = contributionCount;
+    }
+
+    public void setGoalLikes(ArrayList<String> goalLikes) {
+        this.goalLikes = goalLikes;
     }
 
     public void setGoalPhotoPath(String goalPhotoPath) {
@@ -68,16 +49,12 @@ public class Goal implements Serializable {
         return contributionCount;
     }
 
-    public String[] getGoalLikes() {
+    public ArrayList<String> getGoalLikes() {
         return goalLikes;
     }
 
     public int getGoalCost() {
         return goalCost;
-    }
-
-    public String getGoalStatus() {
-        return goalStatus;
     }
 
     public String getGoalId() {
@@ -100,6 +77,7 @@ public class Goal implements Serializable {
         return goalPhotoPath;
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "Goal{" +
@@ -110,16 +88,12 @@ public class Goal implements Serializable {
                 ", goalDate='" + goalDate + '\'' +
                 ", goalPhotoPath='" + goalPhotoPath + '\'' +
                 ", goalStatus='" + goalStatus + '\'' +
-                ", goalLikes=" + goalLikes.length +
+                ", goalLikes=" + goalLikes.size() +
                 ", contributionCount=" + contributionCount +
                 '}';
     }
 
     public void increaseContribution() {
         this.contributionCount++;
-    }
-
-    public void increaseActualMoney(int money){
-        this.goalActualMoney += money;
     }
 }
