@@ -95,7 +95,7 @@ public class MyFileUtils {
         return image;
     }
 
-    public static String compressImage(String goalPhotoPath, Context context) {
+    public static String compressImage(String goalPhotoPath, Context context, int photoType) {
         try {
             File file = new File(goalPhotoPath);
             // BitmapFactory options to downsize the image
@@ -139,7 +139,12 @@ public class MyFileUtils {
 
             selectedBitmap.compress(Bitmap.CompressFormat.JPEG, 100 , outputStream);
 
-            return rotateImage(newFile.getAbsolutePath());
+            if (photoType == 0) {
+                return rotateImage(newFile.getAbsolutePath());
+            }else if (photoType == 1){
+                return newFile.getAbsolutePath();
+            }
+            return newFile.getAbsolutePath();
         } catch (Exception e) {
             Log.e("Error", e.getMessage());
             return null;

@@ -79,6 +79,8 @@ public class DialogAddGoal extends DialogFragment implements View.OnClickListene
 
     private int isGoalComplete = 0;
 
+    private int photoType = 0;
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -212,7 +214,7 @@ public class DialogAddGoal extends DialogFragment implements View.OnClickListene
         config.put("cloud_name", AppConstants.CLOUDINARY_NAME);
         MediaManager.init(requireContext(), config);
 
-        MediaManager.get().upload(MyFileUtils.compressImage(goalPhotoPath, getContext()))
+        MediaManager.get().upload(MyFileUtils.compressImage(goalPhotoPath, getContext(), photoType))
                 .unsigned("s4hf1hid")
                 .callback(new UploadCallback() {
                     @Override
@@ -313,9 +315,11 @@ public class DialogAddGoal extends DialogFragment implements View.OnClickListene
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == AppConstants
                 .REQUEST_IMAGE_CAPTURE) {
+            photoType = 0;
             showGoalPhoto();
         }else if(requestCode == AppConstants.REQUEST_IMAGE_GALLERY){
             goalPhotoPath = getRealPathFromURI(data.getData());
+            photoType = 1;
             showGoalPhoto();
         }
     }
