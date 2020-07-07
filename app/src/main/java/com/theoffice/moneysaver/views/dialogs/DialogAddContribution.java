@@ -167,6 +167,7 @@ public class DialogAddContribution extends DialogFragment {
     @Override
     public void onStart() {
         super.onStart();
+        getDialog().getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         Objects.requireNonNull(getDialog().getWindow()).setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     }
 }

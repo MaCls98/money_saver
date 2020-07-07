@@ -127,6 +127,7 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
         tvGoalTotal.setText("$" + goal.getGoalActualMoney() + "/" + "$" + goal.getGoalCost());
         viewPager.getAdapter().notifyDataSetChanged();
         pbGoalProgress.setProgress(calculatePercentage(goal));
+        pbGoalProgress.setScaleY(2f);
     }
 
     private void initComponents(View v) {

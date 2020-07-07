@@ -5,7 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="4dp"
-    app:cardElevation="4dp">
+    app:cardBackgroundColor="@color/dark_background"
+    app:cardCornerRadius="4dp"
+    app:cardElevation="8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_mini_goal"
@@ -17,6 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="TextView"
+            android:textColor="@android:color/white"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/iv_goal_photo"
@@ -29,13 +32,12 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
-            android:background="@color/colorAccent"
+            android:background="@color/dark_background"
             android:scaleType="centerCrop"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_goal_name"
-            app:srcCompat="@drawable/test_image" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_goal_name" />
 
         <TextView
             android:id="@+id/tv_goal_likes"
@@ -43,6 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="2dp"
             android:text="TextView"
+            android:textColor="@android:color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/iv_goal_photo"
             app:layout_constraintTop_toBottomOf="@+id/pb_goal_progress" />
@@ -52,6 +55,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="TextView"
+            android:textColor="@android:color/white"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@+id/iv_goal_photo"

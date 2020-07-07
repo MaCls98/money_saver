@@ -5,17 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_centerInParent="true"
-    android:layout_marginTop="2dp"
-    android:layout_marginBottom="2dp"
     android:background="#FFFFFF"
-    android:backgroundTint="@android:color/transparent"
+    android:backgroundTint="@color/dark_background"
     android:orientation="vertical"
     android:padding="2dp">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="2dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="2dp"
         app:cardCornerRadius="4dp"
         app:cardElevation="4dp">
 

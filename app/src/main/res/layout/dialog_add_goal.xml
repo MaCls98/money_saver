@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:background="@color/dark_background">
 
     <LinearLayout
         android:id="@+id/linearLayout3"
@@ -24,20 +25,23 @@
                 android:id="@+id/toolbar_add_goal"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                android:background="@color/hiad_50_percent_black"
                 android:paddingStart="6dp"
                 android:paddingEnd="16dp"
                 app:contentInsetStartWithNavigation="0dp"
                 app:navigationIcon="@drawable/close_button"
                 app:titleTextColor="@android:color/white">
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_save_goal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:drawableLeft="@drawable/save_icon"
                     android:text="@string/save_goal"
-                    android:textColor="@android:color/white" />
+                    android:textColor="@color/dark_background"
+                    app:backgroundTint="@color/colorAccent"
+                    app:icon="@drawable/save_icon"
+                    app:iconTint="@color/dark_background" />
 
             </androidx.appcompat.widget.Toolbar>
 
@@ -58,11 +62,13 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_goal_name"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    style="@style/LoginTextInputLayoutStyle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="32dp"
+                    android:textColorHint="@android:color/white"
                     app:helperTextEnabled="true"
+                    app:hintTextColor="@android:color/white"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
@@ -71,20 +77,24 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/goal_name"
-                        android:singleLine="true" />
+                        android:singleLine="true"
+                        android:textColor="@android:color/white" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_goal_value"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    style="@style/LoginTextInputLayoutStyle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
+                    android:textColorHint="@android:color/white"
                     app:helperTextEnabled="true"
+                    app:hintTextColor="@android:color/white"
                     app:layout_constraintEnd_toEndOf="@+id/til_goal_name"
                     app:layout_constraintStart_toStartOf="@+id/til_goal_name"
                     app:layout_constraintTop_toBottomOf="@+id/til_goal_name"
-                    app:startIconDrawable="@drawable/money_icon">
+                    app:startIconDrawable="@drawable/money_icon"
+                    app:startIconTint="@android:color/white">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
@@ -92,20 +102,24 @@
                         android:hint="@string/goal_value"
                         android:inputType="numberDecimal"
                         android:maxLength="15"
-                        android:singleLine="true" />
+                        android:singleLine="true"
+                        android:textColor="@android:color/white" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_goal_date"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    style="@style/LoginTextInputLayoutStyle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
+                    android:textColorHint="@android:color/white"
                     app:helperTextEnabled="true"
+                    app:hintTextColor="@android:color/white"
                     app:layout_constraintEnd_toEndOf="@+id/til_goal_value"
                     app:layout_constraintStart_toStartOf="@+id/til_goal_value"
                     app:layout_constraintTop_toBottomOf="@+id/til_goal_value"
-                    app:startIconDrawable="@drawable/calendar_icon">
+                    app:startIconDrawable="@drawable/calendar_icon"
+                    app:startIconTint="@android:color/white">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/et_goal_date"
@@ -115,17 +129,21 @@
                         android:focusable="false"
                         android:hint="@string/goal_start_date"
                         android:singleLine="true"
+                        android:textColor="@android:color/white"
                         tools:ignore="Deprecated,KeyboardInaccessibleWidget" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_take_photo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:drawableLeft="@drawable/image_icon"
                     android:drawableTint="@android:color/white"
                     android:text="@string/add_photo"
+                    android:textColor="@color/dark_background"
+                    app:backgroundTint="@color/colorAccent"
+                    app:icon="@drawable/image_icon"
+                    app:iconTint="@color/dark_background"
                     app:layout_constraintEnd_toEndOf="@+id/til_goal_date"
                     app:layout_constraintStart_toStartOf="@+id/til_goal_date"
                     app:layout_constraintTop_toBottomOf="@+id/til_goal_date" />
