@@ -1,5 +1,7 @@
 package com.theoffice.moneysaver.data.repositories;
 
+import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
 
 import com.theoffice.moneysaver.ApplicationMoneySaver;
@@ -128,6 +130,7 @@ public class MoneySaverRepository {
         final MutableLiveData<ArrayList<Goal>> goalsData = new MutableLiveData<>();
         goalsData.postValue(new ArrayList<Goal>());
         HttpUrl url = HttpUrl.parse(AppConstants.BASE_URL + AppConstants.GET_GLOBAL_GOALS_URL).newBuilder()
+                .addQueryParameter("userId", ApplicationMoneySaver.getMainUser().getUserId())
                 .addQueryParameter("page", String.valueOf(page))
                 .build();
         Request request = new Request.Builder()
@@ -165,17 +168,42 @@ public class MoneySaverRepository {
                      likeList) {
                     tmpLikes.add(like);
                 }
-                Goal goal = new Goal(
-                        jsonGoal.getString("goal_id"),
-                        jsonGoal.getString("description"),
-                        jsonGoal.getInt("cost"),
-                        jsonGoal.getInt("actualMoney"),
-                        jsonGoal.getString("start_date"),
-                        jsonGoal.getString("image"),
-                        jsonGoal.getString("status"),
-                        tmpLikes,
-                        jsonGoal.getInt("contributionsCount")
-                );
+
+                Goal goal = null;
+
+                if (jsonGoal.getString("goal_type").equals(AppConstants.GOAL_TYPE_HUAWEI)){
+                    goal = new Goal(
+                            jsonGoal.getString("goal_id"),
+                            jsonGoal.getString("description"),
+                            jsonGoal.getInt("cost"),
+                            jsonGoal.getInt("actualMoney"),
+                            jsonGoal.getString("start_date"),
+                            jsonGoal.getString("image"),
+                            jsonGoal.getString("status"),
+                            tmpLikes,
+                            jsonGoal.getInt("contributionsCount"),
+                            jsonGoal.getString("goal_type"),
+                            Double.parseDouble(jsonGoal.getString("latitude")),
+                            Double.parseDouble(jsonGoal.getString("longitude"))
+                    );
+                }else {
+                    goal = new Goal(
+                            jsonGoal.getString("goal_id"),
+                            jsonGoal.getString("description"),
+                            jsonGoal.getInt("cost"),
+                            jsonGoal.getInt("actualMoney"),
+                            jsonGoal.getString("start_date"),
+                            jsonGoal.getString("image"),
+                            jsonGoal.getString("status"),
+                            tmpLikes,
+                            jsonGoal.getInt("contributionsCount"),
+                            jsonGoal.getString("goal_type"),
+                            0.0,
+                            0.0
+                    );
+                }
+
+                Log.d("GOAL", goal.toString());
                 tmpGoals.add(goal);
             }
             goalsData.postValue(tmpGoals);

@@ -88,7 +88,10 @@ public class DialogProduct extends DialogFragment {
                             product.getProductPhoto(),
                             "NEW",
                             new ArrayList<String>(),
-                            0)
+                            0,
+                            "",
+                            0.0,
+                            0.0)
                     );
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -104,11 +107,13 @@ public class DialogProduct extends DialogFragment {
         JSONObject goalObject = new JSONObject();
         goalObject.put("userId", user.getUserId());
         goalObject.put("goal", new JSONObject()
+                .put("latitude", product.getLatitude())
+                .put("longitude", product.getLongitude())
+                .put("goal_type", AppConstants.GOAL_TYPE_HUAWEI)
                 .put("description", newGoal.getGoalName())
                 .put("start_date", newGoal.getGoalDate())
                 .put("cost", newGoal.getGoalCost())
-                .put("image", newGoal.getGoalPhotoPath()))
-                .put("goal_type", AppConstants.GOAL_TYPE_HUAWEI);
+                .put("image", newGoal.getGoalPhotoPath()));
 
         RequestBody body = RequestBody.create(String.valueOf(goalObject), AppConstants.JSON);
         Request request = new Request.Builder()

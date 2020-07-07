@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cl_add_goal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:cardBackgroundColor="@color/dark_background"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="6dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <ImageView
+                android:id="@+id/iv_goal_photo"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@color/cardview_dark_background"
+                android:scaleType="centerCrop"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ProgressBar
+                android:id="@+id/pb_goal_progress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:max="100"
+                app:layout_constraintEnd_toEndOf="@+id/iv_goal_photo"
+                app:layout_constraintStart_toStartOf="@+id/iv_goal_photo"
+                app:layout_constraintTop_toBottomOf="@+id/iv_goal_photo" />
+
+            <TextView
+                android:id="@+id/tv_goal_total"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/hiad_30_percent_black"
+                android:paddingStart="8dp"
+                android:text="TextView"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@+id/pb_goal_progress"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar_goal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/hiad_60_percent_black"
+                android:minHeight="?attr/actionBarSize"
+                android:theme="?attr/actionBarTheme"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/iv_goal_photo"
+                app:navigationIcon="@drawable/close_button"
+                app:title="Nombre de la meta"
+                app:titleTextColor="@android:color/white" />
+
+            <ImageButton
+                android:id="@+id/ib_like_goal"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:background="@android:color/transparent"
+                android:tint="@color/emui_color_gray_7"
+                app:layout_constraintBottom_toBottomOf="@+id/toolbar_goal"
+                app:layout_constraintEnd_toEndOf="@+id/toolbar_goal"
+                app:layout_constraintTop_toTopOf="@+id/iv_goal_photo"
+                app:srcCompat="@drawable/like_icon" />
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/vp_goal_container"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@+id/btn_add_contribution"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/pb_goal_progress">
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tl_goal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/dark_background"
+                    app:tabIndicatorColor="@color/colorAccent"
+                    app:tabTextColor="@color/colorAccent">
+
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Detalles" />
+
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Aportes" />
+
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Me gusta" />
+                </com.google.android.material.tabs.TabLayout>
+            </androidx.viewpager.widget.ViewPager>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_add_contribution"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="@string/add_contribution"
+                android:textColor="@color/dark_background"
+                app:backgroundTint="@color/colorAccent"
+                app:icon="@drawable/add_goal"
+                app:iconTint="@color/dark_background"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_delete_goal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="Eliminar meta"
+                android:textColor="@android:color/holo_red_dark"
+                app:backgroundTint="@android:color/white"
+                app:icon="@drawable/delete_icon"
+                app:iconTint="@android:color/holo_red_dark"
+                app:layout_constraintBottom_toTopOf="@+id/tv_goal_total"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

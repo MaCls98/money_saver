@@ -240,12 +240,15 @@ public class MainActivity extends AppCompatActivity implements OaidCallback {
     private void launchProductDialog(HmsScan obj) {
         JSONObject productJson = null;
         try {
+            Log.d("OBJECT", obj.getShowResult());
             productJson = new JSONObject(obj.getShowResult());
             if (productJson.has("qr_type")){
                 Product product = new Product(
                         productJson.getString("product_name"),
                         productJson.getInt("product_value"),
-                        productJson.getString("product_image")
+                        productJson.getString("product_image"),
+                        productJson.getString("latitude"),
+                        productJson.getString("longitude")
                 );
                 DialogProduct dialogProduct = new DialogProduct();
                 Bundle bundle = new Bundle();

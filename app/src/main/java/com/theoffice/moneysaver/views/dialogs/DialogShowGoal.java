@@ -6,6 +6,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -19,7 +20,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
@@ -32,13 +32,13 @@ import com.theoffice.moneysaver.adapters.TabAdapter;
 import com.theoffice.moneysaver.data.model.Contribution;
 import com.theoffice.moneysaver.data.model.Goal;
 import com.theoffice.moneysaver.utils.AppConstants;
-import com.theoffice.moneysaver.utils.MyDatePicker;
 import com.theoffice.moneysaver.utils.MyFileUtils;
 import com.theoffice.moneysaver.utils.MyToast;
 import com.theoffice.moneysaver.viewmodels.SharedViewModel;
 import com.theoffice.moneysaver.views.fragments.FragmentGlobalGoals;
 import com.theoffice.moneysaver.views.fragments.FragmentGoalContributions;
 import com.theoffice.moneysaver.views.fragments.FragmentGoalDetails;
+import com.theoffice.moneysaver.views.fragments.FragmentGoalMap;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -47,7 +47,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Objects;
 
 import okhttp3.Call;
@@ -152,6 +151,69 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
         viewPager = v.findViewById(R.id.vp_goal_container);
         tabLayout = v.findViewById(R.id.tl_goal);
 
+        pbGoalProgress = v.findViewById(R.id.pb_goal_progress);
+        pbGoalProgress.setProgress(calculatePercentage(goal));
+
+        for(String str: goal.getGoalLikes()){
+            if (str.equals(ApplicationMoneySaver.getMainUser().getUserId())){
+                ibLikeGoal.setColorFilter(ContextCompat.getColor(getContext(), android.R.color.holo_red_light), PorterDuff.Mode.MULTIPLY);
+            }else {
+                ibLikeGoal.setColorFilter(ContextCompat.getColor(getContext(), android.R.color.white), PorterDuff.Mode.MULTIPLY);
+            }
+        }
+
+        if (getTargetFragment() instanceof FragmentGlobalGoals){
+            btnAddContribution.setVisibility(View.GONE);
+            btnDeleteGoal.setVisibility(View.GONE);
+        }
+
+        if (goal.getGoalType().equals(AppConstants.GOAL_TYPE_USER)){
+            loadPersonalGoalInfo();
+        }else {
+            loadHuaweiGoalInfo();
+        }
+    }
+
+    private void loadHuaweiGoalInfo() {
+        FragmentGoalDetails goalDetails = new FragmentGoalDetails();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("goal", goal);
+        goalDetails.setArguments(bundle);
+
+        FragmentGoalContributions goalContributions = new FragmentGoalContributions();
+        Bundle bundle2 = new Bundle();
+        bundle2.putSerializable("contributions", contributions);
+        goalContributions.setArguments(bundle2);
+
+        FragmentGoalMap goalMap = new FragmentGoalMap();
+        goalMap.setArguments(bundle);
+
+        tabAdapter.addFragment(goalDetails, "Detalles");
+        tabAdapter.addFragment(goalContributions, "Aportes");
+        tabAdapter.addFragment(goalMap, "Mapa");
+
+        viewPager.setAdapter(tabAdapter);
+        tabLayout.setupWithViewPager(viewPager);
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                viewPager.getAdapter().notifyDataSetChanged();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+    }
+
+    private void loadPersonalGoalInfo() {
         FragmentGoalDetails goalDetails = new FragmentGoalDetails();
         Bundle bundle = new Bundle();
         bundle.putSerializable("goal", goal);
@@ -184,23 +246,6 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
 
             }
         });
-
-        for(String str: goal.getGoalLikes()){
-            if (str.equals(ApplicationMoneySaver.getMainUser().getUserId())){
-                ibLikeGoal.setColorFilter(ContextCompat.getColor(getContext(), android.R.color.holo_red_light), PorterDuff.Mode.MULTIPLY);
-            }else {
-                ibLikeGoal.setColorFilter(ContextCompat.getColor(getContext(), android.R.color.white), PorterDuff.Mode.MULTIPLY);
-            }
-        }
-        pbGoalProgress = v.findViewById(R.id.pb_goal_progress);
-        pbGoalProgress.setProgress(calculatePercentage(goal));
-
-
-        if (getTargetFragment() instanceof FragmentGlobalGoals){
-            btnAddContribution.setVisibility(View.GONE);
-            btnDeleteGoal.setVisibility(View.GONE);
-        }
-
     }
 
     @Override

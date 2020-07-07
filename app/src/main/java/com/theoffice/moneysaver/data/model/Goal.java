@@ -10,14 +10,17 @@ public class Goal implements Serializable {
     private String goalName;
     private int goalCost;
     private int goalActualMoney;
+    private String goalType;
     private String goalDate;
     private String goalPhotoPath;
     private String goalStatus;
     private ArrayList<String> goalLikes;
     private int contributionCount;
+    private Double latitude;
+    private Double longitude;
 
     public Goal(String goalId, String goalName, int goalCost, int goalActualMoney, String goalDate, String goalPhotoPath,
-                String goalStatus, ArrayList<String> goalLikes, int contributionCount) {
+                String goalStatus, ArrayList<String> goalLikes, int contributionCount, String goalType, Double lat, Double lon) {
         this.goalId = goalId;
         this.goalName = goalName;
         this.goalActualMoney = goalActualMoney;
@@ -27,6 +30,17 @@ public class Goal implements Serializable {
         this.goalStatus = goalStatus;
         this.goalLikes = goalLikes;
         this.contributionCount = contributionCount;
+        this.goalType = goalType;
+        this.latitude = lat;
+        this.longitude = lon;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
     }
 
     public void setGoalActualMoney(int goalActualMoney) {
@@ -35,6 +49,10 @@ public class Goal implements Serializable {
 
     public void setContributionCount(int contributionCount) {
         this.contributionCount = contributionCount;
+    }
+
+    public String getGoalType() {
+        return goalType;
     }
 
     public void setGoalLikes(ArrayList<String> goalLikes) {
@@ -77,19 +95,14 @@ public class Goal implements Serializable {
         return goalPhotoPath;
     }
 
-    @NotNull
     @Override
     public String toString() {
         return "Goal{" +
                 "goalId='" + goalId + '\'' +
                 ", goalName='" + goalName + '\'' +
-                ", goalCost=" + goalCost +
-                ", goalActualMoney=" + goalActualMoney +
-                ", goalDate='" + goalDate + '\'' +
-                ", goalPhotoPath='" + goalPhotoPath + '\'' +
-                ", goalStatus='" + goalStatus + '\'' +
-                ", goalLikes=" + goalLikes.size() +
-                ", contributionCount=" + contributionCount +
+                ", goalType='" + goalType + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
                 '}';
     }
 
