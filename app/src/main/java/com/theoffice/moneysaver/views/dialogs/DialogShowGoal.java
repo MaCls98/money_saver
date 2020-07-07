@@ -1,7 +1,6 @@
 package com.theoffice.moneysaver.views.dialogs;
 
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -17,14 +16,19 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.tabs.TabLayout;
 import com.theoffice.moneysaver.ApplicationMoneySaver;
 import com.theoffice.moneysaver.R;
+import com.theoffice.moneysaver.adapters.TabAdapter;
 import com.theoffice.moneysaver.data.model.Contribution;
 import com.theoffice.moneysaver.data.model.Goal;
 import com.theoffice.moneysaver.utils.AppConstants;
@@ -32,6 +36,8 @@ import com.theoffice.moneysaver.utils.MyFileUtils;
 import com.theoffice.moneysaver.utils.MyToast;
 import com.theoffice.moneysaver.viewmodels.SharedViewModel;
 import com.theoffice.moneysaver.views.fragments.FragmentGlobalGoals;
+import com.theoffice.moneysaver.views.fragments.FragmentGoalContributions;
+import com.theoffice.moneysaver.views.fragments.FragmentGoalDetails;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -39,8 +45,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -57,16 +61,19 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
 
     private Goal goal;
     private int goalPos;
+    private ArrayList<Contribution> contributions = new ArrayList<>();
 
-    private TextView tvGoalName;
-    private TextView tvGoalValue;
-    private TextView tvGoalDate;
-    private TextView tvGoalLikes;
-    private TextView tvGoalContributions;
-    private ImageView ivGoalPhoto;
-    private Button btnAddContribution;
+    private TabAdapter tabAdapter;
+
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
     private ImageButton ibLikeGoal;
+    private TextView tvGoalTotal;
+    private ImageView ivGoalPhoto;
     private ProgressBar pbGoalProgress;
+    private Toolbar toolbarGoal;
+
+    private Button btnAddContribution;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -93,25 +100,15 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        setStyle(STYLE_NORMAL, R.style.AppTheme_FullScreenDialog);
         View v = inflater.inflate(R.layout.dialog_goal, container, false);
         initComponents(v);
+        getContributions();
         updateView();
         return v;
     }
 
     private void updateView() {
-        tvGoalName.setText(this.goal.getGoalName());
-        tvGoalValue.setText(getString(R.string.money_progress, this.goal.getGoalActualMoney(), this.goal.getGoalCost()));
-        ZonedDateTime parse = ZonedDateTime.parse(this.goal.getGoalDate());
-        tvGoalDate.setText(parse.toLocalDateTime().format(DateTimeFormatter.ofPattern(AppConstants.DATE_FORMAT_TO_SHOW)));
-        tvGoalLikes.setText(getString(R.string.likes, goal.getGoalLikes().size()));
-        tvGoalContributions.setText(getString(R.string.contributions, this.goal.getContributionCount()));
-        for (String s : goal.getGoalLikes()){
-            if (s.equals(ApplicationMoneySaver.getMainUser().getUserId())){
-                ibLikeGoal.setColorFilter(ContextCompat.getColor(getContext(), android.R.color.holo_red_light), PorterDuff.Mode.MULTIPLY);
-            }
-        }
-
         if((25 - calculatePercentage(goal) / 4) > 0){
             MyFileUtils.blurImage(requireContext(), ivGoalPhoto, goal);
         }else{
@@ -122,51 +119,95 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
                     .into(ivGoalPhoto);
         }
         if (goal.getGoalActualMoney() == goal.getGoalCost()){
-            btnAddContribution.setVisibility(View.GONE);
+            //btnAddContribution.setVisibility(View.GONE);
         }
+        tvGoalTotal.setText("$" + goal.getGoalActualMoney() + "/" + "$" + goal.getGoalCost());
+        viewPager.getAdapter().notifyDataSetChanged();
         pbGoalProgress.setProgress(calculatePercentage(goal));
     }
 
     private void initComponents(View v) {
-        tvGoalName = v.findViewById(R.id.tv_goal_name);
-        tvGoalValue = v.findViewById(R.id.tv_goal_actual_money);
-        tvGoalDate = v.findViewById(R.id.tv_goal_date);
-        tvGoalLikes = v.findViewById(R.id.tv_goal_likes);
-        tvGoalLikes.setText(goal.getGoalLikes().size() + "Me gusta");
-        tvGoalContributions = v.findViewById(R.id.tv_goal_contribution);
-        tvGoalContributions.setPaintFlags(tvGoalContributions.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-        tvGoalContributions.setOnClickListener(this);
+        tabAdapter = new TabAdapter(getChildFragmentManager());
+        toolbarGoal = v.findViewById(R.id.toolbar_goal);
+        toolbarGoal.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dismiss();
+            }
+        });
+        toolbarGoal.setTitle(goal.getGoalName());
+        tvGoalTotal = v.findViewById(R.id.tv_goal_total);
+        tvGoalTotal.setText("$" + goal.getGoalActualMoney() + "/" + "$" + goal.getGoalCost());
         ivGoalPhoto = v.findViewById(R.id.iv_goal_photo);
-        btnAddContribution = v.findViewById(R.id.btn_add_contribution);
-        btnAddContribution.setOnClickListener(this);
         ibLikeGoal = v.findViewById(R.id.ib_like_goal);
         ibLikeGoal.setOnClickListener(this);
+        btnAddContribution = v.findViewById(R.id.btn_add_contribution);
+        btnAddContribution.setOnClickListener(this);
+        viewPager = v.findViewById(R.id.vp_goal_container);
+        tabLayout = v.findViewById(R.id.tl_goal);
+
+        FragmentGoalDetails goalDetails = new FragmentGoalDetails();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("goal", goal);
+        goalDetails.setArguments(bundle);
+
+        FragmentGoalContributions goalContributions = new FragmentGoalContributions();
+        Bundle bundle2 = new Bundle();
+        bundle2.putSerializable("contributions", contributions);
+        goalContributions.setArguments(bundle2);
+
+        tabAdapter.addFragment(goalDetails, "Detalles");
+        tabAdapter.addFragment(goalContributions, "Aportes");
+
+        viewPager.setAdapter(tabAdapter);
+        tabLayout.setupWithViewPager(viewPager);
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                viewPager.getAdapter().notifyDataSetChanged();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+        for(String str: goal.getGoalLikes()){
+            if (str.equals(ApplicationMoneySaver.getMainUser().getUserId())){
+                ibLikeGoal.setColorFilter(ContextCompat.getColor(getContext(), android.R.color.holo_red_light), PorterDuff.Mode.MULTIPLY);
+            }else {
+                ibLikeGoal.setColorFilter(ContextCompat.getColor(getContext(), android.R.color.white), PorterDuff.Mode.MULTIPLY);
+            }
+        }
         pbGoalProgress = v.findViewById(R.id.pb_goal_progress);
         pbGoalProgress.setProgress(calculatePercentage(goal));
-        ImageButton ibLikeGoal = v.findViewById(R.id.ib_like_goal);
-        ibLikeGoal.setOnClickListener(this);
+
 
         if (getTargetFragment() instanceof FragmentGlobalGoals){
             btnAddContribution.setVisibility(View.GONE);
         }
+
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.tv_goal_contribution:
-                showContributionsHistory();
-                break;
-            case R.id.btn_add_contribution:
-                addContribution();
-                break;
             case R.id.ib_like_goal:
-
                 try {
                     likeGoal();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                break;
+            case R.id.btn_add_contribution:
+                addContribution();
                 break;
         }
     }
@@ -190,7 +231,7 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
                     public void run() {
                         getDialog().setCancelable(true);
                         MyToast.showShortToast("Ocurrio un error, por favor vuelve a intentarlo", getActivity());
-                        ibLikeGoal.setColorFilter(ContextCompat.getColor(getContext(), android.R.color.darker_gray), PorterDuff.Mode.MULTIPLY);
+                        ibLikeGoal.setColorFilter(ContextCompat.getColor(getContext(), android.R.color.white), PorterDuff.Mode.MULTIPLY);
                         goal.getGoalLikes().remove(goal.getGoalLikes().size() -1);
                     }
                 });
@@ -209,7 +250,7 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
                         }else {
                             for (String strLike : goal.getGoalLikes()){
                                 if (strLike.equals(ApplicationMoneySaver.getMainUser().getUserId())){
-                                    ibLikeGoal.setColorFilter(ContextCompat.getColor(getContext(), android.R.color.darker_gray), PorterDuff.Mode.MULTIPLY);
+                                    ibLikeGoal.setColorFilter(ContextCompat.getColor(getContext(), android.R.color.white), PorterDuff.Mode.MULTIPLY);
                                     viewModel.removeLike(goal.getGoalId(), ApplicationMoneySaver.getMainUser().getUserId());
                                 }else {
                                     ibLikeGoal.setColorFilter(ContextCompat.getColor(getContext(), android.R.color.holo_red_light), PorterDuff.Mode.MULTIPLY);
@@ -217,6 +258,7 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
                                 }
                             }
                         }
+                        viewPager.getAdapter().notifyDataSetChanged();
                     }
                 });
             }
@@ -239,7 +281,6 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response){
                 try {
-                    final ArrayList<Contribution> contributions = new ArrayList<>();
                     String strResponse = Objects.requireNonNull(response.body()).string();
                     Log.d("RESPONSE", strResponse);
                     JSONObject jsonObject = new JSONObject(strResponse);
@@ -252,17 +293,6 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
                                 object.getString("date")
                         ));
                     }
-
-                    requireActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            DialogGoalContributions dialogGoalContributions = new DialogGoalContributions();
-                            Bundle bundle = new Bundle();
-                            bundle.putSerializable("contributions", contributions);
-                            dialogGoalContributions.setArguments(bundle);
-                            dialogGoalContributions.show(getParentFragmentManager(), dialogGoalContributions.getTag());
-                        }
-                    });
 
                     } catch (IOException | JSONException e) {
                         e.printStackTrace();
@@ -292,7 +322,7 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
     @Override
     public void onStart() {
         super.onStart();
-        Objects.requireNonNull(Objects.requireNonNull(getDialog()).getWindow()).setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        Objects.requireNonNull(Objects.requireNonNull(getDialog()).getWindow()).setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         Objects.requireNonNull(getDialog().getWindow()).setWindowAnimations(R.style.AppTheme_Slide);
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
