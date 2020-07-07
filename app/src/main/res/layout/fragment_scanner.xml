@@ -6,21 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".views.activities.PlayGround" >
 
-    <fragment
-        android:id="@+id/mapFragment"
-        class="com.huawei.hms.maps.MapFragment"
+    <com.huawei.hms.maps.MapView
+        android:id="@+id/mapView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="16dp"
-        app:cameraTargetLat="48"
-        app:cameraTargetLng="118"
-        app:cameraZoom="2"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:mapType="normal"
-        app:uiCompass="true"
-        app:uiZoomControls="false" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

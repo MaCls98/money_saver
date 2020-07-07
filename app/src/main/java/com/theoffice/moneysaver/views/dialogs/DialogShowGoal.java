@@ -32,6 +32,7 @@ import com.theoffice.moneysaver.adapters.TabAdapter;
 import com.theoffice.moneysaver.data.model.Contribution;
 import com.theoffice.moneysaver.data.model.Goal;
 import com.theoffice.moneysaver.utils.AppConstants;
+import com.theoffice.moneysaver.utils.MyDatePicker;
 import com.theoffice.moneysaver.utils.MyFileUtils;
 import com.theoffice.moneysaver.utils.MyToast;
 import com.theoffice.moneysaver.viewmodels.SharedViewModel;
@@ -46,6 +47,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Objects;
 
 import okhttp3.Call;
@@ -72,8 +74,8 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
     private ImageView ivGoalPhoto;
     private ProgressBar pbGoalProgress;
     private Toolbar toolbarGoal;
-
     private Button btnAddContribution;
+    private Button btnDeleteGoal;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -92,6 +94,7 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
             @Override
             public void onChanged(ArrayList<Goal> goals) {
                 ApplicationMoneySaver.getMainUser().setGoalList(goals);
+                updateGoalInfo();
                 updateView();
             }
         });
@@ -143,6 +146,8 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
         ibLikeGoal.setOnClickListener(this);
         btnAddContribution = v.findViewById(R.id.btn_add_contribution);
         btnAddContribution.setOnClickListener(this);
+        btnDeleteGoal = v.findViewById(R.id.btn_delete_goal);
+        btnDeleteGoal.setOnClickListener(this);
         viewPager = v.findViewById(R.id.vp_goal_container);
         tabLayout = v.findViewById(R.id.tl_goal);
 
@@ -192,6 +197,7 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
 
         if (getTargetFragment() instanceof FragmentGlobalGoals){
             btnAddContribution.setVisibility(View.GONE);
+            btnDeleteGoal.setVisibility(View.GONE);
         }
 
     }
@@ -209,7 +215,43 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
             case R.id.btn_add_contribution:
                 addContribution();
                 break;
+            case R.id.btn_delete_goal:
+                try {
+                    deleteGoal();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
         }
+    }
+
+    private void deleteGoal() throws JSONException {
+        JSONObject contributionObject = new JSONObject();
+        contributionObject.put("userId", ApplicationMoneySaver.getMainUser().getUserId())
+                .put("goalId", goal.getGoalId());
+
+        RequestBody body = RequestBody.create(String.valueOf(contributionObject), AppConstants.JSON);
+        Request request = new Request.Builder()
+                .url(AppConstants.BASE_URL + AppConstants.DELETE_GOAL)
+                .post(body)
+                .build();
+        ApplicationMoneySaver.getOkHttpClient().newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        viewModel.deleteGoal(goal);
+                        dismiss();
+                    }
+                });
+            }
+        });
     }
 
     private void likeGoal() throws JSONException {
@@ -310,7 +352,12 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
         Bundle bundle = new Bundle();
         bundle.putInt("goal", goalPos);
         dialogAddContribution.setArguments(bundle);
+        dialogAddContribution.setTargetFragment(this, 1);
         dialogAddContribution.show(getParentFragmentManager(), dialogAddContribution.getTag());
+    }
+
+    public void updateGoalInfo(){
+        viewPager.getAdapter().notifyDataSetChanged();
     }
 
     private int calculatePercentage(Goal goal) {
