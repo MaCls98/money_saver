@@ -125,6 +125,19 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_delete_goal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="Eliminar meta"
+                android:textColor="@android:color/holo_red_dark"
+                app:backgroundTint="@android:color/white"
+                app:icon="@drawable/delete_icon"
+                app:iconTint="@android:color/holo_red_dark"
+                app:layout_constraintBottom_toTopOf="@+id/tv_goal_total"
+                app:layout_constraintEnd_toEndOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>

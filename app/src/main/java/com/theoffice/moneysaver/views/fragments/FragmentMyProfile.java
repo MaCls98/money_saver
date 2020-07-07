@@ -171,14 +171,25 @@ public class FragmentMyProfile extends Fragment {
             public void onChanged(ArrayList<Goal> goals) {
                 ApplicationMoneySaver.getMainUser().setGoalList(goals);
                 if (user.getGoalList().size() > 0){
-                    pbGoals.setVisibility(View.GONE);
                     tvNoGoalsMeesage.setVisibility(View.GONE);
-                }else {
                     pbGoals.setVisibility(View.GONE);
-                    tvNoGoalsMeesage.setVisibility(View.VISIBLE);
                 }
                 tvUserGoals.setText(getContext().getString(R.string.goals, user.getGoalList().size()));
                 rvAdapter.notifyDataSetChanged();
+            }
+        });
+        viewModel.getIsLoadingComplete().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if (aBoolean){
+                    if (user.getGoalList().size() == 0){
+                        pbGoals.setVisibility(View.GONE);
+                        tvNoGoalsMeesage.setVisibility(View.VISIBLE);
+                    }
+                }else {
+                    pbGoals.setVisibility(View.VISIBLE);
+                    tvNoGoalsMeesage.setVisibility(View.GONE);
+                }
             }
         });
     }

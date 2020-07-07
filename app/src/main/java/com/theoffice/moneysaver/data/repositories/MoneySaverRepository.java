@@ -1,11 +1,7 @@
 package com.theoffice.moneysaver.data.repositories;
 
-import android.util.Log;
-
-import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
-import com.huawei.hms.support.hwid.result.AuthHuaweiId;
 import com.theoffice.moneysaver.ApplicationMoneySaver;
 import com.theoffice.moneysaver.data.model.Goal;
 import com.theoffice.moneysaver.data.model.User;
@@ -18,16 +14,12 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Optional;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
 import okhttp3.HttpUrl;
-import okhttp3.MultipartBody;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
@@ -108,7 +100,7 @@ public class MoneySaverRepository {
         return result.getUserId();
     }
 
-    public MutableLiveData<ArrayList<Goal>> getGoals(final String stringUrl, String userId){
+    public MutableLiveData<ArrayList<Goal>> getGoals(final String stringUrl, String userId, final MutableLiveData<Boolean> isLoadingComplete){
         final MutableLiveData<ArrayList<Goal>> goalsData = new MutableLiveData<>();
         goalsData.postValue(new ArrayList<Goal>());
         HttpUrl url = HttpUrl.parse(stringUrl).newBuilder()
@@ -125,13 +117,14 @@ public class MoneySaverRepository {
 
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                isLoadingComplete.postValue(true);
                 readGoals(response, goalsData);
             }
         });
         return goalsData;
     }
 
-    public MutableLiveData<ArrayList<Goal>> getGlobalGoals(int page){
+    public MutableLiveData<ArrayList<Goal>> getGlobalGoals(int page, final MutableLiveData<Boolean> isLoadingComplete){
         final MutableLiveData<ArrayList<Goal>> goalsData = new MutableLiveData<>();
         goalsData.postValue(new ArrayList<Goal>());
         HttpUrl url = HttpUrl.parse(AppConstants.BASE_URL + AppConstants.GET_GLOBAL_GOALS_URL).newBuilder()
@@ -147,6 +140,7 @@ public class MoneySaverRepository {
 
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                isLoadingComplete.postValue(true);
                 readGoals(response, goalsData);
             }
         });

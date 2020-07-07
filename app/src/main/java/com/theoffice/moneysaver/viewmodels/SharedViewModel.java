@@ -1,7 +1,5 @@
 package com.theoffice.moneysaver.viewmodels;
 
-import android.util.Log;
-
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -15,6 +13,7 @@ import java.util.ArrayList;
 public class SharedViewModel extends ViewModel {
 
     private MutableLiveData<ArrayList<Goal>> goalMutableLiveData;
+    private MutableLiveData<Boolean> isLoadingComplete = new MutableLiveData<>(false);
     private MoneySaverRepository repository;
 
     public void init(){
@@ -24,13 +23,14 @@ public class SharedViewModel extends ViewModel {
         repository = MoneySaverRepository.getInstance();
         goalMutableLiveData =
                 repository.getGoals(AppConstants.BASE_URL + AppConstants.GOALS_URL,
-                        ApplicationMoneySaver.getMainUser().getUserId());
+                        ApplicationMoneySaver.getMainUser().getUserId(), isLoadingComplete);
     }
 
     public void updateGoalsList(){
+        isLoadingComplete.postValue(false);
         goalMutableLiveData =
                 repository.getGoals(AppConstants.BASE_URL + AppConstants.GOALS_URL,
-                        ApplicationMoneySaver.getMainUser().getUserId());
+                        ApplicationMoneySaver.getMainUser().getUserId(), isLoadingComplete);
     }
 
 
@@ -44,10 +44,6 @@ public class SharedViewModel extends ViewModel {
             }
         }
         goalMutableLiveData.postValue(tmpGoalList);
-    }
-
-    public MutableLiveData<ArrayList<Goal>> getGoalMutableLiveData() {
-        return goalMutableLiveData;
     }
 
     public void addLike(String goalId, String userId) {
@@ -70,5 +66,24 @@ public class SharedViewModel extends ViewModel {
             }
         }
         goalMutableLiveData.postValue(tmpGoalList);
+    }
+
+    public void deleteGoal(Goal goal) {
+        ArrayList<Goal> tmpGoalList = goalMutableLiveData.getValue();
+        for (int i = 0; i < tmpGoalList.size(); i++) {
+            Goal tmpGoal = tmpGoalList.get(i);
+            if (tmpGoal.getGoalId().equals(goal.getGoalId())){
+                tmpGoalList.remove(i);
+            }
+        }
+        goalMutableLiveData.postValue(tmpGoalList);
+    }
+
+    public MutableLiveData<Boolean> getIsLoadingComplete() {
+        return isLoadingComplete;
+    }
+
+    public MutableLiveData<ArrayList<Goal>> getGoalMutableLiveData() {
+        return goalMutableLiveData;
     }
 }

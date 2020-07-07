@@ -1,28 +1,24 @@
 package com.theoffice.moneysaver.views.fragments;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.arasthel.spannedgridlayoutmanager.SpanSize;
 import com.arasthel.spannedgridlayoutmanager.SpannedGridLayoutManager;
 import com.theoffice.moneysaver.R;
 import com.theoffice.moneysaver.adapters.GlobalRVAdapter;
-import com.theoffice.moneysaver.adapters.ProfileRVAdapter;
 import com.theoffice.moneysaver.data.model.Goal;
 import com.theoffice.moneysaver.data.repositories.MoneySaverRepository;
-import com.theoffice.moneysaver.utils.AppConstants;
 import com.theoffice.moneysaver.views.dialogs.DialogShowGoal;
 
 import java.util.ArrayList;
@@ -32,16 +28,19 @@ import kotlin.jvm.functions.Function1;
 public class FragmentGlobalGoals extends DialogFragment {
 
     private GlobalRVAdapter rvAdapter;
+    private ProgressBar pbGlobals;
     private ArrayList<Goal> goals = new ArrayList<>();
     private MutableLiveData<ArrayList<Goal>> goalMutableLiveData;
+    private MutableLiveData<Boolean> isLoadingComplete = new MutableLiveData<>(false);
     private int currentPage = 0;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_global_goals, container, false);
+        pbGlobals = v.findViewById(R.id.pb_loading_globals);
         RecyclerView rvMyProfile = v.findViewById(R.id.rv_goal_list);
-        goalMutableLiveData = MoneySaverRepository.getInstance().getGlobalGoals(currentPage);
+        goalMutableLiveData = MoneySaverRepository.getInstance().getGlobalGoals(currentPage, isLoadingComplete);
         rvAdapter = new GlobalRVAdapter(getActivity(),
                 goals);
 
@@ -90,7 +89,7 @@ public class FragmentGlobalGoals extends DialogFragment {
     }
 
     private void requestGoals(int page) {
-        MutableLiveData<ArrayList<Goal>> tmpLiveData = MoneySaverRepository.getInstance().getGlobalGoals(page);
+        MutableLiveData<ArrayList<Goal>> tmpLiveData = MoneySaverRepository.getInstance().getGlobalGoals(page, isLoadingComplete);
         tmpLiveData.observe(getViewLifecycleOwner(), new Observer<ArrayList<Goal>>() {
             @Override
             public void onChanged(ArrayList<Goal> tmpGoals) {
@@ -117,6 +116,16 @@ public class FragmentGlobalGoals extends DialogFragment {
             public void onChanged(ArrayList<Goal> newGoals) {
                 goals.addAll(newGoals);
                 rvAdapter.notifyDataSetChanged();
+            }
+        });
+        isLoadingComplete.observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if (aBoolean){
+                    pbGlobals.setVisibility(View.GONE);
+                }else {
+                    pbGlobals.setVisibility(View.VISIBLE);
+                }
             }
         });
     }
