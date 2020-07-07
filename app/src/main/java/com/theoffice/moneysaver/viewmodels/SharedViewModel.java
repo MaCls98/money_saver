@@ -50,12 +50,23 @@ public class SharedViewModel extends ViewModel {
         return goalMutableLiveData;
     }
 
-    public void updateGoalLike(String goalId, String userId) {
+    public void addLike(String goalId, String userId) {
         ArrayList<Goal> tmpGoalList = goalMutableLiveData.getValue();
         for (int i = 0; i < tmpGoalList.size(); i++) {
             Goal tmpGoal = tmpGoalList.get(i);
             if (tmpGoal.getGoalId().equals(goalId)){
                 tmpGoalList.get(i).getGoalLikes().add(userId);
+            }
+        }
+        goalMutableLiveData.postValue(tmpGoalList);
+    }
+
+    public void removeLike(String goalId, String userId){
+        ArrayList<Goal> tmpGoalList = goalMutableLiveData.getValue();
+        for (int i = 0; i < tmpGoalList.size(); i++) {
+            Goal tmpGoal = tmpGoalList.get(i);
+            if (tmpGoal.getGoalId().equals(goalId)){
+                tmpGoalList.get(i).getGoalLikes().remove(userId);
             }
         }
         goalMutableLiveData.postValue(tmpGoalList);

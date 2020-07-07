@@ -22,7 +22,6 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
-import com.huawei.hms.ads.App;
 import com.theoffice.moneysaver.ApplicationMoneySaver;
 import com.theoffice.moneysaver.R;
 import com.theoffice.moneysaver.data.model.Contribution;
@@ -159,15 +158,10 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
                 break;
             case R.id.ib_like_goal:
 
-                for (String strLike:
-                     goal.getGoalLikes()) {
-                    if (!strLike.equals(ApplicationMoneySaver.getMainUser().getUserId())){
-                        try {
-                            likeGoal();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
+                try {
+                    likeGoal();
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
                 break;
         }
@@ -199,13 +193,26 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
             }
 
             @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) {
+            public void onResponse(@NotNull Call call, @NotNull final Response response) {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         getDialog().setCancelable(true);
-                        ibLikeGoal.setColorFilter(ContextCompat.getColor(getContext(), android.R.color.holo_red_light), PorterDuff.Mode.MULTIPLY);
-                        viewModel.updateGoalLike(goal.getGoalId(), ApplicationMoneySaver.getMainUser().getUserId());
+
+                        if (goal.getGoalLikes().size() == 0){
+                            ibLikeGoal.setColorFilter(ContextCompat.getColor(getContext(), android.R.color.holo_red_light), PorterDuff.Mode.MULTIPLY);
+                            viewModel.addLike(goal.getGoalId(), ApplicationMoneySaver.getMainUser().getUserId());
+                        }else {
+                            for (String strLike : goal.getGoalLikes()){
+                                if (strLike.equals(ApplicationMoneySaver.getMainUser().getUserId())){
+                                    ibLikeGoal.setColorFilter(ContextCompat.getColor(getContext(), android.R.color.darker_gray), PorterDuff.Mode.MULTIPLY);
+                                    viewModel.removeLike(goal.getGoalId(), ApplicationMoneySaver.getMainUser().getUserId());
+                                }else {
+                                    ibLikeGoal.setColorFilter(ContextCompat.getColor(getContext(), android.R.color.holo_red_light), PorterDuff.Mode.MULTIPLY);
+                                    viewModel.addLike(goal.getGoalId(), ApplicationMoneySaver.getMainUser().getUserId());
+                                }
+                            }
+                        }
                     }
                 });
             }
