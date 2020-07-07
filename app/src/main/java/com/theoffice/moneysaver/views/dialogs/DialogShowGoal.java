@@ -94,6 +94,7 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
             @Override
             public void onChanged(ArrayList<Goal> goals) {
                 ApplicationMoneySaver.getMainUser().setGoalList(goals);
+                updateGoalInfo();
                 updateView();
             }
         });
@@ -351,7 +352,12 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
         Bundle bundle = new Bundle();
         bundle.putInt("goal", goalPos);
         dialogAddContribution.setArguments(bundle);
+        dialogAddContribution.setTargetFragment(this, 1);
         dialogAddContribution.show(getParentFragmentManager(), dialogAddContribution.getTag());
+    }
+
+    public void updateGoalInfo(){
+        viewPager.getAdapter().notifyDataSetChanged();
     }
 
     private int calculatePercentage(Goal goal) {

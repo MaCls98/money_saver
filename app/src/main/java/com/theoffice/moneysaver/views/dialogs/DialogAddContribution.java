@@ -134,6 +134,13 @@ public class DialogAddContribution extends DialogFragment {
                     goal.increaseContribution();
                     goal.setGoalActualMoney(c);
                     viewModel.updateGoalContribution(goal);
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            DialogShowGoal dialogShowGoal = (DialogShowGoal) getTargetFragment();
+                            dialogShowGoal.updateGoalInfo();
+                        }
+                    });
                     dismiss();
                 } catch (JSONException e) {
                     e.printStackTrace();
