@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -86,6 +87,7 @@ public class ProfileRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         TextView tvGoalLikes;
         ImageView ivGoalPhoto;
         ImageButton ibDeleteGoal;
+        ProgressBar pbGoalProgress;
         ConstraintLayout clMiniGoal;
 
         public GoalViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
@@ -96,6 +98,7 @@ public class ProfileRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             ibDeleteGoal = itemView.findViewById(R.id.ib_delete_goal);
             ivGoalPhoto = itemView.findViewById(R.id.iv_goal_photo);
             clMiniGoal = itemView.findViewById(R.id.cl_mini_goal);
+            pbGoalProgress = itemView.findViewById(R.id.pb_goal_progress);
             ivGoalPhoto.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -147,6 +150,7 @@ public class ProfileRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             //goalViewHolder.tvGoalActualMoney.setText("$" + goal.getGoalActualMoney());
             goalViewHolder.tvGoalActualMoney.setText(calculatePercentage(goal)  + "%");
             goalViewHolder.tvGoalLikes.setText(context.getString(R.string.likes, goal.getGoalLikes().size()));
+            goalViewHolder.pbGoalProgress.setProgress(calculatePercentage(goal));
 
             if((25 - calculatePercentage(goal) / 4) > 0){
                 MyFileUtils.blurImage(context, ((GoalViewHolder) holder).ivGoalPhoto, goal);

@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -65,6 +66,7 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
     private ImageView ivGoalPhoto;
     private Button btnAddContribution;
     private ImageButton ibLikeGoal;
+    private ProgressBar pbGoalProgress;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -122,7 +124,7 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
         if (goal.getGoalActualMoney() == goal.getGoalCost()){
             btnAddContribution.setVisibility(View.GONE);
         }
-
+        pbGoalProgress.setProgress(calculatePercentage(goal));
     }
 
     private void initComponents(View v) {
@@ -139,6 +141,8 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
         btnAddContribution.setOnClickListener(this);
         ibLikeGoal = v.findViewById(R.id.ib_like_goal);
         ibLikeGoal.setOnClickListener(this);
+        pbGoalProgress = v.findViewById(R.id.pb_goal_progress);
+        pbGoalProgress.setProgress(calculatePercentage(goal));
         ImageButton ibLikeGoal = v.findViewById(R.id.ib_like_goal);
         ibLikeGoal.setOnClickListener(this);
 

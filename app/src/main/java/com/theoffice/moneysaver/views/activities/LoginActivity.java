@@ -72,7 +72,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         try {
             String userId = repository.getUserId(huaweiAccount.getUnionId());
             if(userId == null){
-                userId = repository.createUser(huaweiAccount.getUnionId());
+                userId = repository.createUser(huaweiAccount.getUnionId(), huaweiAccount.getDisplayName());
             }
             String photoPath = huaweiAccount.getAvatarUriString().isEmpty()
                     ? AppConstants.USER_PLACEHOLDER : huaweiAccount.getAvatarUriString();

@@ -43,12 +43,13 @@ public class MoneySaverRepository {
         return repository;
     }
 
-    public String createUser(String huaweiAccountId) throws InterruptedException {
+    public String createUser(String huaweiAccountId, String huaweiUsername) throws InterruptedException {
         final User result = new User();
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         HttpUrl url = HttpUrl.parse(AppConstants.BASE_URL + AppConstants.CREATE_USER_URL).newBuilder()
                 .build();
         RequestBody formBody = new FormBody.Builder()
+                .add("huaweiUserName", huaweiUsername)
                 .add("huaweiUserId", huaweiAccountId)
                 .build();
         Request request = new Request.Builder()

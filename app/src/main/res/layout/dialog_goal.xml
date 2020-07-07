@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cl_add_goal"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="@android:color/transparent">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
@@ -52,11 +52,10 @@
                 android:id="@+id/tv_goal_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:text="Fecha Aqui"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="@+id/iv_goal_photo"
-                app:layout_constraintTop_toBottomOf="@+id/iv_goal_photo" />
+                app:layout_constraintTop_toBottomOf="@+id/pb_goal_progress" />
 
             <ImageView
                 android:id="@+id/iv_goal_photo"
@@ -106,6 +105,16 @@
                 app:layout_constraintEnd_toEndOf="@+id/iv_goal_photo"
                 app:layout_constraintTop_toTopOf="@+id/tv_goal_likes"
                 app:srcCompat="@drawable/like_icon" />
+
+            <ProgressBar
+                android:id="@+id/pb_goal_progress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:max="100"
+                app:layout_constraintEnd_toEndOf="@+id/iv_goal_photo"
+                app:layout_constraintStart_toStartOf="@+id/iv_goal_photo"
+                app:layout_constraintTop_toBottomOf="@+id/iv_goal_photo" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
