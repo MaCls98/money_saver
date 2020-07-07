@@ -17,6 +17,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.arasthel.spannedgridlayoutmanager.SpanSize;
 import com.arasthel.spannedgridlayoutmanager.SpannedGridLayoutManager;
+import com.huawei.hianalytics.scankit.HiAnalyticsTools;
+import com.huawei.hms.analytics.HiAnalytics;
+import com.huawei.hms.analytics.HiAnalyticsInstance;
 import com.theoffice.moneysaver.R;
 import com.theoffice.moneysaver.adapters.GlobalRVAdapter;
 import com.theoffice.moneysaver.adapters.ProfileRVAdapter;
@@ -35,6 +38,7 @@ public class FragmentGlobalGoals extends DialogFragment {
     private ArrayList<Goal> goals = new ArrayList<>();
     private MutableLiveData<ArrayList<Goal>> goalMutableLiveData;
     private int currentPage = 0;
+    private HiAnalyticsInstance instance;
 
     @Nullable
     @Override
@@ -44,6 +48,8 @@ public class FragmentGlobalGoals extends DialogFragment {
         goalMutableLiveData = MoneySaverRepository.getInstance().getGlobalGoals(currentPage);
         rvAdapter = new GlobalRVAdapter(getActivity(),
                 goals);
+        HiAnalyticsTools.enableLog();
+        instance = HiAnalytics.getInstance(getActivity());
 
         rvAdapter.setOnItemClickListener(new GlobalRVAdapter.OnItemClickListener() {
 
@@ -56,6 +62,7 @@ public class FragmentGlobalGoals extends DialogFragment {
                         goal = tmpGoal;
                     }
                 }
+                registryAnalytics(goal);
                 launchGoalDialog(goal);
             }
         });
@@ -87,6 +94,13 @@ public class FragmentGlobalGoals extends DialogFragment {
         });
         requestGoals(++currentPage);
         return v;
+    }
+
+    private void registryAnalytics(Goal goal) {
+        Bundle bundle = new Bundle();
+        bundle.putString("goal_id", goal.getGoalId());
+        bundle.putString("goal_name", goal.getGoalName());
+        instance.onEvent("view_goal", bundle);
     }
 
     private void requestGoals(int page) {
