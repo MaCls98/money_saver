@@ -138,6 +138,7 @@ public class DialogAddContribution extends DialogFragment {
                         @Override
                         public void run() {
                             DialogShowGoal dialogShowGoal = (DialogShowGoal) getTargetFragment();
+                            dialogShowGoal.getContributions();
                             dialogShowGoal.updateGoalInfo();
                         }
                     });

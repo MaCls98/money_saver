@@ -122,7 +122,7 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
                     .into(ivGoalPhoto);
         }
         if (goal.getGoalActualMoney() == goal.getGoalCost()){
-            //btnAddContribution.setVisibility(View.GONE);
+            btnAddContribution.setVisibility(View.GONE);
         }
         tvGoalTotal.setText("$" + goal.getGoalActualMoney() + "/" + "$" + goal.getGoalCost());
         viewPager.getAdapter().notifyDataSetChanged();
@@ -313,7 +313,7 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
         getContributions();
     }
 
-    private void getContributions() {
+    public void getContributions() {
         HttpUrl url = Objects.requireNonNull(HttpUrl.parse(AppConstants.BASE_URL + AppConstants.GET_GOAL_CONTRIBUTIONS)).newBuilder()
                 .addQueryParameter("goalId", goal.getGoalId())
                 .build();
@@ -328,6 +328,7 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
                     Log.d("RESPONSE", strResponse);
                     JSONObject jsonObject = new JSONObject(strResponse);
                     final JSONArray arrayContributions = jsonObject.getJSONArray("contributions");
+                    contributions.clear();
                     for (int i = 0; i < arrayContributions.length(); i++){
                         JSONObject object = arrayContributions.getJSONObject(i);
                         contributions.add(new Contribution(
@@ -335,6 +336,12 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
                                 object.getInt("value"),
                                 object.getString("date")
                         ));
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                viewPager.getAdapter().notifyDataSetChanged();
+                            }
+                        });
                     }
 
                     } catch (IOException | JSONException e) {
