@@ -53,9 +53,6 @@ public class BottomNavigationFragment extends BottomSheetDialogFragment  {
                     case R.id.advices:
                         showDailyAdviceDialog();
                         break;
-                    case R.id.about:
-                        showAboutDialog();
-                        break;
                 }
                 return true;
             }
