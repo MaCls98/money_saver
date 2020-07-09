@@ -32,6 +32,7 @@ import com.theoffice.moneysaver.data.model.Product;
 import com.theoffice.moneysaver.hms.ppskit.OaidCallback;
 import com.theoffice.moneysaver.utils.AppConstants;
 import com.theoffice.moneysaver.utils.MyAdsManager;
+import com.theoffice.moneysaver.utils.MyPermissionManager;
 import com.theoffice.moneysaver.utils.MyToast;
 import com.theoffice.moneysaver.views.dialogs.DialogAddGoal;
 import com.theoffice.moneysaver.views.dialogs.DialogProduct;
@@ -85,6 +86,33 @@ public class MainActivity extends AppCompatActivity implements OaidCallback {
                 .add(R.id.fg_container_view, new FragmentMyProfile()).commit();
         HwAds.init(this);
         getIdentifierThread.start();
+
+        requestLocPermissions();
+    }
+
+    private void requestLocPermissions() {
+        String[] RUNTIME_PERMISSIONS = {Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.INTERNET};
+
+        MyPermissionManager.checkPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        MyPermissionManager.checkPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+        MyPermissionManager.checkPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION);
+        MyPermissionManager.checkPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+        MyPermissionManager.checkPermission(this, Manifest.permission.INTERNET);
+
+        hasPermissions(this, RUNTIME_PERMISSIONS);
+    }
+
+    private static boolean hasPermissions(Context context, String... permissions) {
+        if (permissions != null) {
+            for (String permission : permissions) {
+                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     public void changeFragment(int fragmentConstant){

@@ -71,9 +71,9 @@ public class FragmentGoalMap<mMapFragment> extends Fragment implements OnMapRead
         if (savedInstanceState != null) {
             mapViewBundle = savedInstanceState.getBundle(MAPVIEW_BUNDLE_KEY);
         }
-// please replace "Your API key" with api_key field value in
-// agconnect-services.json
+
         MapsInitializer.setApiKey("CV8VCTb2SGaHXMkAN7YJTkCVOgIJPDi7E+tyszgsfwzIiW7ETxiur0+2f+9kaRcWgpBltJidiAxcVswjTkNfgkCxieCb");
+
         mMapView.onCreate(mapViewBundle);
         //get map instance
         mMapView.getMapAsync(this);

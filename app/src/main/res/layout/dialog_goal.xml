@@ -86,7 +86,7 @@
                 app:layout_constraintTop_toTopOf="@+id/iv_goal_photo"
                 app:srcCompat="@drawable/like_icon" />
 
-            <androidx.viewpager.widget.ViewPager
+            <com.theoffice.moneysaver.utils.NonSwipeableViewPager
                 android:id="@+id/vp_goal_container"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -118,7 +118,7 @@
                         android:layout_height="wrap_content"
                         android:text="Me gusta" />
                 </com.google.android.material.tabs.TabLayout>
-            </androidx.viewpager.widget.ViewPager>
+            </com.theoffice.moneysaver.utils.NonSwipeableViewPager>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_add_contribution"
