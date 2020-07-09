@@ -22,7 +22,7 @@ public final class AppConstants {
     public static final String GOAL_DATE = "DATE";
     public static final String GOAL_VALUE = "VALUE";
     public static final String GOAL_PHOTO = "PHOTO";
-    public static final String DATE_FORMAT = "dd/MM/yyyy";
+    public static final String DATE_FORMAT = "dd-MM-yyyy";
     public static final int HOME = 0;
     public static final int MY_PROFILE = 1;
     public static final int GLOBAL_GOALS = 2;

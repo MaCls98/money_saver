@@ -100,9 +100,7 @@ public class Goal implements Serializable {
         return "Goal{" +
                 "goalId='" + goalId + '\'' +
                 ", goalName='" + goalName + '\'' +
-                ", goalType='" + goalType + '\'' +
-                ", latitude=" + latitude +
-                ", longitude=" + longitude +
+                ", goalDate='" + goalDate + '\'' +
                 '}';
     }
 

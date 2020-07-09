@@ -1,6 +1,7 @@
 package com.theoffice.moneysaver.views.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ public class FragmentGoalDetails extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_goal_details, container, false);
         goal = (Goal) getArguments().getSerializable("goal");
+        Log.d("GOAL", goal.getGoalDate());
         tvGoalCost = v.findViewById(R.id.tv_goal_cost);
         tvGoalCost.setText("Meta: $" + goal.getGoalCost());
         tvGoalMoney = v.findViewById(R.id.tv_goal_money);

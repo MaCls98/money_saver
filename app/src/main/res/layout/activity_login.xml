@@ -7,17 +7,25 @@
     android:background="@color/dark_background"
     tools:context=".views.activities.LoginActivity">
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView3"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:backgroundTint="@color/colorAccent"
+        app:cardCornerRadius="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/app_icon" />
+        app:layout_constraintTop_toBottomOf="@+id/textView5">
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="24dp"
+            app:srcCompat="@drawable/app_icon" />
+
+    </androidx.cardview.widget.CardView>
 
     <CheckBox
         android:id="@+id/cb_auto_login"
@@ -30,7 +38,7 @@
         android:text="Iniciar sesión automaticamente"
         android:textAlignment="center"
         android:textColor="@android:color/white"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -38,12 +46,13 @@
         android:id="@+id/btn_login_huawei"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:backgroundTint="@color/hwid_auth_button_color_red"
         android:drawableLeft="@drawable/huawei_icon"
         android:drawableTint="@android:color/white"
         android:text="Iniciar sesión con Huawei"
         android:textAllCaps="false"
-        app:layout_constraintBottom_toTopOf="@+id/pb_login"
+        app:layout_constraintBottom_toTopOf="@+id/cb_auto_login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -64,13 +73,13 @@
     <ProgressBar
         android:id="@+id/pb_login"
         style="@android:style/Widget.Material.ProgressBar"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline" />
+        app:layout_constraintTop_toBottomOf="@+id/cardView3" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
@@ -78,4 +87,5 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.8" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

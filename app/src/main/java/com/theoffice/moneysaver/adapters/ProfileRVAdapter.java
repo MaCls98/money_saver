@@ -2,6 +2,7 @@ package com.theoffice.moneysaver.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -217,6 +218,7 @@ public class ProfileRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 @Override
                 public void onAdFailed(int i) {
                     super.onAdFailed(i);
+                    Log.d("AD----", String.valueOf(i));
                 }
             });
 

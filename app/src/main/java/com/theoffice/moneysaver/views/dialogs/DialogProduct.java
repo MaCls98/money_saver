@@ -1,6 +1,7 @@
 package com.theoffice.moneysaver.views.dialogs;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,7 +85,7 @@ public class DialogProduct extends DialogFragment {
                             product.getProductName(),
                             product.getProductValue(),
                             0,
-                            MyDatePicker.convertDate(Calendar.getInstance().getTimeInMillis()),
+                            getDate(MyDatePicker.getActualDate()),
                             product.getProductPhoto(),
                             "NEW",
                             new ArrayList<String>(),
@@ -100,6 +101,17 @@ public class DialogProduct extends DialogFragment {
         });
 
         return v;
+    }
+
+    private String getDate(String goalDate) {
+        Calendar calendar = Calendar.getInstance();
+        Log.d("TIME", String.valueOf(calendar.get(Calendar.MINUTE)));
+        Log.d("TIME", String.valueOf(calendar.get(Calendar.HOUR_OF_DAY)));
+        Log.d("TIME", String.valueOf(calendar.get(Calendar.SECOND)));
+        Log.d("TIME", goalDate);
+        String finalDate = goalDate + " " + calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE) + ":" + calendar.get(Calendar.SECOND);
+        Log.d("TIME", finalDate);
+        return finalDate;
     }
 
     private void uploadNewGoal(final Goal newGoal) throws JSONException {

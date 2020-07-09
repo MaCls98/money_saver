@@ -170,6 +170,7 @@ public class MoneySaverRepository {
                 }
 
                 Goal goal = null;
+                Log.d("GOAL", jsonGoal.getString("start_date"));
 
                 if (jsonGoal.getString("goal_type").equals(AppConstants.GOAL_TYPE_HUAWEI)){
                     goal = new Goal(

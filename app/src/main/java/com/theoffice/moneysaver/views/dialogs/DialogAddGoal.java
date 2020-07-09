@@ -94,7 +94,7 @@ public class DialogAddGoal extends DialogFragment implements View.OnClickListene
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.et_goal_date:
-                MyDatePicker.showDatePicker(getChildFragmentManager(), etGoalDate);
+                MyDatePicker.showDatePickr(getContext(), etGoalDate);
                 break;
             case R.id.btn_take_photo:
                 openChooseMediaDialog();
@@ -118,11 +118,15 @@ public class DialogAddGoal extends DialogFragment implements View.OnClickListene
 
     public void openGalery(){
         if (MyPermissionManager.checkPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)){
-            Intent intent = new Intent();
-            intent.setType("image/*");
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-            startActivityForResult(Intent.createChooser(intent, "Select Picture"),
-                    AppConstants.REQUEST_IMAGE_GALLERY);
+            try {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"),
+                        AppConstants.REQUEST_IMAGE_GALLERY);
+            }catch (Exception e){
+
+            }
         }
     }
 
@@ -144,7 +148,7 @@ public class DialogAddGoal extends DialogFragment implements View.OnClickListene
                     goalName,
                     goalValue,
                     0,
-                    goalDate,
+                    getDate(),
                     goalPhotoPath,
                     "NEW",
                     new ArrayList<String>(),
@@ -165,6 +169,17 @@ public class DialogAddGoal extends DialogFragment implements View.OnClickListene
             uploadPhoto(newGoal);
         }
         isGoalComplete = 0;
+    }
+
+    private String getDate() {
+        Calendar calendar = Calendar.getInstance();
+        Log.d("TIME", String.valueOf(calendar.get(Calendar.MINUTE)));
+        Log.d("TIME", String.valueOf(calendar.get(Calendar.HOUR_OF_DAY)));
+        Log.d("TIME", String.valueOf(calendar.get(Calendar.SECOND)));
+        Log.d("TIME", goalDate);
+        String finalDate = goalDate + " " + calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE) + ":" + calendar.get(Calendar.SECOND);
+        Log.d("TIME", finalDate);
+        return finalDate;
     }
 
     private void uploadNewGoal(final Goal newGoal) throws JSONException {
@@ -297,7 +312,7 @@ public class DialogAddGoal extends DialogFragment implements View.OnClickListene
         tilGoalDate = view.findViewById(R.id.til_goal_date);
         //Objects.requireNonNull(tilGoalValue.getEditText()).addTextChangedListener(new MoneyTextWatcher(tilGoalValue.getEditText()));
         etGoalDate = view.findViewById(R.id.et_goal_date);
-        etGoalDate.setText(MyDatePicker.convertDate(Calendar.getInstance().getTimeInMillis()));
+        etGoalDate.setText(MyDatePicker.getActualDate());
         etGoalDate.setOnClickListener(this);
         btnTakePhoto = view.findViewById(R.id.btn_take_photo);
         btnTakePhoto.setOnClickListener(this);
@@ -319,9 +334,13 @@ public class DialogAddGoal extends DialogFragment implements View.OnClickListene
             photoType = 0;
             showGoalPhoto();
         }else if(requestCode == AppConstants.REQUEST_IMAGE_GALLERY){
-            goalPhotoPath = getRealPathFromURI(data.getData());
-            photoType = 1;
-            showGoalPhoto();
+            try {
+                goalPhotoPath = getRealPathFromURI(data.getData());
+                photoType = 1;
+                showGoalPhoto();
+            }catch (Exception e){
+
+            }
         }
     }
 

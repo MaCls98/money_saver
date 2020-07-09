@@ -1,5 +1,9 @@
 package com.theoffice.moneysaver.views.dialogs;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
@@ -17,7 +21,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.Observer;
@@ -33,6 +39,7 @@ import com.theoffice.moneysaver.data.model.Contribution;
 import com.theoffice.moneysaver.data.model.Goal;
 import com.theoffice.moneysaver.utils.AppConstants;
 import com.theoffice.moneysaver.utils.MyFileUtils;
+import com.theoffice.moneysaver.utils.MyPermissionManager;
 import com.theoffice.moneysaver.utils.MyToast;
 import com.theoffice.moneysaver.viewmodels.SharedViewModel;
 import com.theoffice.moneysaver.views.fragments.FragmentGlobalGoals;
@@ -97,6 +104,7 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
                 updateView();
             }
         });
+        checkLocationPermission();
     }
 
     @Nullable
@@ -292,8 +300,12 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        viewModel.deleteGoal(goal);
-                        dismiss();
+                        try {
+                            viewModel.deleteGoal(goal);
+                            dismiss();
+                        }catch (Exception e){
+
+                        }
                     }
                 });
             }
@@ -359,6 +371,7 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
     }
 
     public void getContributions() {
+        getDialog().setCancelable(false);
         HttpUrl url = Objects.requireNonNull(HttpUrl.parse(AppConstants.BASE_URL + AppConstants.GET_GOAL_CONTRIBUTIONS)).newBuilder()
                 .addQueryParameter("goalId", goal.getGoalId())
                 .build();
@@ -384,6 +397,7 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                getDialog().setCancelable(true);
                                 viewPager.getAdapter().notifyDataSetChanged();
                             }
                         });
@@ -395,7 +409,12 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
                 }
                 @Override
                 public void onFailure(@NotNull Call call, @NotNull IOException e) {
-
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            getDialog().setCancelable(true);
+                        }
+                    });
                 }
         });
     }
@@ -425,5 +444,47 @@ public class DialogShowGoal extends DialogFragment implements View.OnClickListen
         Objects.requireNonNull(Objects.requireNonNull(getDialog()).getWindow()).setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         Objects.requireNonNull(getDialog().getWindow()).setWindowAnimations(R.style.AppTheme_Slide);
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+    }
+
+    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
+
+    public boolean checkLocationPermission() {
+        if (ContextCompat.checkSelfPermission(getContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+                new AlertDialog.Builder(getContext())
+                        .setTitle("Permiso ubicacion")
+                        .setMessage("Por favor dar permisos necesarios")
+                        .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                //Prompt the user once explanation has been shown
+                                ActivityCompat.requestPermissions(getActivity(),
+                                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                                        MY_PERMISSIONS_REQUEST_LOCATION);
+                            }
+                        })
+                        .create()
+                        .show();
+
+
+            } else {
+                // No explanation needed, we can request the permission.
+                ActivityCompat.requestPermissions(getActivity(),
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_LOCATION);
+            }
+            return false;
+        } else {
+            return true;
+        }
     }
 }

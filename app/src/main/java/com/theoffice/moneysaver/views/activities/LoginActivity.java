@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ProgressBar;
 
+import com.cloudinary.android.MediaManager;
 import com.huawei.agconnect.config.AGConnectServicesConfig;
 import com.huawei.hmf.tasks.OnFailureListener;
 import com.huawei.hmf.tasks.OnSuccessListener;
@@ -31,6 +32,9 @@ import com.theoffice.moneysaver.data.model.User;
 import com.theoffice.moneysaver.data.repositories.MoneySaverRepository;
 import com.theoffice.moneysaver.utils.AppConstants;
 import com.theoffice.moneysaver.utils.MyToast;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
