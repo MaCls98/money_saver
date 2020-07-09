@@ -15,6 +15,7 @@ import com.theoffice.moneysaver.R;
 import com.theoffice.moneysaver.utils.AppConstants;
 import com.theoffice.moneysaver.utils.MyToast;
 import com.theoffice.moneysaver.views.activities.MainActivity;
+import com.theoffice.moneysaver.views.dialogs.DialogDailyAdvice;
 
 public class BottomNavigationFragment extends BottomSheetDialogFragment  {
 
@@ -49,6 +50,9 @@ public class BottomNavigationFragment extends BottomSheetDialogFragment  {
                     case R.id.scan_product:
                         changeActivityFragment(AppConstants.SCAN_PRODUCT);
                         break;
+                    case R.id.advices:
+                        showDailyAdviceDialog();
+                        break;
                     case R.id.about:
                         showAboutDialog();
                         break;
@@ -56,6 +60,12 @@ public class BottomNavigationFragment extends BottomSheetDialogFragment  {
                 return true;
             }
         });
+    }
+
+    private void showDailyAdviceDialog() {
+        DialogDailyAdvice dialogDailyAdvice = new DialogDailyAdvice();
+        dialogDailyAdvice.show(getParentFragmentManager(), dialogDailyAdvice.getTag());
+        dismiss();
     }
 
     private void showAboutDialog() {

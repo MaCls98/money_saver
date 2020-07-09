@@ -24,39 +24,79 @@ import java.util.Locale;
 
 public class MyDatePicker {
 
-    private static final int SECOND_MILLIS = 1000;
-    private static final int MINUTE_MILLIS = 60 * SECOND_MILLIS;
-    private static final int HOUR_MILLIS = 60 * MINUTE_MILLIS;
-    private static final int DAY_MILLIS = 24 * HOUR_MILLIS;
+    public final static long ONE_SECOND = 1000;
+    public final static long SECONDS = 60;
 
-    static final String DATE_FORMAT = "dd-MM-yyyy HH:mm:ss";
+    public final static long ONE_MINUTE = ONE_SECOND * 60;
+    public final static long MINUTES = 60;
 
-    public static String getTimeAgo(long time, Context c) {
-        if (time < 1000000000000L) {
-            time *= 1000;
+    public final static long ONE_HOUR = ONE_MINUTE * 60;
+    public final static long HOURS = 24;
+
+    public final static long ONE_DAY = ONE_HOUR * 24;
+
+    public static String getTimeAgo(long duration) {
+        long cur_time = (Calendar.getInstance().getTimeInMillis()) / 1000;
+        long time_elapsed = cur_time - (duration / 1000);
+        long seconds = time_elapsed;
+        int minutes = Math.round(time_elapsed / 60);
+        int hours = Math.round(time_elapsed / 3600);
+        int days = Math.round(time_elapsed / 86400);
+        int weeks = Math.round(time_elapsed / 604800);
+        int months = Math.round(time_elapsed / 2600640);
+        int years = Math.round(time_elapsed / 31207680);
+
+        // Seconds
+        if (seconds <= 60) {
+            return "Justo ahora";
         }
-
-        long now = System.currentTimeMillis();
-        if (time > now || time <= 0) {
-            return null;
+        //Minutes
+        else if (minutes <= 60) {
+            if (minutes == 1) {
+                return "Hace 1 minuto";
+            } else {
+                return "Hace " + minutes + "  minutos";
+            }
         }
-
-
-        final long diff = now - time;
-        if (diff < MINUTE_MILLIS) {
-            return "Hace un momento";
-        } else if (diff < 2 * MINUTE_MILLIS) {
-            return "Hace un minuto";
-        } else if (diff < 50 * MINUTE_MILLIS) {
-            return "Hace " +  diff / MINUTE_MILLIS + " minutos";
-        } else if (diff < 90 * MINUTE_MILLIS) {
-            return "Hace una hora";
-        } else if (diff < 24 * HOUR_MILLIS) {
-            return "Hace " + diff / HOUR_MILLIS + " horas";
-        } else if (diff < 48 * HOUR_MILLIS) {
-            return "Ayer";
-        } else {
-            return "Hace " + diff / DAY_MILLIS + " " + "dias";
+        //Hours
+        else if (hours <= 24) {
+            if (hours == 1) {
+                return "Hace 1 hora";
+            } else {
+                return "Hace " + hours + " horas";
+            }
+        }
+        //Days
+        else if (days <= 7) {
+            if (days == 1) {
+                return "Ayer";
+            } else {
+                return "Hace " + days + " dias";
+            }
+        }
+        //Weeks
+        else if (weeks <= 4.3) {
+            if (weeks == 1) {
+                return "Hace una semana";
+            } else {
+                return "Hace " + weeks + " semanas";
+            }
+        }
+        //Months
+        else if (months <= 12) {
+            if (months == 1) {
+                return "a month ago";
+            } else {
+                return months + " months ago";
+            }
+        }
+        //Years
+        else {
+            if (years == 1) {
+                return "one year ago";
+            } else {
+                return years + " years ago";
+            }
         }
     }
 

@@ -35,4 +35,10 @@
     <string name="wrong_qr_code">Este codigo QR no es valido, busca codigos QR identificados con el icono de Huawei</string>
     <string name="log_out">Cerrar sesión</string>
     <string name="huawei_goals">Mis metas Huawei</string>
+    <string name="daily_advice">Consejo diario</string>
+    <string name="consejo_1">Haz un presupuesto mensual, así sabrás cuánto ganas, cuánto gastas y cuál es tu posibilidad de ahorro.</string>
+    <string name="consejo_2">Aprende a distinguir entre necesidades y deseos, así evitaras compras innecesarias.</string>
+    <string name="consejo_3">Evita el “gasto hormiga”, ya que con ello podrás tener mayor margen de maniobra.</string>
+    <string name="consejo_4">Establece metas para el ahorro, las cuales puedes dividir en corto, mediano y largo plazo.</string>
+
 </resources>

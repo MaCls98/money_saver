@@ -4,22 +4,25 @@
         android:id="@+id/my_profile"
         android:icon="@drawable/profile_icon"
         android:title="@string/my_profile" />
-    <item
-        android:id="@+id/global_goals"
-        android:icon="@drawable/global_icon"
-        android:title="@string/another_goals" />
+
     <item
         android:id="@+id/scan_product"
         android:icon="@drawable/qr_icon"
         android:title="@string/huawei_goals"/>
-    <!--
+
     <item
-        android:id="@+id/reports"
-        android:icon="@drawable/reports_icon"
-        android:title="@string/reports" />
-        -->
+        android:id="@+id/global_goals"
+        android:icon="@drawable/global_icon"
+        android:title="@string/another_goals" />
+
+    <item
+        android:id="@+id/advices"
+        android:icon="@drawable/idea_icon"
+        android:title="@string/daily_advice"/>
+    <!--
     <item
         android:id="@+id/about"
         android:icon="@drawable/info_icon"
         android:title="@string/about" />
+        -->
 </menu>

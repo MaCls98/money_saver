@@ -13,6 +13,11 @@ import androidx.fragment.app.Fragment;
 
 import com.theoffice.moneysaver.R;
 import com.theoffice.moneysaver.data.model.Goal;
+import com.theoffice.moneysaver.utils.MyDatePicker;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class FragmentGoalDetails extends Fragment {
 
@@ -30,7 +35,17 @@ public class FragmentGoalDetails extends Fragment {
         tvGoalMoney = v.findViewById(R.id.tv_goal_money);
         tvGoalMoney.setText("Ahorro de: " + "$" + goal.getGoalActualMoney());
         tvGoalDate = v.findViewById(R.id.tv_goal_date);
-        tvGoalDate.setText("Meta creada en: "  + goal.getGoalDate());
+
+        SimpleDateFormat f = new SimpleDateFormat("yyyy-dd-MM HH:mm:ss");
+        String time = goal.getGoalDate().substring(0, goal.getGoalDate().length() -5).replace("T", " ");
+
+        try {
+            Date d = f.parse(time);
+            tvGoalDate.setText("Meta creada: " + MyDatePicker.getTimeAgo(d.getTime()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         tvGoalLikes = v.findViewById(R.id.tv_goal_likes);
         tvGoalLikes.setText( goal.getGoalLikes().size() + " likes");
 
